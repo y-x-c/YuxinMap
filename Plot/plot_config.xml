@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<YuxinMap>
+    <layers>
+        <layer layer="background" method="background" color="#F0EDE5" />
+
+        <layer layer="-5" method="opaque" contours="yes" ccolor="#C1CAD0" ctn="1"/>
+        <layer layer="-4" method="opaque" contours="yes" ccolor="#C1CAD0" ctn="1"/>
+        <layer layer="-3" method="opaque" contours="yes" ccolor="#C1CAD0" ctn="1"/>
+        <layer layer="-2" method="opaque" contours="yes" ccolor="#C1CAD0" ctn="1"/>
+        <layer layer="-1" method="opaque" contours="yes" ccolor="#C1CAD0" ctn="1"/>
+        <layer layer="0" method="opaque" contours="yes" ccolor="#C1CAD0" ctn="1"/>
+        <layer layer="1" method="opaque" contours="yes" ccolor="#C1CAD0" ctn="1">
+            <filter>
+                <way>
+                    <tag k="bridge" v="yes" />
+                </way>
+            </filter>
+        </layer>
+        <layer layer="2" method="opaque" contours="yes" ccolor="#C1CAD0" ctn="1"/>
+        <layer layer="3" method="opaque" contours="yes" ccolor="#C1CAD0" ctn="1"/>
+        <layer layer="4" method="opaque" contours="yes" ccolor="#C1CAD0" ctn="1"/>
+        <layer layer="5" method="opaque" contours="yes" ccolor="#C1CAD0" ctn="1"/>
+
+        <layer layer="8" method="opaque">
+            <filter>
+                <way>
+                    <tag k="boundary" v="administrative" />
+                </way>
+            </filter>
+            <filter>
+                <way>
+                    <tag k="natural" v="coastline" />
+                </way>
+            </filter>
+        </layer>
+
+        <layer layer="-8" method="opaque" contours="yes" ccolor="#C1CAD0" ctn="1">
+            <filter>
+                <way>
+                    <tag k="building" v="yes" />
+                </way>
+            </filter>
+        </layer>
+
+        <layer layer="-11" method="opaque">
+            <filter>
+                <way>
+                    <tag k="leisure" v="park" />
+                </way>
+            </filter>
+        </layer>
+
+        <layer layer="-10" method="opaque">
+            <filter>
+                <way>
+                    <tag k="waterway" v="river"/>
+                </way>
+            </filter>
+        </layer>
+    </layers>
+
+    <elements>
+        <method method="line" color="#FFFFFF" thickness="1">
+            <filter>
+                <way>
+                    <tag k="boundary" v="administrative"/>
+                </way>
+            </filter>
+
+            <filter>
+                <way>
+                    <tag k="natural" v="coastline" />
+                </way>
+            </filter>
+        </method>
+
+        <method method="line" color="#96BDFE" thickness="10" tn_level="17">
+            <filter>
+                <way>
+                    <tag k="waterway" v="river"/>
+                </way>
+            </filter>
+        </method>
+
+        <method method="line" color="#F4F1EA" thickness="10" tn_level="17">
+            <filter>
+                <way>
+                    <tag k="highway" v="service"/>
+                </way>
+            </filter>
+            <filter>
+                <way>
+                    <tag k="highway" v="unclassified"/>
+                </way>
+            </filter>
+        </method>
+
+        <method method="line" color="#F4F1EA" thickness="15" tn_level="17">
+            <filter>
+                <way>
+                    <tag k="highway" v="tertiary" />
+                </way>
+            </filter>
+        </method>
+
+        <method method="line" color="#F4F1EA" thickness="20" tn_level="17">
+            <filter>
+                <way>
+                    <tag k="highway" v="secondary" />
+                </way>
+            </filter>
+        </method>
+
+        <method method="fill_poly" color="#CADFAA">
+            <filter>
+                <way>
+                    <tag k="leisure" v="park"/>
+                </way>
+            </filter>
+        </method>
+
+        <method method="fill_poly" color="#F3F1EA">
+            <filter>
+                <way>
+                    <tag k="building" v="yes"/>
+                </way>
+            </filter>
+        </method>
+
+    </elements>
+</YuxinMap>
