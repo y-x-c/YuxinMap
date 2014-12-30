@@ -68,9 +68,10 @@ class Plot():
 
                     # set layer_id
                     for elem in ret:
-                        tag = ET.SubElement(elem, "tag")
-                        tag.set("k", "layer")
-                        tag.set("v", layer_id)
+                        if elem.find("./tag[@k='layer']") == None:
+                            tag = ET.SubElement(elem, "tag")
+                            tag.set("k", "layer")
+                            tag.set("v", layer_id)
 
 
         # output
@@ -123,9 +124,9 @@ class Plot():
 
         for elem in self.root_osm:
             if elem.get("method", None):
-                start = time.clock()
+                #start = time.clock()
                 tlayer = elem.find("./tag[@k='layer']")
-                print "finding time used: %fms" % ((time.clock() - start) * 1000)
+                #print "finding time used: %fms" % ((time.clock() - start) * 1000)
                 if tlayer is not None:
                     layer_id = float(tlayer.get("v", 0))
                 else:
@@ -145,6 +146,8 @@ class Plot():
 
             blender = self.get_blend_class(self.layer_configs[float(layer_id)])
             bottom_layer = blender.blend(bottom_layer, canvas)
+
+            cv2.imwrite("output%d.png" % layer_id, bottom_layer)
 
         ret = cv2.resize(bottom_layer, constants.tile_size, interpolation=cv2.INTER_AREA)
         #cv2.imshow("result", ret)

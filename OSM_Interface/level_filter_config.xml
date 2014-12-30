@@ -1,72 +1,129 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <YuxinMap>
-    <elements>
-
-    </elements>
-
 	<elements level="3">
-		<filter>
-            <way>
-			    <tag k="boundary" v="administrative" />
-			    <tag k="admin_level" v="1" />
-            </way>
-		</filter>
+		<!--<filter>-->
+            <!--<way>-->
+			    <!--<tag k="boundary" v="administrative" />-->
+			    <!--<tag k="admin_level" v="1" />-->
+            <!--</way>-->
+		<!--</filter>-->
 
-		<filter>
-            <way>
-			    <tag k="boundary" v="administrative" />
-    			<tag k="admin_level" v="2"/>
-            </way>
-		</filter>
+		<!--<filter>-->
+            <!--<way>-->
+			    <!--<tag k="boundary" v="administrative" />-->
+    			<!--<tag k="admin_level" v="2"/>-->
+            <!--</way>-->
+		<!--</filter>-->
 	</elements>
 
-	<elements level="17">
-		<filter>
+    <elements level="5">
+        <filter>
             <way>
-			    <tag k="highway" v="service" />
+                <tag k="highway" v="trunk"/>
             </way>
-		</filter>
-		<filter>
+        </filter>
+        <filter>
             <way>
-			    <tag k="building" v="yes" />
+                <tag k="highway" v="motorway"/>
             </way>
-		</filter>
+        </filter>
+        <filter>
+            <way>
+                <tag k="highway" v="trunk_link"/>
+            </way>
+        </filter>
+        <filter>
+            <way>
+                <tag k="highway" v="motorway_link"/>
+            </way>
+        </filter>
+    </elements>
+
+    <elements level="6">
+        <filter>
+            <way>
+                <tag k="highway" v="primary"/>
+            </way>
+        </filter>
+        <filter>
+            <way>
+                <tag k="highway" v="primary_link"/>
+            </way>
+        </filter>
+    </elements>
+
+    <elements level="8">
+        <filter>
+            <way>
+                <tag k="highway" v="secondary"/>
+            </way>
+        </filter>
+        <filter>
+            <way>
+                <tag k="highway" v="secondary_link"/>
+            </way>
+        </filter>
+
+        <filter>
+            <way>
+                <tag k="waterway" v="riverbank"/>
+            </way>
+        </filter>
+    </elements>
+
+    <elements level="10">
         <filter>
             <way>
                 <tag k="leisure" v="park" />
             </way>
         </filter>
+    </elements>
+
+    <elements level="12">
         <filter>
             <way>
-                <tag k="highway" v="secondary" />
+                <tag k="highway" v="residential"/>
+            </way>
+        </filter>
+    </elements>
+
+    <elements level="13">
+        <filter>
+            <way>
+                <tag k="highway" v="tertiary"/>
             </way>
         </filter>
         <filter>
             <way>
-                <tag k="highway" v="tertiary" />
+                <tag k="highway" v="tertiary_link"/>
             </way>
         </filter>
-        <filter>
+    </elements>
+
+    <elements level="14">
+		<filter>
             <way>
-                <tag k="waterway" v="river" />
+			    <tag k="highway" v="service"/>
             </way>
-        </filter>
+		</filter>
         <filter>
             <way>
                 <tag k="highway" v="unclassified"/>
             </way>
         </filter>
+    </elements>
 
-        <!--<filter>-->
-            <!--<relation>-->
-                <!--<tag k="natural" v="water" />-->
-            <!--</relation>-->
-        <!--</filter>-->
-        <!--<filter>-->
-            <!--<relation>-->
-                <!--<tag k="route" />-->
-            <!--</relation>-->
-        <!--</filter>-->
+	<elements level="17">
+		<filter>
+            <way>
+			    <tag k="building" v="yes"/>
+            </way>
+		</filter>
+        <filter>
+            <way>
+                <tag k="waterway" v="river" />
+            </way>
+        </filter>
 	</elements>
 
 	<elements level="19">

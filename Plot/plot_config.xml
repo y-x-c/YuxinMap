@@ -9,17 +9,18 @@
         <layer layer="-2" method="opaque" contours="yes" ccolor="#C1CAD0" ctn="1"/>
         <layer layer="-1" method="opaque" contours="yes" ccolor="#C1CAD0" ctn="1"/>
         <layer layer="0" method="opaque" contours="yes" ccolor="#C1CAD0" ctn="1"/>
-        <layer layer="1" method="opaque" contours="yes" ccolor="#C1CAD0" ctn="1">
-            <filter>
-                <way>
-                    <tag k="bridge" v="yes" />
-                </way>
-            </filter>
-        </layer>
+        <layer layer="1" method="opaque" contours="yes" ccolor="#C1CAD0" ctn="1"/>
         <layer layer="2" method="opaque" contours="yes" ccolor="#C1CAD0" ctn="1"/>
         <layer layer="3" method="opaque" contours="yes" ccolor="#C1CAD0" ctn="1"/>
         <layer layer="4" method="opaque" contours="yes" ccolor="#C1CAD0" ctn="1"/>
         <layer layer="5" method="opaque" contours="yes" ccolor="#C1CAD0" ctn="1"/>
+        <layer layer="6" method="opaque" contours="yes" ccolor="#C1CAD0" ctn="1">
+            <filter>
+                <way>
+                    <tag k="bridge" v="yes"/>
+                </way>
+            </filter>
+        </layer>
 
         <layer layer="8" method="opaque">
             <filter>
@@ -56,6 +57,11 @@
                     <tag k="waterway" v="river"/>
                 </way>
             </filter>
+            <filter>
+                <way>
+                    <tag k="waterway" v="riverbank"/>
+                </way>
+            </filter>
         </layer>
     </layers>
 
@@ -74,14 +80,64 @@
             </filter>
         </method>
 
-        <method method="line" color="#96BDFE" thickness="10" tn_level="17">
+        <method method="line" color="#FA9E25" thickness="30" tn_level="17">
             <filter>
                 <way>
-                    <tag k="waterway" v="river"/>
+                    <tag k="highway" v="motorway" />
+                </way>
+            </filter>
+            <filter>
+                <way>
+                    <tag k="highway" v="motorway_link" />
+                </way>
+            </filter>
+            <filter>
+                <way>
+                    <tag k="highway" v="trunk" />
+                </way>
+            </filter>
+            <filter>
+                <way>
+                    <tag k="highway" v="trunk_link" />
                 </way>
             </filter>
         </method>
-
+        <method method="line" color="#F4F1EA" thickness="25" tn_level="17">
+            <filter>
+                <way>
+                    <tag k="highway" v="primary" />
+                </way>
+            </filter>
+            <filter>
+                <way>
+                    <tag k="highway" v="primary_link" />
+                </way>
+            </filter>
+        </method>
+        <method method="line" color="#F4F1EA" thickness="20" tn_level="17">
+            <filter>
+                <way>
+                    <tag k="highway" v="secondary" />
+                </way>
+            </filter>
+            <filter>
+                <way>
+                    <tag k="highway" v="secondary_link" />
+                </way>
+            </filter>
+        </method>
+        <method method="line" color="#F4F1EA" thickness="15" tn_level="17">
+            <filter>
+                <way>
+                    <tag k="highway" v="tertiary" />
+                </way>
+            </filter>
+            <filter>
+                <way>
+                    <tag k="highway" v="tertiary_link" />
+                </way>
+            </filter>
+        </method>
         <method method="line" color="#F4F1EA" thickness="10" tn_level="17">
             <filter>
                 <way>
@@ -93,20 +149,9 @@
                     <tag k="highway" v="unclassified"/>
                 </way>
             </filter>
-        </method>
-
-        <method method="line" color="#F4F1EA" thickness="15" tn_level="17">
             <filter>
                 <way>
-                    <tag k="highway" v="tertiary" />
-                </way>
-            </filter>
-        </method>
-
-        <method method="line" color="#F4F1EA" thickness="20" tn_level="17">
-            <filter>
-                <way>
-                    <tag k="highway" v="secondary" />
+                    <tag k="highway" v="residential"/>
                 </way>
             </filter>
         </method>
@@ -123,6 +168,22 @@
             <filter>
                 <way>
                     <tag k="building" v="yes"/>
+                </way>
+            </filter>
+        </method>
+
+        <method method="line" color="#96BDFE" thickness="10" tn_level="17">
+            <filter>
+                <way>
+                    <tag k="waterway" v="river"/>
+                </way>
+            </filter>
+        </method>
+
+        <method method="fill_poly" color="#96BDFE">
+            <filter>
+                <way>
+                    <tag k="waterway" v="riverbank"/>
                 </way>
             </filter>
         </method>
