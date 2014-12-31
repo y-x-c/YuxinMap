@@ -27,38 +27,39 @@ class Opaque(Blend_Method):
             canvas = self.draw_contours(canvas)
 
         canvas_gray = cv2.cvtColor(canvas, cv2.COLOR_BGR2GRAY)
-        canvas_gray = np.float32(canvas_gray)
-        max = canvas_gray.max()
-        if max == 0:
-            return bottom_layer
-        mask = canvas_gray / max
-        mask **= 10
-        mask_inv = 1. - mask
 
-        bg = np.empty_like(bottom_layer)
-        fg = np.empty_like(canvas)
-        for i in xrange(3):
-            bg[:, :, i] = np.multiply(bottom_layer[:, :, i], mask_inv)
-            fg[:, :, i] = np.multiply(canvas[:, :, i], mask)
-        ret = bg + fg
-
-        # edge feather version
         # canvas_gray = np.float32(canvas_gray)
-        # canvas_gray *= 1. / 255
-        #
-        # retval, mask = cv2.threshold(canvas_gray, 0.8, 1.0, cv2.THRESH_BINARY)
-        # #mask = cv2.GaussianBlur(mask, (5, 5), 1.0)
+        # max = canvas_gray.max()
+        # if max == 0:
+        #     return bottom_layer
+        # mask = canvas_gray / max
+        # mask **= 10
         # mask_inv = 1. - mask
         #
-        # bottom_layer_bg = np.empty_like(bottom_layer)
-        # canvas_fg = np.empty_like(canvas)
+        # bg = np.empty_like(bottom_layer)
+        # fg = np.empty_like(canvas)
         # for i in xrange(3):
-        #     bottom_layer_bg[:, :, i] = np.multiply(bottom_layer[:, :, i], mask_inv)
-        #     canvas_fg[:, :, i] = np.multiply(canvas[:, :, i], mask)
-        #
-        # ret = cv2.add(bottom_layer_bg, canvas_fg)
-        #
-        # cv2.imshow("ret", ret)
+        #     bg[:, :, i] = np.multiply(bottom_layer[:, :, i], mask_inv)
+        #     fg[:, :, i] = np.multiply(canvas[:, :, i], mask)
+        # ret = bg + fg
+
+        # edge feather version
+        canvas_gray = np.float32(canvas_gray)
+        canvas_gray *= 1. / 255
+
+        retval, mask = cv2.threshold(canvas_gray, 0.5, 1.0, cv2.THRESH_BINARY)
+        #mask = cv2.GaussianBlur(mask, (5, 5), 1.0)
+        mask_inv = 1. - mask
+
+        bottom_layer_bg = np.empty_like(bottom_layer)
+        canvas_fg = np.empty_like(canvas)
+        for i in xrange(3):
+            bottom_layer_bg[:, :, i] = np.multiply(bottom_layer[:, :, i], mask_inv)
+            canvas_fg[:, :, i] = np.multiply(canvas[:, :, i], mask)
+
+        ret = cv2.add(bottom_layer_bg, canvas_fg)
+
+        cv2.imshow("ret", ret)
 
         return ret
 

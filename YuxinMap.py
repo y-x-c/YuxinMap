@@ -4,13 +4,15 @@ from OSM_Interface.level_filter import Level_Filter
 from Plot.plot import Plot
 import time
 
-level_filter = Level_Filter("Data/map_CenturyPark.osm", "OSM_Interface/level_filter_config.xml", 17) # Century Park
+level = 17
+
+level_filter = Level_Filter("Data/map.osm", "OSM_Interface/level_filter_config.xml", level) # Century Park
 #level_filter = Level_Filter("Data/map.osm", "OSM_Interface/level_filter_config.xml", 3) # zhangjiang
 #level_filter = Level_Filter("Data/6,3,3.osm", "OSM_Interface/level_filter_config.xml", 3) # level 3
 print "Filtering..."
 level_filter.filter_out()
-
-plot = Plot(17, "Data/map_CenturyPark_filtered.osm", "Plot/plot_config.xml", 109780, 53550)# Century Park
+#109780, 53550
+plot = Plot(level, "Data/map_filtered.osm", "Plot/plot_config.xml", -1, -1)# Century Park
 print "Plotting..."
 start = time.clock()
 #plot = Plot(3, "Data/6,3,3_coastline.osm", "Plot/plot_config.xml", 6, 3)# zhangjiang

@@ -68,10 +68,14 @@ class Plot():
 
                     # set layer_id
                     for elem in ret:
-                        if elem.find("./tag[@k='layer']") == None:
+                        found_layer = elem.find("./tag[@k='layer']")
+                        if found_layer == None:
                             tag = ET.SubElement(elem, "tag")
                             tag.set("k", "layer")
                             tag.set("v", layer_id)
+                        elif rule.get("force") == "yes":
+                            found_layer.set("v", layer_id)
+
 
 
         # output
@@ -81,6 +85,24 @@ class Plot():
 
     def convert_coordinates(self):
         start = time.clock()
+        if self.tx == -1:
+            left = float(self.root_osm.find("./bounds").get("minlon"))
+            right = float(self.root_osm.find("./bounds").get("maxlon"))
+
+            coord = Coordinate()
+            coord.set_WGS84(0, left, self.level)
+            self.tx = coord.get_tile_coor()[0] - 2
+
+        if self.ty == -1:
+            top = float(self.root_osm.find("./bounds").get("minlat"))
+            bottom = float(self.root_osm.find("./bounds").get("maxlat"))
+
+            coord = Coordinate()
+            coord.set_WGS84(top, 0, self.level)
+            self.ty = coord.get_tile_coor()[1] - 12
+
+        print self.tx, self.ty
+
         for node in self.root_osm.findall("./node"):
             coord = Coordinate()
             lat = float(node.get("lat"))

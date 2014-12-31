@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <YuxinMap>
+    <elements level="-1">
+        <filter>
+            <bounds/>
+        </filter>
+    </elements>
+
 	<elements level="3">
 		<!--<filter>-->
             <!--<way>-->
@@ -69,6 +75,12 @@
                 <tag k="waterway" v="riverbank"/>
             </way>
         </filter>
+
+        <filter>
+            <way>
+                <tag k="natural" v="water"/>
+            </way>
+        </filter>
     </elements>
 
     <elements level="10">
@@ -79,10 +91,172 @@
         </filter>
     </elements>
 
+    <elements level="11">
+        <filter>
+            <way>
+                <tag k="waterway" v="river" />
+            </way>
+        </filter>
+        <filter>
+            <way>
+                <tag k="waterway" v="stream" />
+            </way>
+        </filter>
+        <filter>
+            <way>
+                <tag k="waterway" v="canal" />
+            </way>
+        </filter>
+        <filter>
+            <way>
+                <tag k="waterway" v="drain" />
+            </way>
+        </filter>
+        <filter>
+            <way>
+                <tag k="waterway" v="ditch" />
+            </way>
+        </filter>
+
+        <filter>
+            <way>
+                <tag k="waterway" v="dock" />
+            </way>
+        </filter>
+        <filter>
+            <way>
+                <tag k="waterway" v="boatyard" />
+            </way>
+        </filter>
+    </elements>
+
     <elements level="12">
         <filter>
             <way>
                 <tag k="highway" v="residential"/>
+            </way>
+        </filter>
+
+        <filter>
+            <way>
+                <tag k="landuse" v="allotments"/>
+            </way>
+        </filter>
+        <filter>
+            <way>
+                <tag k="landuse" v="cemetery"/>
+            </way>
+        </filter>
+        <filter>
+            <way>
+                <tag k="landuse" v="farmland"/>
+            </way>
+        </filter>
+        <filter>
+            <way>
+                <tag k="landuse" v="farmyard"/>
+            </way>
+        </filter>
+        <filter>
+            <way>
+                <tag k="landuse" v="forest"/>
+            </way>
+        </filter>
+        <filter>
+            <way>
+                <tag k="landuse" v="grass"/>
+            </way>
+        </filter>
+        <filter>
+            <way>
+                <tag k="landuse" v="greenfield"/>
+            </way>
+        </filter>
+        <filter>
+            <way>
+                <tag k="landuse" v="greenhouse_horticulture"/>
+            </way>
+        </filter>
+        <filter>
+            <way>
+                <tag k="landuse" v="meadow"/>
+            </way>
+        </filter>
+        <filter>
+            <way>
+                <tag k="landuse" v="orchard"/>
+            </way>
+        </filter>
+        <filter>
+            <way>
+                <tag k="landuse" v="plant_nursery"/>
+            </way>
+        </filter>
+        <filter>
+            <way>
+                <tag k="landuse" v="recreation_ground"/>
+            </way>
+        </filter>
+        <filter>
+            <way>
+                <tag k="landuse" v="village_green"/>
+            </way>
+        </filter>
+        <filter>
+            <way>
+                <tag k="landuse" v="vineyard"/>
+            </way>
+        </filter>
+
+        <filter>
+            <way>
+                <tag k="landuse" v="basin"/>
+            </way>
+        </filter>
+        <filter>
+            <way>
+                <tag k="landuse" v="reservoir"/>
+            </way>
+        </filter>
+
+        <filter>
+            <way>
+                <tag k="landuse" v="residential"/>
+            </way>
+        </filter>
+        <filter>
+            <way>
+                <tag k="landuse" v="retail"/>
+            </way>
+        </filter>
+        <filter>
+            <way>
+                <tag k="landuse" v="allotments"/>
+            </way>
+        </filter>
+        <filter>
+            <way>
+                <tag k="landuse" v="quarry"/>
+            </way>
+        </filter>
+        <filter>
+            <way>
+                <tag k="landuse" v="industrial"/>
+            </way>
+        </filter>
+        <filter>
+            <way>
+                <tag k="landuse" v="garages"/>
+            </way>
+        </filter>
+        <filter>
+            <way>
+                <tag k="landuse" v="construction"/>
+            </way>
+        </filter>
+        <filter>
+            <way>
+                <tag k="landuse" v="commercial"/>
             </way>
         </filter>
     </elements>
@@ -96,6 +270,42 @@
         <filter>
             <way>
                 <tag k="highway" v="tertiary_link"/>
+            </way>
+        </filter>
+
+        <filter>
+            <way>
+                <tag k="leisure" v="stadium"/>
+            </way>
+        </filter>
+        <filter>
+            <way>
+                <tag k="leisure" v="sports_centre"/>
+            </way>
+        </filter>
+        <filter>
+            <way>
+                <tag k="leisure" v="pitch"/>
+            </way>
+        </filter>
+        <filter>
+            <way>
+                <tag k="leisure" v="track"/>
+            </way>
+        </filter>
+        <filter>
+            <way>
+                <tag k="leisure" v="golf_course"/>
+            </way>
+        </filter>
+        <filter>
+            <way>
+                <tag k="leisure" v="garden"/>
+            </way>
+        </filter>
+        <filter>
+            <way>
+                <tag k="leisure" v="playground"/>
             </way>
         </filter>
     </elements>
@@ -116,14 +326,9 @@
 	<elements level="17">
 		<filter>
             <way>
-			    <tag k="building" v="yes"/>
+			    <tag k="building"/>
             </way>
 		</filter>
-        <filter>
-            <way>
-                <tag k="waterway" v="river" />
-            </way>
-        </filter>
 	</elements>
 
 	<elements level="19">
