@@ -133,12 +133,6 @@
     <elements level="12">
         <filter>
             <way>
-                <tag k="highway" v="residential"/>
-            </way>
-        </filter>
-
-        <filter>
-            <way>
                 <tag k="landuse" v="allotments"/>
             </way>
         </filter>
@@ -310,7 +304,7 @@
         </filter>
     </elements>
 
-    <elements level="14">
+    <elements level="15">
 		<filter>
             <way>
 			    <tag k="highway" v="service"/>
@@ -319,6 +313,11 @@
         <filter>
             <way>
                 <tag k="highway" v="unclassified"/>
+            </way>
+        </filter>
+        <filter>
+            <way>
+                <tag k="highway" v="residential"/>
             </way>
         </filter>
     </elements>

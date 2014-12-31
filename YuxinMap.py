@@ -11,7 +11,6 @@ level_filter = Level_Filter("Data/map.osm", "OSM_Interface/level_filter_config.x
 #level_filter = Level_Filter("Data/6,3,3.osm", "OSM_Interface/level_filter_config.xml", 3) # level 3
 print "Filtering..."
 level_filter.filter_out()
-#109780, 53550
 plot = Plot(level, "Data/map_filtered.osm", "Plot/plot_config.xml", -1, -1)# Century Park
 print "Plotting..."
 start = time.clock()
@@ -20,4 +19,4 @@ start = time.clock()
 plot.plot()
 
 print "Plotted"
-print "Time used:", time.clock() - start
+print "Plotting time used: %fs" % (time.clock() - start)

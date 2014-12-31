@@ -4,14 +4,7 @@ import Utility.constants as constants
 import numpy as np
 import cv2
 import time
-# background
-from Methods.background import Background
-# plot
-from Methods.fill_poly import Fill_Poly
-from Methods.line import Line
-# blend
-from Methods.opaque import Opaque
-from Methods.transparency import Transparency
+import Methods.methods as methods
 # utilities
 from Utility.filter import Filter
 from Utility.get_name import get_name
@@ -76,32 +69,27 @@ class Plot():
                         elif rule.get("force") == "yes":
                             found_layer.set("v", layer_id)
 
-
-
         # output
         # split = os.path.splitext(self.OSM_file)
         # output_path = '_layers'.join(split)
         # self.tree_osm.write(output_path, encoding="UTF-8")
 
     def convert_coordinates(self):
-        start = time.clock()
         if self.tx == -1:
             left = float(self.root_osm.find("./bounds").get("minlon"))
             right = float(self.root_osm.find("./bounds").get("maxlon"))
 
             coord = Coordinate()
             coord.set_WGS84(0, left, self.level)
-            self.tx = coord.get_tile_coor()[0] - 2
+            self.tx = coord.get_tile_coor()[0]
 
         if self.ty == -1:
-            top = float(self.root_osm.find("./bounds").get("minlat"))
-            bottom = float(self.root_osm.find("./bounds").get("maxlat"))
+            top = float(self.root_osm.find("./bounds").get("maxlat"))
+            bottom = float(self.root_osm.find("./bounds").get("minlat"))
 
             coord = Coordinate()
             coord.set_WGS84(top, 0, self.level)
-            self.ty = coord.get_tile_coor()[1] - 12
-
-        print self.tx, self.ty
+            self.ty = coord.get_tile_coor()[1]
 
         for node in self.root_osm.findall("./node"):
             coord = Coordinate()
@@ -111,30 +99,15 @@ class Plot():
 
             x, y = coord.get_coor_in_tile()
 
-            node.set("x", x * 2)
-            node.set("y", y * 2)
-        print "converting time used: %dms" % ((time.clock() - start) * 1000)
+            node.set("x", x * constants.sampling_factor)
+            node.set("y", y * constants.sampling_factor)
 
     def gen_links(self):
         self.links = {}
         for elem in self.root_osm:
             self.links[get_name(elem)] = elem
 
-    def get_plot_class(self, elem):
-        method = elem.get("method")
-        if method == "line":
-            return Line(self.level, self.links, elem)
-        elif method == "fill_poly":
-            return Fill_Poly(self.level, self.links, elem)
-        raise BaseException, "Plotting method not found."
 
-    def get_blend_class(self, layer_config):
-        method = layer_config.get("method")
-        if method == "opaque":
-            return Opaque(layer_config)
-        elif method == "transparency":
-            return Transparency(layer_config)
-        raise BaseException, "Blending method not found."
 
     def plot(self):
         self.set_methods()
@@ -156,18 +129,12 @@ class Plot():
 
                 elems_at_layer.setdefault(layer_id, []).append(elem)
 
-        bg_plotter = Background(self.bg_config)
+        bg_plotter = methods.get_layer_plot_class(self, self.bg_config)
         bottom_layer = bg_plotter.plot()
 
         for layer_id in sorted(elems_at_layer):
-            canvas = np.zeros(constants.u_tile_shape, constants.tile_dtype)
-
-            for elem in elems_at_layer[layer_id]:
-                plotter = self.get_plot_class(elem)
-                canvas = plotter.plot(canvas)
-
-            blender = self.get_blend_class(self.layer_configs[float(layer_id)])
-            bottom_layer = blender.blend(bottom_layer, canvas)
+            layer_plot = methods.get_layer_plot_class(self, self.layer_configs[float(layer_id)])
+            layer_plot.plot(elems_at_layer[layer_id], bottom_layer)
 
             cv2.imwrite("output%d.png" % layer_id, bottom_layer)
 

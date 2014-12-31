@@ -3,6 +3,7 @@ __author__ = 'Orthocenter'
 import unittest
 from coordinate import *
 import coordinate
+import constants
 
 class CoordinateTestCase(unittest.TestCase):
     def test_set_WGS84(self):
@@ -13,7 +14,7 @@ class CoordinateTestCase(unittest.TestCase):
         self.assertEqual([tx, ty], [0, 0])
         [px, py] = coor0.get_pixel_coor()
         [x, y] = coor0.get_coor_in_tile()
-        self.assertEqual([tx * tileSize + x, ty * tileSize + y], [int(px), int(py)])
+        self.assertEqual([tx * constants.tile_l + x, ty * constants.tile_l + y], [int(px), int(py)])
 
         coor1 = Coordinate()
         coor1.set_WGS84(lon = 116.39748, lat = 39.90872, level = 1)
@@ -21,7 +22,7 @@ class CoordinateTestCase(unittest.TestCase):
         self.assertEqual([tx, ty], [1, 0])
         [px, py] = coor1.get_pixel_coor()
         [x, y] = coor1.get_coor_in_tile()
-        self.assertEqual([tx * tileSize + x, ty * tileSize + y], [int(px), int(py)])
+        self.assertEqual([tx * constants.tile_l + x, ty * constants.tile_l + y], [int(px), int(py)])
 
         coor2 = Coordinate()
         coor2.set_WGS84(lon = 116.39748, lat = 39.90872, level = 2)
@@ -29,7 +30,7 @@ class CoordinateTestCase(unittest.TestCase):
         self.assertEqual([tx, ty], [3, 1])
         [px, py] = coor2.get_pixel_coor()
         [x, y] = coor2.get_coor_in_tile()
-        self.assertEqual([tx * tileSize + x, ty * tileSize + y], [int(px), int(py)])
+        self.assertEqual([tx * constants.tile_l + x, ty * constants.tile_l + y], [int(px), int(py)])
 
         coor16 = Coordinate()
         coor16.set_WGS84(lon = 116.39748, lat = 39.90872, level = 16)
@@ -37,7 +38,7 @@ class CoordinateTestCase(unittest.TestCase):
         self.assertEqual([tx, ty], [53957, 24832])
         [px, py] = coor16.get_pixel_coor()
         [x, y] = coor16.get_coor_in_tile()
-        self.assertEqual([tx * tileSize + x, ty * tileSize + y], [int(px), int(py)])
+        self.assertEqual([tx * constants.tile_l + x, ty * constants.tile_l + y], [int(px), int(py)])
 
         coor14 = Coordinate()
         coor14.set_WGS84(lon = 116.39748, lat = 39.90872, level = 14)
@@ -45,7 +46,7 @@ class CoordinateTestCase(unittest.TestCase):
         self.assertEqual([tx, ty], [13489, 6208])
         [px, py] = coor14.get_pixel_coor()
         [x, y] = coor14.get_coor_in_tile()
-        self.assertEqual([tx * tileSize + x, ty * tileSize + y], [int(px), int(py)])
+        self.assertEqual([tx * constants.tile_l + x, ty * constants.tile_l + y], [int(px), int(py)])
 
     def test_set_tile_coor(self):
         coor0 = Coordinate()

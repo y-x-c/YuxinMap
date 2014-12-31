@@ -1,17 +1,10 @@
 __author__ = 'Orthocenter'
 
 from math import *
-
-earthRadius = 6378137 # meters
-tileSize = 256 # px
-
-maxLevel = 18
-
-maxLat = 85.05112877980659
-minLat = -maxLat
+import constants
 
 def check_tile_coor(tx, ty, level):
-    if level > maxLevel or level < 0:
+    if level > constants.max_level or level < 0:
         raise CoordinateError("Invalid level.")
     n = 2 ** level
     if tx < 0 or tx >= n:
@@ -20,34 +13,33 @@ def check_tile_coor(tx, ty, level):
         raise CoordinateError("Invalid tile Y.")
 
 def check_pixel_coor(px, py, level):
-    if level > maxLevel or level < 0:
+    if level > constants.max_level or level < 0:
         raise CoordinateError("Invalid level.")
     n = 2 ** level
-    size = n * 256
+    size = n * constants.tile_l
     if px < 0 or px >= size:
         raise CoordinateError("Invalid pixel X.")
     if py < 0 or py >= size:
         raise CoordinateError("Invalid pixel Y.")
 
 def check_WGS84(lat, lon, level):
-    if level > maxLevel or level < 0:
+    if level > constants.max_level or level < 0:
         raise CoordinateError("Invalid level.")
-    if lat > maxLat or lat < minLat:
+    if lat > constants.max_lat or lat < constants.min_lat:
         raise CoordinateError("Invalid latitude.")
     if lon > 180 or lon < -180:
         raise CoordinateError("Invalid longitude.")
 
 def check_coor_in_tile(x, y, level, tx, ty):
-    if level > maxLevel:
+    if level > constants.max_level:
         raise CoordinateError("Invalid level.")
 
     check_tile_coor(tx, ty, level)
 
-    if x >= tileSize or x < 0:
+    if x >= constants.tile_l or x < 0:
         raise CoordinateError("Invalid X.")
-    if y >= tileSize or y < 0:
+    if y >= constants.tile_l or y < 0:
         raise CoordinateError("Invalid Y.")
-
 
 class CoordinateError(Exception):
     def __init__(self, arg):
@@ -60,27 +52,27 @@ class Coordinate:
     def set_WGS84(self, lat, lon, level, tx = None, ty = None):
         check_WGS84(lat, lon, level)
 
-        self.lat = lat;
-        self.lon = lon;
-        self.level = level;
+        self.lat = lat
+        self.lon = lon
+        self.level = level
 
         sinLat = sin(lat * pi / 180)
         n = 2 ** level
-        self.px = (lon + 180.0) / (360.0) * tileSize * n
-        self.py = (0.5 - log((1 + sinLat) / (1 - sinLat), e) / (4 * pi)) * tileSize * n
+        self.px = (lon + 180.0) / (360.0) * constants.tile_l * n
+        self.py = (0.5 - log((1 + sinLat) / (1 - sinLat), e) / (4 * pi)) * constants.tile_l * n
 
         if tx == None:
-            self.tx = int(self.px / tileSize)
+            self.tx = int(self.px / constants.tile_l)
         else:
             self.tx = tx
 
         if ty == None:
-            self.ty = int(self.py / tileSize)
+            self.ty = int(self.py / constants.tile_l)
         else:
             self.ty = ty
 
-        self.x = int(self.px - self.tx * tileSize)
-        self.y = int(self.py - self.ty * tileSize)
+        self.x = int(self.px - self.tx * constants.tile_l)
+        self.y = int(self.py - self.ty * constants.tile_l)
 
     def set_tile_coor(self, tx, ty, level):
         check_tile_coor(tx, ty, level)
@@ -93,8 +85,8 @@ class Coordinate:
         self.y = 0
 
         n = 2 ** level
-        self.px = float(tx * tileSize)
-        self.py = float(ty * tileSize)
+        self.px = float(tx * constants.tile_l)
+        self.py = float(ty * constants.tile_l)
 
         self.lon = float(tx) / n * 360.0 - 180.0
         self.lat = atan(sinh(pi * (1 - 2.0 * ty / n))) * 180 / pi
@@ -109,11 +101,11 @@ class Coordinate:
         self.level = level
 
         n = 2 ** level
-        self.px = float(tx * tileSize + x)
-        self.py = float(ty * tileSize + y)
+        self.px = float(tx * constants.tile_l + x)
+        self.py = float(ty * constants.tile_l + y)
 
-        self.lon = self.px / tileSize / n * 360.0 - 180.0
-        self.lat = atan(sinh(pi * (1 - 2.0 * self.py / tileSize / n))) * 180 / pi
+        self.lon = self.px / constants.tile_l / n * 360.0 - 180.0
+        self.lat = atan(sinh(pi * (1 - 2.0 * self.py / constants.tile_l/ n))) * 180 / pi
 
     def get_tile_coor(self):
         return [self.tx, self.ty]

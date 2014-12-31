@@ -327,7 +327,7 @@
                 </way>
             </filter>
         </method>
-        <method method="line" color="#FFFFFF" thickness="23" tn_level="17">
+        <method method="line" color="#FFFFFF" thickness="8" tn_level="17">
             <filter>
                 <way>
                     <tag k="highway" v="service"/>
