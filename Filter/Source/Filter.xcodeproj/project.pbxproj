@@ -42,8 +42,6 @@
 		B9FE242C1A541F6A00AD8A67 /* pugiconfig.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = pugiconfig.hpp; sourceTree = "<group>"; };
 		B9FE242D1A541F6A00AD8A67 /* pugixml.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = pugixml.cpp; sourceTree = "<group>"; };
 		B9FE242E1A541F6A00AD8A67 /* pugixml.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = pugixml.hpp; sourceTree = "<group>"; };
-		B9FE24301A54DBD500AD8A67 /* plot_config.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = plot_config.xml; path = Filter/plot_config.xml; sourceTree = "<group>"; };
-		B9FE24311A54DBD500AD8A67 /* level_filter_config.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = level_filter_config.xml; path = Filter/level_filter_config.xml; sourceTree = "<group>"; };
 		B9FE24321A54DFA400AD8A67 /* level_filter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = level_filter.cpp; sourceTree = "<group>"; };
 		B9FE24331A54DFA400AD8A67 /* level_filter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = level_filter.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -70,8 +68,6 @@
 				B92A281B1A55242D0050836D /* libopencv_highgui.2.4.9.dylib */,
 				B92A281C1A55242D0050836D /* libopencv_features2d.2.4.9.dylib */,
 				B92A281D1A55242D0050836D /* libopencv_core.2.4.9.dylib */,
-				B9FE24301A54DBD500AD8A67 /* plot_config.xml */,
-				B9FE24311A54DBD500AD8A67 /* level_filter_config.xml */,
 				B9FE242B1A541F6A00AD8A67 /* pugixml */,
 				B9FE24231A541F1D00AD8A67 /* Filter */,
 				B9FE24221A541F1D00AD8A67 /* Products */,

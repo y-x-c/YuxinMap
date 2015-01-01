@@ -6,7 +6,6 @@ import cv2
 import time
 import Methods.methods as methods
 # utilities
-from Utility.filter import Filter
 from Utility.get_name import get_name
 from Utility.coordinate import Coordinate
 import os
@@ -21,12 +20,7 @@ class Plot():
         self.data_filename = data_filename
         self.level = int(data_filename.split("_")[2].split(".")[0])
 
-    def gen_links(self):
-        self.links = {}
-        for elem in self.root_osm:
-            self.links[get_name(elem)] = elem
-
-    def plot(self):
+    def plot(self, output_path):
         data = open(self.data_filename, "r")
         bg_conf = data.readline().rstrip(" \n").split(" ")
         bg_conf = dict([(bg_conf[i], bg_conf[i + 1]) for i in xrange(0, len(bg_conf), 2)])
@@ -42,7 +36,7 @@ class Plot():
             layer_plot = methods.get_layer_plot_class(self.level, layer_conf)
             layer_plot.plot(data, bottom_layer)
 
-            cv2.imwrite("output%d.png" % int(layer_conf.get("layer")), bottom_layer)
+            #cv2.imwrite("output%d.png" % int(layer_conf.get("layer")), bottom_layer)
 
             line = data.readline()
 
@@ -50,12 +44,10 @@ class Plot():
         r = constants.tile_l * constants.sampling_factor - constants.padding
         bottom_layer = bottom_layer[l : r, l : r, : ]
         ret = cv2.resize(bottom_layer, constants.tile_size, interpolation=cv2.INTER_AREA)
-        #cv2.imshow("result", ret)
-        cv2.imwrite("output.png", ret)
-        #cv2.waitKey(0)
+        cv2.imwrite(output_path, ret)
 
 
 if __name__ == "__main__":
     plotter = Plot("/Users/Orthocenter/Developments/YuxinMap/Utility/Filter/Filter/Output/1715_836_11.dt")
 
-    plotter.plot()
+    plotter.plot("output.png")

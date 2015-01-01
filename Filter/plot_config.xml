@@ -3,35 +3,6 @@
     <layers>
         <layer layer="background" method="background" color="#f7f5f0" />
         
-        <layer layer="-6" method="opaque"/>
-        
-        <!-- highway -->
-        <layer layer="-5" method="opaque" contours="yes" ccolor="#C1CAD0" ctn="1"/>
-        <layer layer="-4" method="opaque" contours="yes" ccolor="#C1CAD0" ctn="1"/>
-        <layer layer="-3" method="opaque" contours="yes" ccolor="#C1CAD0" ctn="1"/>
-        <layer layer="-2" method="opaque" contours="yes" ccolor="#C1CAD0" ctn="1"/>
-        <layer layer="-1" method="opaque" contours="yes" ccolor="#C1CAD0" ctn="1"/>
-        <layer layer="0" method="opaque" contours="yes" ccolor="#C1CAD0" ctn="1"/>
-        <layer layer="1" method="opaque" contours="yes" ccolor="#C1CAD0" ctn="1"/>
-        <layer layer="2" method="opaque" contours="yes" ccolor="#C1CAD0" ctn="1"/>
-        <layer layer="3" method="opaque" contours="yes" ccolor="#C1CAD0" ctn="1"/>
-        <layer layer="4" method="opaque" contours="yes" ccolor="#C1CAD0" ctn="1"/>
-        <layer layer="5" method="opaque" contours="yes" ccolor="#C1CAD0" ctn="1"/>
-        
-        <!-- bridge -->
-        <layer layer="6" method="opaque" contours="yes" ccolor="#C1CAD0" ctn="1">
-            <way>
-                <tag k="bridge" v="yes"/>
-            </way>
-        </layer>
-        
-        <!-- building -->
-        <layer layer="-8" method="opaque" contours="yes" ccolor="#C1CAD0" ctn="1">
-            <way>
-                <tag k="building"/>
-            </way>
-        </layer>
-        
         <!-- partial landuse -->
         <layer layer="-18" method="opaque">
             <way>
@@ -162,6 +133,36 @@
                 <tag k="waterway" v="ditch" />
             </way>
         </layer>
+        
+        <!-- building -->
+        <layer layer="-8" method="opaque" contours="yes" ccolor="#C1CAD0" ctn="1">
+            <way>
+                <tag k="building"/>
+            </way>
+        </layer>
+        
+        <layer layer="-6" method="opaque"/>
+        
+        <!-- highway -->
+        <layer layer="-5" method="opaque" contours="yes" ccolor="#C1CAD0" ctn="1"/>
+        <layer layer="-4" method="opaque" contours="yes" ccolor="#C1CAD0" ctn="1"/>
+        <layer layer="-3" method="opaque" contours="yes" ccolor="#C1CAD0" ctn="1"/>
+        <layer layer="-2" method="opaque" contours="yes" ccolor="#C1CAD0" ctn="1"/>
+        <layer layer="-1" method="opaque" contours="yes" ccolor="#C1CAD0" ctn="1"/>
+        <layer layer="0" method="opaque" contours="yes" ccolor="#C1CAD0" ctn="1"/>
+        <layer layer="1" method="opaque" contours="yes" ccolor="#C1CAD0" ctn="1"/>
+        <layer layer="2" method="opaque" contours="yes" ccolor="#C1CAD0" ctn="1"/>
+        <layer layer="3" method="opaque" contours="yes" ccolor="#C1CAD0" ctn="1"/>
+        <layer layer="4" method="opaque" contours="yes" ccolor="#C1CAD0" ctn="1"/>
+        <layer layer="5" method="opaque" contours="yes" ccolor="#C1CAD0" ctn="1"/>
+        
+        <!-- bridge -->
+        <layer layer="6" method="opaque" contours="yes" ccolor="#C1CAD0" ctn="1">
+            <way>
+                <tag k="bridge" v="yes"/>
+            </way>
+        </layer>
+
     </layers>
     
     <elements>

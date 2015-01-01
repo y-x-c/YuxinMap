@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "YuxinMap::Level_Filter::filter(std::__1::vector&lt;pugi::xml_node*, std::__1::allocator&lt;pugi::xml_node*&gt; &gt;&amp;, std::__1::map&lt;pugi::xml_node*, bool, std::__1::less&lt;pugi::xml_node*&gt;, std::__1::allocator&lt;std::__1::pair&lt;pugi::xml_node* const, bool&gt; &gt; &gt;&amp;):level_filter.cpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "osm">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>

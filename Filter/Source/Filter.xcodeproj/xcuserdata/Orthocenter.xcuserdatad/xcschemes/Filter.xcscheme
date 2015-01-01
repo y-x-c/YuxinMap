@@ -59,19 +59,7 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "/Users/Orthocenter/Developments/YuxinMap/Utility/Filter/Filter/map.osm"
-            isEnabled = "YES">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "/Users/Orthocenter/Developments/YuxinMap/Utility/Filter/Filter/level_filter_config.xml"
-            isEnabled = "YES">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "/Users/Orthocenter/Developments/YuxinMap/Utility/Filter/Filter/plot_config.xml"
-            isEnabled = "YES">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "/Users/Orthocenter/Developments/YuxinMap/Utility/Filter/Filter/Output/"
+            argument = "/Users/Orthocenter/Developments/YuxinMap/Data/map_fudan.osm /Users/Orthocenter/Developments/YuxinMap/Filter/level_filter_config.xml /Users/Orthocenter/Developments/YuxinMap/Filter/plot_config.xml /Users/Orthocenter/Developments/YuxinMap/TmpDt/ 5 18"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>

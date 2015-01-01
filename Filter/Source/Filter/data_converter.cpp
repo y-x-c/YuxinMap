@@ -222,6 +222,8 @@ namespace YuxinMap {
         }
         ss_bg << std::endl;
         
+        std::ofstream dt_list(path + "dt_list", std::ofstream::app);
+        
         for(LL tx = tl_tx; tx <= br_tx; tx++)
         {
             for(LL ty = tl_ty; ty <= br_ty; ty++)
@@ -229,6 +231,7 @@ namespace YuxinMap {
                 std::stringstream filename;
                 filename << path << tx << "_" << ty << "_" << level << ".dt";
                 std::ofstream out(filename.str().c_str(), std::ofstream::out);
+                dt_list << filename.str() << std::endl;
                 
                 out << ss_bg.str();
                 
@@ -246,6 +249,8 @@ namespace YuxinMap {
                 out.close();
             }
         }
+        
+        dt_list.close();
     }
     
 } // namespace YuxinMap
