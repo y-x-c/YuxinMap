@@ -3,19 +3,19 @@ __author__ = 'Orthocenter'
 import numpy as np
 from Utility.get_name import get_name
 from Utility.color import Color
+import Utility.constants as constants
 
 class Plot_Method():
-    def __init__(self, level, links, elem):
+    def __init__(self, level, conf):
         self.level = level
-        self.links = links
-        self.elem = elem
+        self.conf = conf
 
-    def get_np_pts(self):
+    def get_np_pts(self, data):
         pts = []
-        for nd in self.elem.findall("./nd"):
-            name = get_name(nd)
-            node = self.links[name]
-            x_y = [int(node.get(cor)) for cor in ('x', 'y')]
+        coords = data.readline().rstrip(" \n").split(" ")
+
+        for i in xrange(0, len(coords), 2):
+            x_y = [int(coords[i + _]) + constants.padding for _ in range(0, 2)]
             pts.append(x_y)
 
         np_pts = [np.array(pts, np.int32)]
@@ -25,10 +25,10 @@ class Plot_Method():
 
     def get_color(self):
         color = Color()
-        color.setHex(self.elem.get("color"))
+        color.setHex(self.conf.get("color"))
         color = color.getBGR()
 
         return color
 
-    def plot(self, canvas):
-        return None
+    def plot(self):
+        pass

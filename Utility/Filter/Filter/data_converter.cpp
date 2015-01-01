@@ -148,7 +148,7 @@ namespace YuxinMap {
         //std::cerr << level << " " << epsilon << std::endl;
         //std::cerr << "Before approx: " << pts.size() << " ";
         //if(closed){for(auto p : pts) std::cerr << p << " "; std::cerr << std::endl;}
-        cv::approxPolyDP(pts, pts, epsilon, closed);
+        //cv::approxPolyDP(pts, pts, epsilon, closed);
         //if(closed){for(auto p : pts) std::cerr << p << " "; std::cerr << std::endl;}
         //std::cerr << "After approx: " << pts.size() << std::endl;
         
@@ -156,6 +156,7 @@ namespace YuxinMap {
         for(const auto &txy : txys)
         {
             std::stringstream ss;
+            //ss << "way" << " " << way.attribute("id").value() << " ";
             for(const auto &attr : method.attributes())
             {
                 ss << attr.name() << " " << attr.value() << " ";
@@ -164,7 +165,7 @@ namespace YuxinMap {
             //ss << pts.size() << " ";
             
             LL tx = txy.first, ty = txy.second;
-            LL biasx = (tx - tx0) * tile_l, biasy = (ty - ty0) * tile_l;
+            LL biasx = (tx0 - tx) * tile_l * sampling_factor, biasy = (ty0 - ty) * tile_l * sampling_factor;
             
             for(const auto &pt : pts)
             {
@@ -213,6 +214,14 @@ namespace YuxinMap {
             layer_attrs[layer_id] = ss.str();
         }
         
+        std::stringstream ss_bg;
+        auto bg = layers.find_child_by_attribute("layer", "layer", "background");
+        for(auto attri : bg.attributes())
+        {
+            ss_bg << attri.name() << " " << attri.value() << " ";
+        }
+        ss_bg << std::endl;
+        
         for(LL tx = tl_tx; tx <= br_tx; tx++)
         {
             for(LL ty = tl_ty; ty <= br_ty; ty++)
@@ -220,7 +229,9 @@ namespace YuxinMap {
                 std::stringstream filename;
                 filename << path << tx << "_" << ty << "_" << level << ".dt";
                 std::ofstream out(filename.str().c_str(), std::ofstream::out);
-                //std::cerr << filename.str() << std::endl;
+                
+                out << ss_bg.str();
+                
                 const auto &tile = tiles[tx][ty];
                 for(auto it = tile.begin(); it != tile.end(); ++it)
                 {

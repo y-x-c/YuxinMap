@@ -18,6 +18,7 @@
 
 namespace YuxinMap {
     const int tile_l = 256;
+    const double sampling_factor = 2;
     const double PI = acos(-1.0);
     typedef long long LL;
     typedef std::set<std::string> ac_t;
@@ -56,8 +57,8 @@ namespace YuxinMap {
         {
             if(tx == -1 || ty == -1) tx = this->tx, ty = this->ty;
             
-            x = LL(px - tx * tile_l);
-            y = LL(py - ty * tile_l);
+            x = LL((px - tx * tile_l) * sampling_factor);
+            y = LL((py - ty * tile_l) * sampling_factor);
         }
     };
     

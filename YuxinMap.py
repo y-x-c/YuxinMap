@@ -4,11 +4,8 @@ from OSM_Interface.level_filter import Level_Filter
 from Plot.plot import Plot
 import time
 
-level = 14
-
 level_filter = Level_Filter("Data/map.osm", "OSM_Interface/level_filter_config.xml", level) # Century Park
-#level_filter = Level_Filter("Data/map.osm", "OSM_Interface/level_filter_config.xml", 3) # zhangjiang
-#level_filter = Level_Filter("Data/6,3,3.osm", "OSM_Interface/level_filter_config.xml", 3) # level 3
+
 print "Filtering..."
 level_filter.filter_out()
 plot = Plot(level, "Data/map_filtered.osm", "Plot/plot_config.xml", -1, -1)# Century Park

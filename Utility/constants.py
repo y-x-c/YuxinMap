@@ -3,11 +3,12 @@ __author__ = 'Orthocenter'
 import numpy as np
 
 sampling_factor = 2
+padding = 2
 
 tile_l = 256
-tile_size = [2000, 2000]
+tile_size = [tile_l, tile_l]
 tile_shape = tile_size + [3]
-u_tile_size = [_ * sampling_factor for _ in tile_size]
+u_tile_size = [_ * sampling_factor + 2 * padding for _ in tile_size]
 u_tile_shape = u_tile_size + [3]
 
 tile_size = tuple(tile_size)

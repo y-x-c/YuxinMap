@@ -7,8 +7,8 @@ from Utility.color import Color
 import Utility.constants as constants
 
 class Background(Layer_Plot_Method):
-    def __init__(self, params, config):
-        Layer_Plot_Method.__init__(self, params, config)
+    def __init__(self, level, config):
+        Layer_Plot_Method.__init__(self, level, config)
 
     def plot(self):
         color = Color()

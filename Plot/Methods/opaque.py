@@ -26,7 +26,8 @@ class Opaque(Layer_Plot_Method):
 
     def blend(self, bottom_layer, black_bg):
         if self.config.get("contours", None) == "yes":
-            bottom_layer = self.draw_contours(bottom_layer, black_bg)
+            #bottom_layer = self.draw_contours(bottom_layer, black_bg)
+            pass
 
         # another version, has some problem
         # if self.config.get("contours", None) == "yes":
@@ -67,12 +68,18 @@ class Opaque(Layer_Plot_Method):
 
         return bottom_layer
 
-    def plot(self, elems, bottom_layer):
+    def plot(self, data, bottom_layer):
         black_bg = np.zeros(constants.u_tile_shape, constants.tile_dtype)
 
-        for elem in elems:
-            plotter = methods.get_plot_class(self.params, elem)
-            bottom_layer, black_bg = plotter.plot(bottom_layer, black_bg)
+        num = int(data.readline())
+
+        for elem_id in xrange(0, num):
+            line = data.readline()
+            layer_conf = line.rstrip(" \n").split(" ")
+            layer_conf = dict([(layer_conf[i], layer_conf[i + 1]) for i in xrange(0, len(layer_conf), 2)])
+
+            plotter = methods.get_plot_class(self.level, layer_conf)
+            bottom_layer, black_bg = plotter.plot(data, bottom_layer, black_bg)
 
         bottom_layer = self.blend(bottom_layer, black_bg)
         return bottom_layer
