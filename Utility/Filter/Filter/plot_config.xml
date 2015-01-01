@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<YuxinMap>
+    <layers>
+        <layer layer="background" method="background" color="#f7f5f0" />
+        
+        <layer layer="-6" method="opaque"/>
+        
+        <!-- highway -->
+        <layer layer="-5" method="opaque" contours="yes" ccolor="#C1CAD0" ctn="1"/>
+        <layer layer="-4" method="opaque" contours="yes" ccolor="#C1CAD0" ctn="1"/>
+        <layer layer="-3" method="opaque" contours="yes" ccolor="#C1CAD0" ctn="1"/>
+        <layer layer="-2" method="opaque" contours="yes" ccolor="#C1CAD0" ctn="1"/>
+        <layer layer="-1" method="opaque" contours="yes" ccolor="#C1CAD0" ctn="1"/>
+        <layer layer="0" method="opaque" contours="yes" ccolor="#C1CAD0" ctn="1"/>
+        <layer layer="1" method="opaque" contours="yes" ccolor="#C1CAD0" ctn="1"/>
+        <layer layer="2" method="opaque" contours="yes" ccolor="#C1CAD0" ctn="1"/>
+        <layer layer="3" method="opaque" contours="yes" ccolor="#C1CAD0" ctn="1"/>
+        <layer layer="4" method="opaque" contours="yes" ccolor="#C1CAD0" ctn="1"/>
+        <layer layer="5" method="opaque" contours="yes" ccolor="#C1CAD0" ctn="1"/>
+        
+        <!-- bridge -->
+        <layer layer="6" method="opaque" contours="yes" ccolor="#C1CAD0" ctn="1">
+            <way>
+                <tag k="bridge" v="yes"/>
+            </way>
+        </layer>
+        
+        <!-- building -->
+        <layer layer="-8" method="opaque" contours="yes" ccolor="#C1CAD0" ctn="1">
+            <way>
+                <tag k="building"/>
+            </way>
+        </layer>
+        
+        <!-- partial landuse -->
+        <layer layer="-18" method="opaque">
+            <way>
+                <tag k="landuse" v="residential"/>
+            </way>
+            <way>
+                <tag k="landuse" v="retail"/>
+            </way>
+            <way>
+                <tag k="landuse" v="allotments"/>
+            </way>
+            <way>
+                <tag k="landuse" v="quarry"/>
+            </way>
+            <way>
+                <tag k="landuse" v="industrial"/>
+            </way>
+            <way>
+                <tag k="landuse" v="garages"/>
+            </way>
+            <way>
+                <tag k="landuse" v="construction"/>
+            </way>
+            <way>
+                <tag k="landuse" v="commercial"/>
+            </way>
+        </layer>
+        
+        <!-- green space -->
+        <layer layer="-11" method="opaque">
+            <way>
+                <tag k="leisure" v="park" />
+            </way>
+            <way>
+                <tag k="leisure" v="stadium"/>
+            </way>
+            <way>
+                <tag k="leisure" v="sports_centre"/>
+            </way>
+            <way>
+                <tag k="leisure" v="pitch"/>
+            </way>
+            <way>
+                <tag k="leisure" v="track"/>
+            </way>
+            <way>
+                <tag k="leisure" v="golf_course"/>
+            </way>
+            <way>
+                <tag k="leisure" v="garden"/>
+            </way>
+            <way>
+                <tag k="leisure" v="playground"/>
+            </way>
+            
+            <way>
+                <tag k="landuse" v="allotments"/>
+            </way>
+            <way>
+                <tag k="landuse" v="cemetery"/>
+            </way>
+            <way>
+                <tag k="landuse" v="farmland"/>
+            </way>
+            <way>
+                <tag k="landuse" v="farmyard"/>
+            </way>
+            <way>
+                <tag k="landuse" v="forest"/>
+            </way>
+            <way>
+                <tag k="landuse" v="grass"/>
+            </way>
+            <way>
+                <tag k="landuse" v="greenfield"/>
+            </way>
+            <way>
+                <tag k="landuse" v="greenhouse_horticulture"/>
+            </way>
+            <way>
+                <tag k="landuse" v="meadow"/>
+            </way>
+            <way>
+                <tag k="landuse" v="orchard"/>
+            </way>
+            <way>
+                <tag k="landuse" v="plant_nursery"/>
+            </way>
+            <way>
+                <tag k="landuse" v="recreation_ground"/>
+            </way>
+            <way>
+                <tag k="landuse" v="village_green"/>
+            </way>
+            <way>
+                <tag k="landuse" v="vineyard"/>
+            </way>
+        </layer>
+        
+        <!-- water -->
+        <layer layer="-10" method="opaque" force_="yes">
+            <way>
+                <tag k="waterway" v="river"/>
+            </way>
+            <way>
+                <tag k="waterway" v="riverbank"/>
+            </way>
+
+            <way>
+                <tag k="natural" v="water"/>
+            </way>
+            <way>
+                <tag k="landuse" v="basin"/>
+            </way>
+            <way>
+                <tag k="landuse" v="reservoir"/>
+            </way>
+            <way>
+                <tag k="waterway" v="stream" />
+            </way>
+            <way>
+                <tag k="waterway" v="canal" />
+            </way>
+            <way>
+                <tag k="waterway" v="drain" />
+            </way>
+            <way>
+                <tag k="waterway" v="ditch" />
+            </way>
+        </layer>
+    </layers>
+    
+    <elements>
+        <!--<method method="line" color="#FFFFFF" thickness="1">-->
+        <!---->
+        <!--<way>-->
+        <!--<tag k="boundary" v="administrative"/>-->
+        <!--</way>-->
+        <!---->
+        
+        <!---->
+        <!--<way>-->
+        <!--<tag k="natural" v="coastline" />-->
+        <!--</way>-->
+        <!---->
+        <!--</method>-->
+        
+        <method method="line" color="#FA9E25" thickness="39" tn_level="17">
+            <way>
+                <tag k="highway" v="motorway" />
+            </way>
+            <way>
+                <tag k="highway" v="trunk" />
+            </way>
+        </method>
+        <method method="line" color="#FA9E25" thickness="20" tn_level="17">
+            <way>
+                <tag k="highway" v="motorway_link" />
+            </way>
+            <way>
+                <tag k="highway" v="trunk_link" />
+            </way>
+        </method>
+        <method method="line" color="#FFFFFF" thickness="34" tn_level="17">
+            <way>
+                <tag k="highway" v="primary" />
+            </way>
+        </method>
+        <method method="line" color="#FFFFFF" thickness="19" tn_level="17">
+            <way>
+                <tag k="highway" v="primary_link" />
+            </way>
+        </method>
+        <method method="line" color="#FFFFFF" thickness="29" tn_level="17">
+            <way>
+                <tag k="highway" v="secondary" />
+            </way>
+        </method>
+        <method method="line" color="#FFFFFF" thickness="15" tn_level="17">
+            <way>
+                <tag k="highway" v="secondary_link" />
+            </way>
+        </method>
+        <method method="line" color="#FFFFFF" thickness="26" tn_level="17">
+            <way>
+                <tag k="highway" v="tertiary" />
+            </way>
+        </method>
+        <method method="line" color="#FFFFFF" thickness="14" tn_level="17">
+            <way>
+                <tag k="highway" v="tertiary_link" />
+            </way>
+        </method>
+        <method method="line" color="#FFFFFF" thickness="8" tn_level="17">
+            <way>
+                <tag k="highway" v="service"/>
+            </way>
+            <way>
+                <tag k="highway" v="unclassified"/>
+            </way>
+            <way>
+                <tag k="highway" v="residential"/>
+            </way>
+        </method>
+        
+        <method method="fill_poly" color="#CADFAA">
+            <way>
+                <tag k="leisure" v="park"/>
+            </way>
+            <way>
+                <tag k="leisure" v="stadium"/>
+            </way>
+            <way>
+                <tag k="leisure" v="sports_centre"/>
+            </way>
+            <way>
+                <tag k="leisure" v="pitch"/>
+            </way>
+            <way>
+                <tag k="leisure" v="track"/>
+            </way>
+            <way>
+                <tag k="leisure" v="golf_course"/>
+            </way>
+            <way>
+                <tag k="leisure" v="garden"/>
+            </way>
+            <way>
+                <tag k="leisure" v="playground"/>
+            </way>
+            
+            <way>
+                <tag k="landuse" v="allotments"/>
+            </way>
+            <way>
+                <tag k="landuse" v="cemetery"/>
+            </way>
+            <way>
+                <tag k="landuse" v="farmland"/>
+            </way>
+            
+            
+            <way>
+                <tag k="landuse" v="farmyard"/>
+            </way>
+            <way>
+                <tag k="landuse" v="forest"/>
+            </way>
+            <way>
+                <tag k="landuse" v="grass"/>
+            </way>
+            <way>
+                <tag k="landuse" v="greenfield"/>
+            </way>
+            <way>
+                <tag k="landuse" v="greenhouse_horticulture"/>
+            </way>
+            <way>
+                <tag k="landuse" v="meadow"/>
+            </way>
+            <way>
+                <tag k="landuse" v="orchard"/>
+            </way>
+            <way>
+                <tag k="landuse" v="plant_nursery"/>
+            </way>
+            <way>
+                <tag k="landuse" v="recreation_ground"/>
+            </way>
+            <way>
+                <tag k="landuse" v="village_green"/>
+            </way>
+            <way>
+                <tag k="landuse" v="vineyard"/>
+            </way>
+            
+        </method>
+        
+        <method method="fill_poly" color="#fbfbfa">
+            <way>
+                <tag k="building"/>
+            </way>
+        </method>
+        
+        <method method="fill_poly" color="#efeeeb">
+            <way>
+                <tag k="landuse" v="residential"/>
+            </way>
+            <way>
+                <tag k="landuse" v="retail"/>
+            </way>
+            <way>
+                <tag k="landuse" v="allotments"/>
+            </way>
+            <way>
+                <tag k="landuse" v="quarry"/>
+            </way>
+            <way>
+                <tag k="landuse" v="industrial"/>
+            </way>
+            <way>
+                <tag k="landuse" v="garages"/>
+            </way>
+            <way>
+                <tag k="landuse" v="construction"/>
+            </way>
+            <way>
+                <tag k="landuse" v="commercial"/>
+            </way>
+        </method>
+        
+        <method method="line" color="#96BDFE" thickness="38" tn_level="17">
+            <way>
+                <tag k="waterway" v="river"/>
+            </way>
+        </method>
+        
+        <method method="line" color="#96BDFE" thickness="28" tn_level="17">
+            <way>
+                <tag k="waterway" v="stream" />
+            </way>
+            <way>
+                <tag k="waterway" v="canal" />
+            </way>
+            <way>
+                <tag k="waterway" v="drain" />
+            </way>
+            <way>
+                <tag k="waterway" v="ditch" />
+            </way>
+        </method>
+        
+        <method method="fill_poly" color="#96BDFE">
+            <way>
+                <tag k="waterway" v="riverbank"/>
+            </way>
+            <way>
+                <tag k="natural" v="water"/>
+            </way>
+            <way>
+                <tag k="landuse" v="basin"/>
+            </way>
+            <way>
+                <tag k="landuse" v="reservoir"/>
+            </way>
+            
+            <way>
+                <tag k="waterway" v="dock" />
+            </way>
+            <way>
+                <tag k="waterway" v="boatyard" />
+            </way>
+        </method>
+        
+    </elements>
+</YuxinMap>
