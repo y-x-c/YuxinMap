@@ -1,6 +1,21 @@
 body {
     margin: 0;
 }
+
 #container {
-    margin: 0;
+
+}
+
+#bottomLayer {
+    z-index: 0;
+    left: 0px;
+    top: 0px;
+    position: absolute;
+}
+
+#shortPathLayer {
+    z-index: 1;
+    left: 0px;
+    top: 0px;
+    position: absolute;
 }

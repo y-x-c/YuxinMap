@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<YuxinMap>
+	<way class="2">
+        <way>
+            <tag k="highway" v="trunk"/>
+        </way>
+        <way>
+            <tag k="highway" v="motorway"/>
+        </way>
+        
+        <way>
+            <tag k="highway" v="trunk_link"/>
+        </way>
+        <way>
+            <tag k="highway" v="motorway_link"/>
+        </way>
+        
+        <way>
+            <tag k="highway" v="primary"/>
+        </way>
+        <way>
+            <tag k="highway" v="primary_link"/>
+        </way>
+        
+        <way>
+            <tag k="highway" v="secondary"/>
+        </way>
+        <way>
+            <tag k="highway" v="secondary_link"/>
+        </way>
+        
+        <way>
+            <tag k="highway" v="tertiary"/>
+        </way>
+        <way>
+            <tag k="highway" v="tertiary_link"/>
+        </way>
+        
+        <way>
+            <tag k="highway" v="service"/>
+        </way>
+        <way>
+            <tag k="highway" v="unclassified"/>
+        </way>
+        <way>
+            <tag k="highway" v="residential"/>
+        </way>
+	</way>
+
+    <way class="4">
+        
+    </way>
+    
+    <way class="8">
+    </way>
+</YuxinMap>

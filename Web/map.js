@@ -34,6 +34,7 @@ function onCanvasMouseEvent(event) {
             updateTLPixel(-(coord.x - lastCoord.x), -(coord.y - lastCoord.y));
             lastCoord = coord;
             drawTiles();
+            drawShortPath();
         }
     }
     else if (event.type == "mouseup") {
@@ -51,6 +52,7 @@ function onCanvasMouseEvent(event) {
                 level--;
                 setTLPixel(tl_px / 2 - coord.x / 2, tl_py / 2 - coord.y / 2);
                 drawTiles();
+                drawShortPath();
             }
         }
 
@@ -60,6 +62,7 @@ function onCanvasMouseEvent(event) {
                 level++;
                 setTLPixel(tl_px * 2 + coord.x, tl_py * 2 + coord.y);
                 drawTiles();
+                drawShortPath();
             }
         }
     }
@@ -70,6 +73,7 @@ function onCanvasMouseEvent(event) {
                 level++;
                 setTLPixel(tl_px * 2 + coord.x, tl_py * 2 + coord.y);
                 drawTiles();
+                drawShortPath();
             }
         }
         else
@@ -78,6 +82,7 @@ function onCanvasMouseEvent(event) {
                 level--;
                 setTLPixel(tl_px / 2 - coord.x / 2, tl_py / 2 - coord.y / 2);
                 drawTiles();
+                drawShortPath();
             }
         }
     }
@@ -100,6 +105,7 @@ function onCanvasTouchEvent(event) {
             updateTLPixel(-(coord.x - lastCoord.x), -(coord.y - lastCoord.y));
             lastCoord = coord;
             drawTiles();
+            drawShortPath();
         }
     }
     else if (event.type == "touchmove" && event.targetTouches.length == 2) {
@@ -123,6 +129,7 @@ function onCanvasTouchEvent(event) {
                 level--;
                 setTLPixel(tl_px / 2 - centerX / 2, tl_py / 2 - centerY / 2);
                 drawTiles();
+                drawShortPath();
             }
         }
 
@@ -132,6 +139,7 @@ function onCanvasTouchEvent(event) {
                 level++;
                 setTLPixel(tl_px * 2 + centerX, tl_py * 2 + centerY);
                 drawTiles();
+                drawShortPath();
             }
         }
     }
@@ -187,23 +195,28 @@ function updateTLPixel(dpx, dpy) {
 
 function setCanvasSize() {
     devicePixelRatio = window.devicePixelRatio || 1;
-    backingStoreRatio = context.webkitBackingStorePixelRatio || 1;
+    backingStoreRatio = bottomLayerContext.webkitBackingStorePixelRatio || 1;
     retina_ratio = (devicePixelRatio / backingStoreRatio) > 1 ? 2 : 1;
     real_tiles_l = tiles_l * retina_ratio;
-    canvas.width = window.innerWidth * retina_ratio;
-    canvas.height = window.innerHeight * retina_ratio;
-    canvas.style.height = window.innerHeight + "px";
-    canvas.style.width = window.innerWidth + "px";
+    bottomLayer.width = window.innerWidth * retina_ratio;
+    bottomLayer.height = window.innerHeight * retina_ratio;
+    bottomLayer.style.height = window.innerHeight + "px";
+    bottomLayer.style.width = window.innerWidth + "px";
+
+    shortPathLayer.width = window.innerWidth * retina_ratio;
+    shortPathLayer.height = window.innerHeight * retina_ratio;
+    shortPathLayer.style.height = window.innerHeight + "px";
+    shortPathLayer.style.width = window.innerWidth + "px";
 }
 
 function setDrawParam() {
-    numTilesX = (canvas.width / real_tiles_l) + 1;
-    numTilesY = (canvas.height / real_tiles_l) + 1;
+    numTilesX = (bottomLayer.width / real_tiles_l) + 1;
+    numTilesY = (bottomLayer.height / real_tiles_l) + 1;
 
     numTiles = numTilesX * numTilesY;
 
     maxLevel = 17;
-    minLevel = 14;
+    minLevel = 10;
 }
 
 function drawTiles() {
@@ -220,8 +233,8 @@ function drawTiles() {
                 var tile_filename = tiles_filepath + tx + "_" + ty + "_" + level + "_r.png";
             }
 
-            context.fillStyle = "#f7f5f0";
-            context.fillRect(real_tiles_l * (tx - tl_tx) + tl_ox, real_tiles_l * (ty - tl_ty) + tl_oy
+            bottomLayerContext.fillStyle = "#f7f5f0";
+            bottomLayerContext.fillRect(real_tiles_l * (tx - tl_tx) + tl_ox, real_tiles_l * (ty - tl_ty) + tl_oy
                 , real_tiles_l, real_tiles_l);
 
             var tile = new Image();
@@ -235,24 +248,27 @@ function drawTiles() {
     }
 
     function drawTile(tile) {
-        context.drawImage(tile, real_tiles_l * (tile.tx - tl_tx) + tl_ox, real_tiles_l * (tile.ty - tl_ty) + tl_oy);
+        bottomLayerContext.drawImage(tile, real_tiles_l * (tile.tx - tl_tx) + tl_ox, real_tiles_l * (tile.ty - tl_ty) + tl_oy);
     }
 }
 
-function onload() {
-    canvas = document.getElementById("main");
-    context = canvas.getContext("2d");
+function onWindowLoad() {
+    bottomLayer = document.getElementById("bottomLayer");
+    bottomLayerContext = bottomLayer.getContext("2d");
+
+    shortPathLayer = document.getElementById("shortPathLayer");
+    shortPathLayerContext = shortPathLayer.getContext("2d");
 
     dragging = false;
-    canvas.addEventListener("mousedown", onCanvasMouseEvent);
-    canvas.addEventListener("mouseup", onCanvasMouseEvent);
-    canvas.addEventListener("mousemove", onCanvasMouseEvent);
-    canvas.addEventListener("mousewheel", onCanvasMouseEvent);
-    canvas.addEventListener("dblclick", onCanvasMouseEvent);
+    shortPathLayer.addEventListener("mousedown", onCanvasMouseEvent);
+    shortPathLayer.addEventListener("mouseup", onCanvasMouseEvent);
+    shortPathLayer.addEventListener("mousemove", onCanvasMouseEvent);
+    shortPathLayer.addEventListener("mousewheel", onCanvasMouseEvent);
+    shortPathLayer.addEventListener("dblclick", onCanvasMouseEvent);
 
-    canvas.addEventListener("touchstart", onCanvasTouchEvent);
-    canvas.addEventListener("touchmove", onCanvasTouchEvent);
-    canvas.addEventListener("touchend", onCanvasTouchEvent);
+    shortPathLayer.addEventListener("touchstart", onCanvasTouchEvent);
+    shortPathLayer.addEventListener("touchmove", onCanvasTouchEvent);
+    shortPathLayer.addEventListener("touchend", onCanvasTouchEvent);
 
     setCanvasSize();
     setDrawParam();
@@ -262,12 +278,61 @@ function onload() {
     var tl_tx = 109772;
     var tl_ty = 53548;
 
-    console.log(context);
-
     setTLTxTy(tl_tx, tl_ty);
-    console.log(tl_px, tl_py);
 
     drawTiles();
+
+    queryShortPath();
+    drawShortPath();
 }
 
-window.addEventListener('load', onload, false);
+function onWindowResize() {
+    setCanvasSize();
+    setDrawParam();
+    drawTiles();
+    drawShortPath();
+}
+
+function queryShortPath() {
+    var request = new XMLHttpRequest();
+    request.open("GET", "ret.dt", false);
+    request.send();
+
+    var data = request.responseText;
+    var idx = data.indexOf("\n");
+    var num = +data.substring(0, idx);
+    var coords = data.substring(idx + 1, data.length - 1).split(" ");
+    pts = new Array();
+
+    for (var i = 0; i < num; i++) {
+        pts.push ({lat: +coords[i * 2], lon: +coords[i * 2 + 1]})
+    }
+}
+
+function drawShortPath() {
+    var ctx = shortPathLayerContext;
+
+    var coord = WGS84_to_px_py(pts[0].lat, pts[0].lon, level);
+
+    ctx.clearRect(0, 0, shortPathLayer.width, shortPathLayer.height)
+    ctx.strokeStyle = "#00B2FC";
+    ctx.lineWidth = 10;
+    ctx.shadowColor = "gray";
+    ctx.shadowBlur = 20;
+    ctx.lineCap = "round";
+    ctx.beginPath();
+    ctx.moveTo((coord.px - tl_px) * retina_ratio, (coord.py - tl_py) * retina_ratio);
+    for (var i = 1; i < pts.length; i++) {
+        coord = WGS84_to_px_py(pts[i].lat, pts[i].lon, level);
+
+        var x, y;
+        x = (coord.px - tl_px) * retina_ratio;
+        y = (coord.py - tl_py) * retina_ratio;
+        
+        ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+}
+
+window.addEventListener('load', onWindowLoad, false);
+window.addEventListener('resize', onWindowResize, false);
