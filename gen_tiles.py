@@ -1,6 +1,7 @@
 __author__ = 'Orthocenter'
 
 from Plot.plot import Plot
+import Utility.constants as constants
 import os
 import sys
 import time
@@ -23,7 +24,8 @@ max_level = str(17)
 
 print "Start filtering."
 st_time = time.time()
-cmd = " ".join([filter_path, osm_path_abs, level_filter_config_path_abs, plot_config_path_abs, dt_files_path_abs, min_level, max_level])
+cmd = " ".join([filter_path, osm_path_abs, level_filter_config_path_abs, plot_config_path_abs, dt_files_path_abs,
+                min_level, max_level])
 os.system(cmd)
 print "Filtering time used: %f s" % (time.time() - st_time)
 
@@ -34,7 +36,7 @@ for dt_file in dt_files.readlines():
     tile_coord = os.path.basename(dt_file).split(".")[0]
     dt_file_path = dt_file.rstrip("\n")
     plotter = Plot(dt_file_path)
-    plotter.plot(tiles_path_abs + tile_coord + ".png")
+    plotter.plot(tiles_path_abs + tile_coord + ".png", tiles_path_abs + tile_coord + "_r.png")
 
     os.system(" ".join(["rm", "-f", dt_file_path]))
 

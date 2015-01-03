@@ -78,8 +78,15 @@ namespace YuxinMap {
             {
                 if(check(elem, filter))
                 {
-                    ret = layer;
-                    force = layer.attribute("force").as_bool();
+                    if(!force)
+                    {
+                        ret = layer;
+                        force = layer.attribute("force_").as_bool();
+                    }
+                    else if(layer.attribute("force_").as_bool())
+                    {
+                        ret = layer;
+                    }
                     break;
                 }
             }
@@ -182,7 +189,7 @@ namespace YuxinMap {
         //std::cerr << level << " " << epsilon << std::endl;
         //std::cerr << "Before approx: " << pts.size() << " ";
         //if(closed){for(auto p : pts) std::cerr << p << " "; std::cerr << std::endl;}
-        cv::approxPolyDP(pts, pts, epsilon, closed);
+        //cv::approxPolyDP(pts, pts, epsilon, closed);
         //if(closed){for(auto p : pts) std::cerr << p << " "; std::cerr << std::endl;}
         //std::cerr << "After approx: " << pts.size() << std::endl;
         
@@ -199,7 +206,7 @@ namespace YuxinMap {
             //ss << pts.size() << " ";
             
             LL tx = txy.first, ty = txy.second;
-            LL biasx = (tx0 - tx) * tile_l * sampling_factor, biasy = (ty0 - ty) * tile_l * sampling_factor;
+            LL biasx = (tx0 - tx) * tile_l * sampling_factor * retina_factor, biasy = (ty0 - ty) * tile_l * sampling_factor * retina_factor;
             
             for(const auto &pt : pts)
             {
@@ -269,12 +276,19 @@ namespace YuxinMap {
                 
                 out << ss_bg.str();
                 
-                const auto &tile = tiles[tx][ty];
-                for(auto it = tile.begin(); it != tile.end(); ++it)
+                auto  &tile = tiles[tx][ty];
+                std::vector<int> layer_ids;
+                
+                for(auto it = tile.begin(); it != tile.end(); ++it) layer_ids.push_back(it->first);
+                std::sort(layer_ids.begin(), layer_ids.end());
+                
+                for(auto id : layer_ids)
                 {
-                    out << layer_attrs[it->first];
-                    out << it->second.size() << std::endl;
-                    for(const auto &elem : it->second)
+                    auto &elems = tile[id];
+                    out << layer_attrs[id];
+                    
+                    out << elems.size() << std::endl;
+                    for(const auto &elem : elems)
                     {
                         out << elem;
                     }

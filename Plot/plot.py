@@ -20,7 +20,7 @@ class Plot():
         self.data_filename = data_filename
         self.level = int(data_filename.split("_")[2].split(".")[0])
 
-    def plot(self, output_path):
+    def plot(self, output_path, output_path_retina):
         data = open(self.data_filename, "r")
         bg_conf = data.readline().rstrip(" \n").split(" ")
         bg_conf = dict([(bg_conf[i], bg_conf[i + 1]) for i in xrange(0, len(bg_conf), 2)])
@@ -41,10 +41,13 @@ class Plot():
             line = data.readline()
 
         l = constants.padding
-        r = constants.tile_l * constants.sampling_factor - constants.padding
+        r = constants.tile_l * constants.sampling_factor * constants.retina_factor + constants.padding
         bottom_layer = bottom_layer[l : r, l : r, : ]
+
         ret = cv2.resize(bottom_layer, constants.tile_size, interpolation=cv2.INTER_AREA)
         cv2.imwrite(output_path, ret)
+        ret = cv2.resize(bottom_layer, constants.retina_tile_size, interpolation=cv2.INTER_AREA)
+        cv2.imwrite(output_path_retina, ret)
 
 
 if __name__ == "__main__":

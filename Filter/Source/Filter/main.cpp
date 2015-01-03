@@ -16,7 +16,7 @@
 
 int main(int argc, const char * argv[]) {
     std::ios::sync_with_stdio(false);
-
+    
     pugi::xml_document osm_doc;
     pugi::xml_parse_result result_osm = osm_doc.load_file(argv[1]);
     std::cout << "OSM load result: " << result_osm.description() << std::endl;
