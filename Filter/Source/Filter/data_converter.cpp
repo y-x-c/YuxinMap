@@ -123,6 +123,8 @@ namespace YuxinMap {
         std::vector<cv::Point2i> pts;
         std::set<std::pair<LL, LL> > txys;
         LL tx0 = -1, ty0 = -1;
+        LL ltx = -1, lty = -1;
+        LL tl_tx = -1, tl_ty = -1, br_tx = -1, br_ty = -1;
         
         for(auto &nd : way.children("nd"))
         {
@@ -137,18 +139,50 @@ namespace YuxinMap {
             }
             int ix = int(x), iy = int(y);
             pts.push_back(cv::Point2i(ix, iy));
-            txys.insert(std::make_pair(pt.tx, pt.ty));
+            
+            if(ltx != -1 && lty != -1)
+            {
+                LL tx_s = std::min(ltx, pt.tx), tx_e = std::max(ltx, pt.tx);
+                LL ty_s = std::min(lty, pt.ty), ty_e = std::max(lty, pt.ty);
+                for(LL itx = tx_s; itx <= tx_e; itx++)
+                {
+                    for(LL ity = ty_s; ity <= ty_e; ity++) txys.insert(std::make_pair(itx, ity));
+                }
+            }
+            
+            if(tl_tx == -1)
+            {
+                tl_tx = br_tx = pt.tx;
+                tl_ty = br_ty = pt.ty;
+            }
+            else
+            {
+                tl_tx = std::min(tl_tx, pt.tx);
+                tl_ty = std::min(tl_ty, pt.ty);
+                br_tx = std::max(br_tx, pt.tx);
+                br_ty = std::max(br_ty, pt.ty);
+            }
+            
+            ltx = pt.tx; lty = pt.ty;
         }
         
         bool closed = false;
         if(pts[0] == pts[int(pts.size()) - 1]) closed = true;
+        
+        if(closed)
+        {
+            for(LL itx = tl_tx; itx <= br_tx; itx++)
+            {
+                for(LL ity = tl_ty; ity <= br_ty; ity++) txys.insert(std::make_pair(itx, ity));
+            }
+        }
         
         double epsilon = 1e-10;
         if(level < 17) epsilon *= pow(5.5, 17 - level);
         //std::cerr << level << " " << epsilon << std::endl;
         //std::cerr << "Before approx: " << pts.size() << " ";
         //if(closed){for(auto p : pts) std::cerr << p << " "; std::cerr << std::endl;}
-        //cv::approxPolyDP(pts, pts, epsilon, closed);
+        cv::approxPolyDP(pts, pts, epsilon, closed);
         //if(closed){for(auto p : pts) std::cerr << p << " "; std::cerr << std::endl;}
         //std::cerr << "After approx: " << pts.size() << std::endl;
         

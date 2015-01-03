@@ -26,7 +26,7 @@ class Opaque(Layer_Plot_Method):
 
     def blend(self, bottom_layer, black_bg):
         if self.config.get("contours", None) == "yes":
-            #bottom_layer = self.draw_contours(bottom_layer, black_bg)
+            bottom_layer = self.draw_contours(bottom_layer, black_bg)
             pass
 
         # another version, has some problem

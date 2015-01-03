@@ -16,6 +16,7 @@
 #include <sstream>
 #include <fstream>
 #include <iostream>
+#include <cmath>
 #include <opencv2/opencv.hpp>
 
 namespace YuxinMap{
