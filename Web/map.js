@@ -38,6 +38,7 @@ function onCanvasMouseEvent(event) {
         }
     }
     else if (event.type == "mouseup") {
+        updataURL();
         dragging = false;
     }
     else if (event.type == "mousewheel") {
@@ -53,6 +54,7 @@ function onCanvasMouseEvent(event) {
                 setTLPixel(tl_px / 2 - coord.x / 2, tl_py / 2 - coord.y / 2);
                 drawTiles();
                 drawShortPath();
+                updataURL();
             }
         }
 
@@ -63,17 +65,18 @@ function onCanvasMouseEvent(event) {
                 setTLPixel(tl_px * 2 + coord.x, tl_py * 2 + coord.y);
                 drawTiles();
                 drawShortPath();
+                updataURL();
             }
         }
     }
     else if (event.type == "dblclick") {
-        console.log(event)
         if (!event.altKey) {
             if (level + 1 <= maxLevel) {
                 level++;
                 setTLPixel(tl_px * 2 + coord.x, tl_py * 2 + coord.y);
                 drawTiles();
                 drawShortPath();
+                updataURL();
             }
         }
         else
@@ -83,6 +86,7 @@ function onCanvasMouseEvent(event) {
                 setTLPixel(tl_px / 2 - coord.x / 2, tl_py / 2 - coord.y / 2);
                 drawTiles();
                 drawShortPath();
+                updataURL();
             }
         }
     }
@@ -130,6 +134,7 @@ function onCanvasTouchEvent(event) {
                 setTLPixel(tl_px / 2 - centerX / 2, tl_py / 2 - centerY / 2);
                 drawTiles();
                 drawShortPath();
+                updataURL();
             }
         }
 
@@ -140,11 +145,13 @@ function onCanvasTouchEvent(event) {
                 setTLPixel(tl_px * 2 + centerX, tl_py * 2 + centerY);
                 drawTiles();
                 drawShortPath();
+                updataURL();
             }
         }
     }
     else if (event.type == "touchend") {
         dragging = false;
+        updataURL();
     }
 }
 
@@ -162,9 +169,23 @@ function WGS84_to_tx_ty(lat, lon, level) {
     var sinLat = Math.sin(lat * Math.PI / 180);
     var n = Math.pow(2, level);
     var tx = Math.floor((lon + 180) / 360 * n);
-    var ty = Math.floor(0.5 - log((1 + sinLat) / (1 - sinLat)) / (4 * Math.PI)) * n;
+    var ty = Math.floor((0.5 - Math.log((1 + sinLat) / (1 - sinLat)) / (4 * Math.PI)) * n);
 
     return {tx: tx, ty: ty};
+}
+
+function updataURL() {
+    var n = Math.pow(2, level);
+    var center_px = tl_px + window.innerWidth / 2;
+    var center_py = tl_py + window.innerHeight / 2;
+    var lon = center_px / tiles_l / n * 360.0 - 180.0;
+    var lat = Math.atan(Math.sinh(Math.PI * (1 - 2.0 * center_py / tiles_l / n))) * 180 / Math.PI;
+    var url = window.location.href;
+    var new_url = url.substring(0, url.lastIndexOf("?"));
+    new_url += "?lat=" + lat.toFixed(5);
+    new_url += "&lon=" + lon.toFixed(5);
+    new_url += "&level=" + level;
+    window.history.pushState({}, "", new_url);
 }
 
 function setTLTxTy(tx, ty) {
@@ -252,6 +273,10 @@ function drawTiles() {
     }
 }
 
+function getURLParameter(name) {
+    return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null
+}
+
 function onWindowLoad() {
     bottomLayer = document.getElementById("bottomLayer");
     bottomLayerContext = bottomLayer.getContext("2d");
@@ -272,13 +297,28 @@ function onWindowLoad() {
 
     setCanvasSize();
     setDrawParam();
-    level = 17;
-    n = Math.pow(2, level);
 
-    var tl_tx = 109772;
-    var tl_ty = 53548;
+    var _lat = getURLParameter("lat");
+    var _lon = getURLParameter("lon");
+    var _level = getURLParameter("level");
+    var tl_tx, tl_ty;
 
-    setTLTxTy(tl_tx, tl_ty);
+    if (_lat == null || _lon == null || _level == null) {
+        level = 15;
+        tl_tx = 54876 / 2;
+        tl_ty = 26764 / 2;
+
+        setTLTxTy(tl_tx, tl_ty);
+    } else {
+        level = +_level;
+        var lat = +_lat;
+        var lon = +_lon;
+
+        var coord = WGS84_to_px_py(lat, lon, level);
+
+        setTLPixel(coord.px, coord.py)
+        updateTLPixel(-window.innerWidth / 2 , -window.innerHeight / 2);
+    }
 
     drawTiles();
 
