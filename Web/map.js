@@ -333,12 +333,17 @@ function onWindowResize() {
     drawShortPath();
 }
 
-function queryShortPath() {
+function queryShortPath(url) {
+    if(typeof url == "undefined") {
+        pts = [];
+        return;
+    }
     var request = new XMLHttpRequest();
-    request.open("GET", "ret.dt", false);
+    request.open("GET", url, false);
     request.send();
 
     var data = request.responseText;
+    console.log(data);
     var idx = data.indexOf("\n");
     var num = +data.substring(0, idx);
     var coords = data.substring(idx + 1, data.length - 1).split(" ");
@@ -358,7 +363,7 @@ function drawShortPath() {
     ctx.strokeStyle = "#00B2FC";
     ctx.lineWidth = 10;
     ctx.shadowColor = "gray";
-    ctx.shadowBlur = 20;
+    ctx.shadowBlur = 10;
     ctx.lineCap = "round";
     ctx.beginPath();
     ctx.moveTo((coord.px - tl_px) * retina_ratio, (coord.py - tl_py) * retina_ratio);
@@ -372,6 +377,50 @@ function drawShortPath() {
         ctx.lineTo(x, y);
     }
     ctx.stroke();
+}
+
+function getLocation(name) {
+    var prefix = "/place?name=";
+    var url = prefix + name;
+
+    var request = new XMLHttpRequest();
+    request.open("GET", url, false);
+    request.send();
+
+    var data = request.responseText;
+    data = JSON.parse(data)
+
+    return data[0].geometry.location;
+}
+
+function search() {
+    var name = document.getElementById("searchCtx").value;
+    var idx = name.indexOf("-->");
+
+    if(idx == -1) {
+        var location = getLocation(name);
+        var lat = location.lat, lon = location.lng;
+
+        var coord = WGS84_to_px_py(lat, lon, level);
+
+        setTLPixel(coord.px, coord.py);
+        updateTLPixel(-window.innerWidth / 2 , -window.innerHeight / 2);
+        drawTiles();
+        drawShortPath();
+        updataURL();
+    } else {
+        var name1 = name.substring(0, idx);
+        var name2 = name.substring(idx + 3, name.length);
+
+        var l1 = getLocation(name1), l2 = getLocation(name2);
+        var params = ["lat1="+l1.lat, "lon1="+l1.lng, "lat2="+l2.lat, "lon2="+l2.lng, "t="+"driving"].join("&");
+        var url = "/shortpath?" + params;
+
+        queryShortPath(url);
+        drawShortPath();
+    }
+
+
 }
 
 window.addEventListener('load', onWindowLoad, false);

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "NearestNode::find(double, double, int):NearestNode.cpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "osm">
+            </PersistentString>
+            <PersistentString
+               value = "osm.child(&quot;way&quot;)">
+            </PersistentString>
+            <PersistentString
+               value = "osm.child(&quot;node&quot;)">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "NearestNode::NearestNode(std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt; const&amp;, std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt; const&amp;):NearestNode.cpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "osm.child(&quot;way&quot;)">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>

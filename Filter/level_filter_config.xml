@@ -5,22 +5,32 @@
     </elements>
 
 	<elements level="3">
-		<!---->
-            <!--<way>-->
-			    <!--<tag k="boundary" v="administrative" />-->
-			    <!--<tag k="admin_level" v="1" />-->
-            <!--</way>-->
-		<!---->
 
-		<!---->
-            <!--<way>-->
-			    <!--<tag k="boundary" v="administrative" />-->
-    			<!--<tag k="admin_level" v="2"/>-->
-            <!--</way>-->
-		<!---->
 	</elements>
 
     <elements level="5">
+        <way>
+            <tag k="natural" v="wood"/>
+        </way>
+        <way>
+            <tag k="natural" v="scrub"/>
+        </way>
+        <way>
+            <tag k="natural" v="heath"/>
+        </way>
+        <way>
+            <tag k="natural" v="grassland"/>
+        </way>
+        <way>
+            <tag k="natural" v="sand"/>
+        </way>
+        <way>
+            <tag k="natural" v="mud"/>
+        </way>
+        <way>
+            <tag k="natural" v="beach"/>
+        </way>
+
         <way>
             <tag k="highway" v="trunk"/>
         </way>
@@ -51,13 +61,6 @@
         </way>
         <way>
             <tag k="highway" v="secondary_link"/>
-        </way>
-        
-        <way>
-            <tag k="waterway" v="riverbank"/>
-        </way>
-        <way>
-            <tag k="natural" v="water"/>
         </way>
     </elements>
 
@@ -93,6 +96,17 @@
     </elements>
 
     <elements level="12">
+        <way>
+            <tag k="aeroway" v="runway"/>
+        </way>
+        <way>
+            <tag k="aeroway" v="taxiway"/>
+        </way>
+        
+        <way>
+            <tag k="tourism"/>
+        </way>
+        
         <way>
             <tag k="landuse" v="allotments"/>
         </way>
@@ -165,6 +179,10 @@
         <way>
             <tag k="landuse" v="commercial"/>
         </way>
+        
+        <way>
+            <tag k="amenity"/>
+        </way>
     </elements>
 
     <elements level="13">
@@ -195,6 +213,10 @@
         </way>
         <way>
             <tag k="leisure" v="playground"/>
+        </way>
+        
+        <way>
+            <tag k="aeroway" v="terminal"/>
         </way>
     </elements>
 

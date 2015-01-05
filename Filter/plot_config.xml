@@ -3,8 +3,37 @@
     <layers>
         <layer layer="background" method="background" color="#f7f5f0" />
         
+        <!-- partial natural -->
+        <layer layer="-100" method="opaque">
+            <way>
+                <tag k="natural" v="wood"/>
+            </way>
+            <way>
+                <tag k="natural" v="scrub"/>
+            </way>
+            <way>
+                <tag k="natural" v="heath"/>
+            </way>
+            <way>
+                <tag k="natural" v="grassland"/>
+            </way>
+            <way>
+                <tag k="natural" v="sand"/>
+            </way>
+            <way>
+                <tag k="natural" v="mud"/>
+            </way>
+            <way>
+                <tag k="natural" v="beach"/>
+            </way>
+            
+            <way>
+                <tag k="natural" v="water"/>
+            </way>
+        </layer>
+        
         <!-- partial landuse -->
-        <layer layer="-18" method="opaque">
+        <layer layer="-90" method="opaque">
             <way>
                 <tag k="landuse" v="residential"/>
             </way>
@@ -28,6 +57,17 @@
             </way>
             <way>
                 <tag k="landuse" v="commercial"/>
+            </way>
+            
+            <way>
+                <tag k="amenity" />
+            </way>
+        </layer>
+        
+        <!-- tourism -->
+        <layer layer="-80" method="opaque">
+            <way>
+                <tag k="tourism" />
             </way>
         </layer>
         
@@ -112,9 +152,6 @@
             </way>
 
             <way>
-                <tag k="natural" v="water"/>
-            </way>
-            <way>
                 <tag k="landuse" v="basin"/>
             </way>
             <way>
@@ -139,9 +176,21 @@
             <way>
                 <tag k="building"/>
             </way>
+            
+            <way>
+                <tag k="aeroway" v="terminal"/>
+            </way>
         </layer>
         
-        <layer layer="-6" method="opaque"/>
+        <!-- aeroway -->
+        <layer layer="-6" method="opaque" contours="yes" ccolor="#C1CAD0" ctn="1">
+            <way>
+                <tag k="aeroway" v="runway"/>
+            </way>
+            <way>
+                <tag k="aeroway" v="taxiway"/>
+            </way>
+        </layer>
         
         <!-- highway -->
         <layer layer="-5" method="opaque" contours="yes" ccolor="#C1CAD0" ctn="1"/>
@@ -166,20 +215,6 @@
     </layers>
     
     <elements>
-        <!--<method method="line" color="#FFFFFF" thickness="1">-->
-        <!---->
-        <!--<way>-->
-        <!--<tag k="boundary" v="administrative"/>-->
-        <!--</way>-->
-        <!---->
-        
-        <!---->
-        <!--<way>-->
-        <!--<tag k="natural" v="coastline" />-->
-        <!--</way>-->
-        <!---->
-        <!--</method>-->
-        
         <method method="line" color="#FA9E25" thickness="39" tn_level="17">
             <way>
                 <tag k="highway" v="motorway" />
@@ -188,7 +223,7 @@
                 <tag k="highway" v="trunk" />
             </way>
         </method>
-        <method method="line" color="#FA9E25" thickness="20" tn_level="17">
+        <method method="line" color="#FFFFFF" thickness="20" tn_level="17">
             <way>
                 <tag k="highway" v="motorway_link" />
             </way>
@@ -238,6 +273,12 @@
             </way>
         </method>
         
+        <method method="fill_poly" color="#C8DCC8">
+            <way>
+                <tag k="leisure" v="golf_course"/>
+            </way>
+        </method>
+        
         <method method="fill_poly" color="#CADFAA">
             <way>
                 <tag k="leisure" v="park"/>
@@ -254,14 +295,25 @@
             <way>
                 <tag k="leisure" v="track"/>
             </way>
-            <way>
-                <tag k="leisure" v="golf_course"/>
-            </way>
+            
             <way>
                 <tag k="leisure" v="garden"/>
             </way>
             <way>
                 <tag k="leisure" v="playground"/>
+            </way>
+            
+            <way>
+                <tag k="natural" v="wood"/>
+            </way>
+            <way>
+                <tag k="natural" v="scrub"/>
+            </way>
+            <way>
+                <tag k="natural" v="heath"/>
+            </way>
+            <way>
+                <tag k="natural" v="grassland"/>
             </way>
             
             <way>
@@ -273,7 +325,6 @@
             <way>
                 <tag k="landuse" v="farmland"/>
             </way>
-            
             
             <way>
                 <tag k="landuse" v="farmyard"/>
@@ -315,6 +366,10 @@
             <way>
                 <tag k="building"/>
             </way>
+            
+            <way>
+                <tag k="aeroway" v="terminal"/>
+            </way>
         </method>
         
         <method method="fill_poly" color="#efeeeb">
@@ -342,6 +397,10 @@
             <way>
                 <tag k="landuse" v="commercial"/>
             </way>
+            
+            <way>
+                <tag k="amenity"/>
+            </way>
         </method>
         
         <method method="line" color="#96BDFE" thickness="38" tn_level="17">
@@ -365,6 +424,18 @@
             </way>
         </method>
         
+        <method method="fill_poly" color="#FFF1BA">
+            <way>
+                <tag k="natural" v="sand"/>
+            </way>
+            <way>
+                <tag k="natural" v="mud"/>
+            </way>
+            <way>
+                <tag k="natural" v="beach"/>
+            </way>
+        </method>
+        
         <method method="fill_poly" color="#96BDFE">
             <way>
                 <tag k="waterway" v="riverbank"/>
@@ -384,6 +455,24 @@
             </way>
             <way>
                 <tag k="waterway" v="boatyard" />
+            </way>
+        </method>
+        
+        <method method="fill_poly" color="#DFDBD4">
+            <way>
+                <tag k="tourism" />
+            </way>
+        </method>
+        
+        <method method="fill_poly" color="#FFFFFF">
+            <way>
+                <tag k="aeroway" v="runway"/>
+            </way>
+        </method>
+        
+        <method method="line" color="#FFFFFF" thickness="39" tn_level="17">
+            <way>
+                <tag k="aeroway" v="taxiway"/>
             </way>
         </method>
         

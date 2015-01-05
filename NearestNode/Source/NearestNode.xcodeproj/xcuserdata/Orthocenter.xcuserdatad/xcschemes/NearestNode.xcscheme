@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "B97A4E0B1A58157000C033F4"
-               BuildableName = "ShortPath"
-               BlueprintName = "ShortPath"
-               ReferencedContainer = "container:ShortPath.xcodeproj">
+               BlueprintIdentifier = "B95F3C491A597385003B8F6D"
+               BuildableName = "NearestNode"
+               BlueprintName = "NearestNode"
+               ReferencedContainer = "container:NearestNode.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -32,29 +32,29 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "B97A4E0B1A58157000C033F4"
-            BuildableName = "ShortPath"
-            BlueprintName = "ShortPath"
-            ReferencedContainer = "container:ShortPath.xcodeproj">
+            BlueprintIdentifier = "B95F3C491A597385003B8F6D"
+            BuildableName = "NearestNode"
+            BlueprintName = "NearestNode"
+            ReferencedContainer = "container:NearestNode.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
    <LaunchAction
-      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
-      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      selectedDebuggerIdentifier = ""
+      selectedLauncherIdentifier = "Xcode.IDEFoundation.Launcher.PosixSpawn"
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
-      buildConfiguration = "Debug"
+      buildConfiguration = "Release"
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       allowLocationSimulation = "YES">
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "B97A4E0B1A58157000C033F4"
-            BuildableName = "ShortPath"
-            BlueprintName = "ShortPath"
-            ReferencedContainer = "container:ShortPath.xcodeproj">
+            BlueprintIdentifier = "B95F3C491A597385003B8F6D"
+            BuildableName = "NearestNode"
+            BlueprintName = "NearestNode"
+            ReferencedContainer = "container:NearestNode.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <CommandLineArguments>
@@ -63,23 +63,23 @@
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "/Users/Orthocenter/Developments/YuxinMap/ShortPath/ShortPath/ShortPath/config.xml"
+            argument = "/Users/Orthocenter/Developments/YuxinMap/NearestNode/NearestNode.conf"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "/Users/Orthocenter/Developments/YuxinMap/NearestNode/NearestNode/NearestNode/ret.dt"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "31.1994426"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "121.4459619"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "driving"
-            isEnabled = "YES">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "667340950"
-            isEnabled = "YES">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "265969439"
-            isEnabled = "YES">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "/Users/Orthocenter/Developments/YuxinMap/ShortPath/ret.txt"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>
@@ -95,10 +95,10 @@
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "B97A4E0B1A58157000C033F4"
-            BuildableName = "ShortPath"
-            BlueprintName = "ShortPath"
-            ReferencedContainer = "container:ShortPath.xcodeproj">
+            BlueprintIdentifier = "B95F3C491A597385003B8F6D"
+            BuildableName = "NearestNode"
+            BlueprintName = "NearestNode"
+            ReferencedContainer = "container:NearestNode.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

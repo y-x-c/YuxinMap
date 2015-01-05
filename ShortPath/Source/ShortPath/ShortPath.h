@@ -55,6 +55,8 @@ public:
 class ShortPath
 {
 private:
+    pugi::xml_document osm_doc, conf_doc;
+    
     const double INF = 1e60;
     enum Mask
     {

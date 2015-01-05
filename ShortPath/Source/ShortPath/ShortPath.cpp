@@ -10,14 +10,12 @@
 
 ShortPath::ShortPath(const std::string &osmPath, const std::string &confPath)
 {
-    pugi::xml_document osm_doc;
     pugi::xml_parse_result result_osm = osm_doc.load_file(osmPath.c_str());
     std::cout << "OSM load result: " << result_osm.description() << std::endl;
     if(!result_osm) throw ;
     
     osm = osm_doc.child("osm");
     
-    pugi::xml_document conf_doc;
     pugi::xml_parse_result result_conf = conf_doc.load_file(confPath.c_str());
     std::cout << "Conf load result: " << result_conf.description() << std::endl;
     if(!result_conf) throw ;
@@ -128,7 +126,7 @@ void ShortPath::init()
             lastId = id;
         }
         
-        if(firstId != lastId) addedges(firstId, lastId, c);
+        //if(firstId != lastId) addedges(firstId, lastId, c);
     }
 }
 
