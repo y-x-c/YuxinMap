@@ -90,7 +90,7 @@ void ShortPath::addedges(int x, int y, int c)
     // the way is bidirection if c is odd
     edges[x].push_back(Edge(y, c, dist));
     
-    if(c & 1)
+    if((c & 1) == 0)
     {
         edges[y].push_back(Edge(x, c, dist));
     }

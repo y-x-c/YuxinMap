@@ -19,8 +19,8 @@ dt_list_path = dt_files_path_abs + "dt_list"
 tiles_path = "Tiles/"
 tiles_path_abs = os.path.abspath(tiles_path) + '/'
 
-min_level = str(5)
-max_level = str(17)
+min_level = str(15)
+max_level = str(15)
 
 print "Start filtering."
 st_time = time.time()

@@ -12,6 +12,7 @@
 		B92A281F1A55242D0050836D /* libopencv_highgui.2.4.9.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B92A281B1A55242D0050836D /* libopencv_highgui.2.4.9.dylib */; };
 		B92A28201A55242D0050836D /* libopencv_features2d.2.4.9.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B92A281C1A55242D0050836D /* libopencv_features2d.2.4.9.dylib */; };
 		B92A28211A55242D0050836D /* libopencv_core.2.4.9.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B92A281D1A55242D0050836D /* libopencv_core.2.4.9.dylib */; };
+		B9A6A0F51A5AD63700D0939F /* bg_generator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B9A6A0F31A5AD63700D0939F /* bg_generator.cpp */; };
 		B9FE24251A541F1D00AD8A67 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B9FE24241A541F1D00AD8A67 /* main.cpp */; };
 		B9FE242F1A541F6A00AD8A67 /* pugixml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B9FE242D1A541F6A00AD8A67 /* pugixml.cpp */; };
 		B9FE24341A54DFA400AD8A67 /* level_filter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B9FE24321A54DFA400AD8A67 /* level_filter.cpp */; };
@@ -37,6 +38,8 @@
 		B92A281C1A55242D0050836D /* libopencv_features2d.2.4.9.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_features2d.2.4.9.dylib; path = ../../../../../../usr/local/Cellar/opencv/2.4.9/lib/libopencv_features2d.2.4.9.dylib; sourceTree = "<group>"; };
 		B92A281D1A55242D0050836D /* libopencv_core.2.4.9.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libopencv_core.2.4.9.dylib; path = ../../../../../../usr/local/Cellar/opencv/2.4.9/lib/libopencv_core.2.4.9.dylib; sourceTree = "<group>"; };
 		B95040461A54E49100ED6C21 /* utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utility.h; sourceTree = "<group>"; };
+		B9A6A0F31A5AD63700D0939F /* bg_generator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = bg_generator.cpp; sourceTree = "<group>"; };
+		B9A6A0F41A5AD63700D0939F /* bg_generator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bg_generator.h; sourceTree = "<group>"; };
 		B9FE24211A541F1D00AD8A67 /* Filter */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Filter; sourceTree = BUILT_PRODUCTS_DIR; };
 		B9FE24241A541F1D00AD8A67 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		B9FE242C1A541F6A00AD8A67 /* pugiconfig.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = pugiconfig.hpp; sourceTree = "<group>"; };
@@ -91,6 +94,8 @@
 				B95040461A54E49100ED6C21 /* utility.h */,
 				B92A28171A5512960050836D /* data_converter.cpp */,
 				B92A28181A5512960050836D /* data_converter.h */,
+				B9A6A0F31A5AD63700D0939F /* bg_generator.cpp */,
+				B9A6A0F41A5AD63700D0939F /* bg_generator.h */,
 			);
 			path = Filter;
 			sourceTree = "<group>";
@@ -165,6 +170,7 @@
 				B92A28191A5512960050836D /* data_converter.cpp in Sources */,
 				B9FE242F1A541F6A00AD8A67 /* pugixml.cpp in Sources */,
 				B9FE24341A54DFA400AD8A67 /* level_filter.cpp in Sources */,
+				B9A6A0F51A5AD63700D0939F /* bg_generator.cpp in Sources */,
 				B9FE24251A541F1D00AD8A67 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

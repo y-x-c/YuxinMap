@@ -9,8 +9,9 @@
 #include "data_converter.h"
 
 namespace YuxinMap {
-    Data_Converter::Data_Converter(int level, const pugi::xml_node &bounds, link_t &link, const ac_t &ac, const pugi::xml_node &conf):
-        ac(ac), conf(conf), link(link), level(level)
+    Data_Converter::Data_Converter(int level, const pugi::xml_node &bounds, link_t &link, const ac_t &ac,
+                                   const pugi::xml_node &conf, BG_Generator &bg_generator):
+        ac(ac), conf(conf), link(link), level(level), bg_generator(bg_generator)
     {
         min_lat = bounds.attribute("minlat").as_double();
         max_lat = bounds.attribute("maxlat").as_double();
@@ -255,13 +256,13 @@ namespace YuxinMap {
             layer_attrs[layer_id] = ss.str();
         }
         
-        std::stringstream ss_bg;
-        auto bg = layers.find_child_by_attribute("layer", "layer", "background");
-        for(auto attri : bg.attributes())
-        {
-            ss_bg << attri.name() << " " << attri.value() << " ";
-        }
-        ss_bg << std::endl;
+//        std::stringstream ss_bg;
+//        auto bg = layers.find_child_by_attribute("layer", "layer", "background");
+//        for(auto attri : bg.attributes())
+//        {
+//            ss_bg << attri.name() << " " << attri.value() << " ";
+//        }
+//        ss_bg << std::endl;
         
         std::ofstream dt_list(path + "dt_list", std::ofstream::app);
         
@@ -274,7 +275,8 @@ namespace YuxinMap {
                 std::ofstream out(filename.str().c_str(), std::ofstream::out);
                 dt_list << filename.str() << std::endl;
                 
-                out << ss_bg.str();
+                //out << ss_bg.str();
+                out << bg_generator.get(level, tx, ty);
                 
                 auto  &tile = tiles[tx][ty];
                 std::vector<int> layer_ids;

@@ -9,6 +9,10 @@
 	</elements>
 
     <elements level="5">
+        <!--<way>-->
+            <!--<tag k="natural" v="coastline"/>-->
+        <!--</way>-->
+        
         <way>
             <tag k="natural" v="wood"/>
         </way>
@@ -229,6 +233,10 @@
         </way>
         <way>
             <tag k="highway" v="residential"/>
+        </way>
+
+        <way>
+            <tag k="natural" v="coastline"/>
         </way>
     </elements>
 

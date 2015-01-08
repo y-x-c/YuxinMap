@@ -11,7 +11,8 @@
 
 #include "utility.h"
 #include "pugixml.hpp"
-#include "cstring"
+#include "bg_generator.h"
+#include <cstring>
 #include <vector>
 #include <sstream>
 #include <fstream>
@@ -28,6 +29,7 @@ namespace YuxinMap{
         link_t &link;
         const ac_t &ac;
         const pugi::xml_node &conf;
+        BG_Generator &bg_generator;
         
         double min_lat, max_lat, min_lon, max_lon;
         LL tl_tx, tl_ty, br_tx, br_ty;
@@ -41,7 +43,8 @@ namespace YuxinMap{
         
         void convert_way(pugi::xml_node &way, pugi::xml_node &layer, pugi::xml_node &method);
     public:
-        Data_Converter(int level, const pugi::xml_node &bounds, link_t &link, const ac_t &ac, const pugi::xml_node &conf);
+        Data_Converter(int level, const pugi::xml_node &bounds, link_t &link,
+                       const ac_t &ac, const pugi::xml_node &conf, BG_Generator &bg_generator);
         ~Data_Converter();
         
         void convert(const std::string &path, elem_layers_t &elem_layers, elem_plot_methods_t &elem_plot_methods);

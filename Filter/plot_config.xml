@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <YuxinMap>
     <layers>
-        <layer layer="background" method="background" color="#f7f5f0" />
+        <layer layer="background" method="fill_poly" color_land="#f7f5f0" color_sea="#96BDFE"/>
         
         <!-- partial natural -->
         <layer layer="-100" method="opaque">
@@ -209,6 +209,9 @@
         <layer layer="6" method="opaque" contours="yes" ccolor="#C1CAD0" ctn="1">
             <way>
                 <tag k="bridge" v="yes"/>
+            </way>
+            <way>
+                <tag k="natural" v="coastline"/>
             </way>
         </layer>
 
@@ -473,6 +476,12 @@
         <method method="line" color="#FFFFFF" thickness="39" tn_level="17">
             <way>
                 <tag k="aeroway" v="taxiway"/>
+            </way>
+        </method>
+        
+        <method method="line" color="#FF0000" thickness="10" tn_level="17">
+            <way>
+                <tag k="natural" v="coastline"/>
             </way>
         </method>
         

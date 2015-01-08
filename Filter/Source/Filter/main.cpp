@@ -12,6 +12,7 @@
 #include "pugixml.hpp"
 #include "level_filter.h"
 #include "data_converter.h"
+#include "bg_generator.h"
 #include "utility.h"
 
 int main(int argc, const char * argv[]) {
@@ -55,6 +56,8 @@ int main(int argc, const char * argv[]) {
 
     std::ofstream dt_list(path + "dt_list", std::ofstream::out);
     dt_list.close();
+
+    YuxinMap::BG_Generator bg_generator(osm, plot_conf, bounds, link, min_level, max_level);
     
     for(int level = min_level; level <= max_level; level++)
     {
@@ -63,7 +66,7 @@ int main(int argc, const char * argv[]) {
         ss << level;
         level_filter.filter(conf.find_child_by_attribute("elements", "level", ss.str().c_str()), ac);
     
-        YuxinMap::Data_Converter data_converter(level, bounds, link, ac, plot_conf);
+        YuxinMap::Data_Converter data_converter(level, bounds, link, ac, plot_conf, bg_generator);
         data_converter.convert(path, elem_layers, elem_plot_methods);
     }
     

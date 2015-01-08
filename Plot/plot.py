@@ -26,7 +26,7 @@ class Plot():
         bg_conf = dict([(bg_conf[i], bg_conf[i + 1]) for i in xrange(0, len(bg_conf), 2)])
 
         bg_plotter = methods.get_layer_plot_class(self.level, bg_conf)
-        bottom_layer = bg_plotter.plot()
+        bottom_layer = bg_plotter.plot(data)
 
         line = data.readline()
         while line:
