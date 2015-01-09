@@ -50,63 +50,40 @@ namespace YuxinMap {
     
     void BG_Generator::init() {
         bgs.resize(ed_level - st_level + 1);
-        bg_nodes.resize(ed_level - st_level + 1);
+        bg_ways.resize(ed_level - st_level + 1);
         
         for(int i = 0; i < bgs.size(); i++)
         {
             if(br_txs[i] < tl_txs[i] || br_tys[i] < tl_tys[i]) continue;
             
             bgs[i].resize(br_txs[i] - tl_txs[i] + 1);
-            bg_nodes[i].resize(br_txs[i] - tl_txs[i] + 1);
+            bg_ways[i].resize(br_txs[i] - tl_txs[i] + 1);
             
             for(LL j = tl_txs[i]; j <= br_txs[i]; j++)
             {
                 bgs[i][j - tl_txs[i]].resize(br_tys[i] - tl_tys[i] + 1, 0);
-                bg_nodes[i][j - tl_txs[i]].resize(br_tys[i] - tl_tys[i] + 1);
+                bg_ways[i][j - tl_txs[i]].resize(br_tys[i] - tl_tys[i] + 1);
             }
         }
         
-        init_ed_level();
-        
-        for(int l = int(bgs.size()) - 2; l >= 0; l--) {
-            for(int tx = 0; tx < bgs[l].size(); tx++) {
-                for(int ty = 0; ty < bgs[l][tx].size(); ty++) {
-                    int tx1 = int((tx + tl_txs[l]) * 2 - tl_txs[l + 1]), tx2 = tx1 + 1;
-                    int ty1 = int((ty + tl_tys[l]) * 2 - tl_tys[l + 1]), ty2 = ty1 + 1;
-                    bool f = (bgs[l + 1][tx1][ty1] == bgs[l + 1][tx1][ty2]) &&
-                            (bgs[l + 1][tx1][ty2] == bgs[l + 1][tx2][ty1]) &&
-                            (bgs[l + 1][tx2][ty1] == bgs[l + 1][tx2][ty2]);
-                    
-                    if(f)
-                        bgs[l][tx][ty] = bgs[l + 1][tx1][tx2];
-                    else {
-                        bgs[l][tx][ty] = 1;
-                        
-                        bg_nodes[l][tx][ty].insert(bg_nodes[l + 1][tx1][ty1].begin(), bg_nodes[l + 1][tx1][ty1].end());
-                        bg_nodes[l][tx][ty].insert(bg_nodes[l + 1][tx1][ty2].begin(), bg_nodes[l + 1][tx1][ty2].end());
-                        bg_nodes[l][tx][ty].insert(bg_nodes[l + 1][tx2][ty1].begin(), bg_nodes[l + 1][tx2][ty1].end());
-                        bg_nodes[l][tx][ty].insert(bg_nodes[l + 1][tx2][ty2].begin(), bg_nodes[l + 1][tx2][ty2].end());
-                    }
-                }
-            }
-        }
+        init_bg_ways();
+        plot_all();
     }
     
-    void BG_Generator::init_ed_level() {
+    void BG_Generator::init_bg_ways() {
         std::queue<std::pair<int, int> > Q;
         int level = ed_level - st_level;
         
         for(auto &way : osm.children("way")) {
             if(!way.find_child_by_attribute("tag", "v", "coastline")) continue;
             auto &coastline = way;
-            //std::string name = getName(way);
+            std::string name = getName(way);
             
             LL ltx = -1, lty = -1;
             double lpx = -1, lpy = -1;
             
             for(auto &nd : coastline.children("nd")) {
                 auto &node = link[getName(nd)];
-                std::string name = getName(nd);
                 Coord pt(node.attribute("lat").as_double(), node.attribute("lon").as_double(), ed_level);
                 
                 if(ltx != -1) {
@@ -171,7 +148,7 @@ namespace YuxinMap {
                                 if(!(txs[i] >= 0 && txs[i] <= br_txs[level] - tl_txs[level] &&
                                      j >= 0 && j <= br_tys[level] - tl_tys[level])) continue;
                                 
-                                bg_nodes[level][txs[i]][j].insert(name);
+                                bg_ways[level][txs[i]][j].insert(name);
                                 bgs[level][txs[i]][j] = 1;
                             }
                         }
@@ -184,11 +161,7 @@ namespace YuxinMap {
                                  ty >= tl_tys[level] && ty <= br_tys[level])) continue;
                             
                             bgs[level][pt.tx - tl_txs[level]][ty - tl_tys[level]] = 1;
-//                            std::cerr << int(level - bgs.size()) << std::endl;
-//                            std::cerr << int(pt.tx - tl_txs[level] - bgs[level].size()) << std::endl;
-//                            std::cerr << int(ty - tl_tys[level] - bgs[level][pt.tx - tl_txs[level]].size()) << std::endl;
-                            
-                            bg_nodes[level][pt.tx - tl_txs[level]][ty - tl_tys[level]].insert(name);
+                            bg_ways[level][pt.tx - tl_txs[level]][ty - tl_tys[level]].insert(name);
                         }
                     }
                 }
@@ -198,149 +171,73 @@ namespace YuxinMap {
             }
         }
         
-        for(auto &way : osm.children("way")) {
-            if(!way.find_child_by_attribute("tag", "v", "coastline")) continue;
-            auto &coastline = way;
-            
-            LL ltx = -1, lty = -1;
-            double lpx = -1, lpy = -1;
-            
-            for(auto &nd : coastline.children("nd")) {
-                auto &node = link[getName(nd)];
-                Coord pt(node.attribute("lat").as_double(), node.attribute("lon").as_double(), ed_level);
-                
-                if(ltx != -1) {
+        for(int l = level - 1; l >= 0; l--) {
+            for(int tx = 0; tx < bgs[l].size(); tx++) {
+                for(int ty = 0; ty < bgs[l][tx].size(); ty++) {
+                    int tx1 = int((tx + tl_txs[l]) * 2 - tl_txs[l + 1]), tx2 = tx1 + 1;
+                    int ty1 = int((ty + tl_tys[l]) * 2 - tl_tys[l + 1]), ty2 = ty1 + 1;
                     
-                    if(ltx - pt.tx != 0) {
-                        std::vector<LL> ty1s, ty2s, txs;
-                        
-                        if(pt.tx < ltx) {
-                            double k = double(pt.py - lpy) / (pt.px - lpx);
-                            double ty1, ty2;
-                            
-                            ty2 = lpy / tile_l;
-                            ty1 = lpy / tile_l - (lpx - ltx * tile_l) / tile_l * k;
-                            txs.push_back(ltx - tl_txs[level]);
-                            ty1s.push_back(ty1 - tl_tys[level]);
-                            ty2s.push_back(ty2 - tl_tys[level]);
-                            
-                            ty2 = ty1;
-                            ty1 = ty2 - k;
-                            for(LL tx = ltx - 1; tx >= pt.tx + 1; tx--) {
-                                txs.push_back(tx - tl_txs[level]);
-                                ty1s.push_back(ty1 - tl_tys[level]);
-                                ty2s.push_back(ty2 - tl_tys[level]);
-                                
-                                ty1 -= k;
-                                ty2 -= k;
-                            }
-                            
-                            ty2 = pt.ty;
-                            ty1 = (tile_l * (pt.tx + 1) - pt.px) / tile_l * k + pt.py / tile_l;
-                            
-                            txs.push_back(pt.tx - tl_txs[level]);
-                            ty1s.push_back(ty1 - tl_tys[level]);
-                            ty2s.push_back(ty2 - tl_tys[level]);
-
-                        } else {
-                            double k = double(pt.py - lpy) / (pt.px - lpx);
-                            double ty1, ty2;
-                            ty1 = lty;
-                            ty2 = (tile_l * (ltx + 1) - lpx) / tile_l * k + lpy / tile_l;
-                            
-                            txs.push_back(ltx - tl_txs[level]);
-                            ty1s.push_back(ty1 - tl_tys[level]);
-                            ty2s.push_back(ty2 - tl_tys[level]);
-                            
-                            ty1 = ty2;
-                            ty2 = ty1 + k;
-                            for(LL tx = ltx + 1; tx < pt.tx; tx++) {
-                                txs.push_back(tx - tl_txs[level]);
-                                ty1s.push_back(ty1 - tl_tys[level]);
-                                ty2s.push_back(ty2 - tl_tys[level]);
-                                
-                                ty1 += k;
-                                ty2 += k;
-                            }
-                            
-                            ty2 = pt.ty;
-                            txs.push_back(pt.tx - tl_txs[level]);
-                            ty1s.push_back(ty1 - tl_tys[level]);
-                            ty2s.push_back(ty2 - tl_tys[level]);
-                        }
-                        
-                        LL _ltx = -1, _lty = -1;
-                        
-                        for(int i = 0; i < txs.size(); i++) {
-                            for(LL j = ty1s[i]; j <= ty2s[i]; j++) {
-                                if(!(txs[i] >= 0 && txs[i] <= br_txs[level] - tl_txs[level] &&
-                                     j >= 0 && j <= br_tys[level] - tl_tys[level])) continue;
-                                
-                                if(_ltx != -1) {
-                                    LL dtx = (txs[i] - _ltx);
-                                    LL dty = (j - _lty);
-                                    LL ntx = _ltx - dty;
-                                    LL nty = _lty + dtx;
-                                    
-                                    if(bg_nodes[level][txs[i]][j].size() == 1) {
-                                        if(ntx >= 0 && ntx <= br_txs[level] && nty >=0 && nty <= br_tys[level] && bgs[level][ntx][nty] == 0) {
-                                            Q.push(std::make_pair(ntx, nty));
-                                            bgs[level][ntx][nty] = -1;
-                                            
-                                            if(ntx + tl_txs[level] == 27132 && nty + tl_tys[level] == 14081)
-                                                std::cerr << "here" << std::endl;
-                                        }
-                                    }
-                                }
-                                
-                                _ltx = txs[i];
-                                _lty = j;
-                            }
-                        }
-                        
-                    } else if(lty - pt.ty != 0) {
-                        LL minty = std::min(lty, pt.ty);
-                        LL maxty = std::max(lty, pt.ty);
-                        
-                        for(LL ty = minty; ty <= maxty; ty++) {
-                            if(!(pt.tx >= tl_txs[level] && pt.tx <= br_txs[level] &&
-                                 ty >= tl_tys[level] && ty <= br_tys[level])) continue;
-                            
-                            if(bg_nodes[level][pt.tx - tl_txs[level]][ty - tl_tys[level]].size() == 1) {
-                                if (minty == lty) {
-                                    if (pt.tx > tl_txs[level] && bgs[level][pt.tx - tl_txs[level] - 1][ty - tl_tys[level]] == 0) {
-                                        bgs[level][pt.tx - tl_txs[level] - 1][ty - tl_tys[level]] = -1;
-                                        Q.push(std::make_pair(pt.tx - tl_txs[level] - 1, ty - tl_tys[level]));
-                                    }
-                                } else {
-                                    if (pt.tx < br_txs[level] && bgs[level][pt.tx - tl_txs[level] + 1][ty - tl_tys[level]] == 0) {
-                                        bgs[level][pt.tx - tl_txs[level] + 1][ty - tl_tys[level]] = -1;
-                                        Q.push(std::make_pair(pt.tx - tl_txs[level] + 1, ty - tl_tys[level]));
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    bg_ways[l][tx][ty].insert(bg_ways[l + 1][tx1][ty1].begin(), bg_ways[l + 1][tx1][ty1].end());
+                    bg_ways[l][tx][ty].insert(bg_ways[l + 1][tx1][ty2].begin(), bg_ways[l + 1][tx1][ty2].end());
+                    bg_ways[l][tx][ty].insert(bg_ways[l + 1][tx2][ty1].begin(), bg_ways[l + 1][tx2][ty1].end());
+                    bg_ways[l][tx][ty].insert(bg_ways[l + 1][tx2][ty2].begin(), bg_ways[l + 1][tx2][ty2].end());
+                    
+                    bgs[l][tx][ty] = (bg_ways[l][tx][ty].size() > 0);
                 }
-                
-                ltx = pt.tx; lty = pt.ty;
-                lpx = pt.px; lpy = pt.py;
             }
         }
-
-        int dx[4] = {0, 0, 1, -1};
-        int dy[4] = {1, -1, 0, 0};
         
-        while(!Q.empty()) {
-            int tx = Q.front().first, ty = Q.front().second;
-            Q.pop();
+//        int dx[4] = {0, 0, 1, -1};
+//        int dy[4] = {1, -1, 0, 0};
+//        
+//        while(!Q.empty()) {
+//            int tx = Q.front().first, ty = Q.front().second;
+//            Q.pop();
+//            
+//            for(int i = 0; i < 4; i++) {
+//                int ntx = tx + dx[i], nty = ty + dy[i];
+//                if(ntx >= 0 && ntx <= br_txs[level] - tl_txs[level] && nty >= 0 &&
+//                   nty <= br_tys[level] - tl_tys[level] && bgs[level][ntx][nty] == 0) {
+//                     bgs[level][ntx][nty] = -1;
+//                     Q.push(std::make_pair(ntx, nty));
+//                }
+//            }
+//        }
+    }
+    
+    void BG_Generator::plot(std::string &output_path, std::set<std::string> &ways, int level) {
+        int rtile_l = retina_factor * sampling_factor * tile_l;
+        cv::Mat bg(rtile_l, rtile_l, CV_8UC3, cv::Scalar::all(0));
+        cv::Mat mask(rtile_l + 2, rtile_l + 2, CV_8U, cv::Scalar::all(0));
+        
+        for(auto &way_name : ways) {
+            auto way = link[way_name];
             
-            for(int i = 0; i < 4; i++) {
-                int ntx = tx + dx[i], nty = ty + dy[i];
-                if(ntx >= 0 && ntx <= br_txs[level] - tl_txs[level] && nty >= 0 &&
-                   nty <= br_tys[level] - tl_tys[level] && bgs[level][ntx][nty] == 0) {
-                     bgs[level][ntx][nty] = -1;
-                     Q.push(std::make_pair(ntx, nty));
+            std::vector<std::pair<int, int> > pts;
+            
+            for(auto &node : way.children("nd")) {
+                Coord pt(node.attribute("lat").as_double(), node.attribute("lon").as_double(), level);
+                int x = (pt.px - pt.tx * tile_l) * retina_factor * sampling_factor;
+                int y = (pt.py - pt.ty * tile_l) * retina_factor * sampling_factor;
+                
+                pts.push_back(std::make_pair(x + 1, y + 1));
+            }
+            
+            cv::polylines(mask, pts, false, cv::Scalar(255));
+        }
+        
+        
+    }
+    
+    void BG_Generator::plot_all() {
+        for(int l = 0; l < bg_ways.size(); l++) {
+            for(int tx = 0; tx < bg_ways[l].size(); tx++) {
+                for(int ty = 0; ty < bg_ways[l][tx].size(); ty++) {
+                    if(bg_ways[l][tx][ty].size()) {
+                        std::string output_path;
+                        
+                        plot(output_path, bg_ways[l][tx][ty], l);
+                    }
                 }
             }
         }
