@@ -3,17 +3,6 @@
    version = "1.0">
    <ContextStates>
       <ContextState
-         contextName = "YuxinMap::BG_Generator::init_ed_level():bg_generator.cpp">
-         <PersistentStrings>
-            <PersistentString
-               value = "bgs">
-            </PersistentString>
-            <PersistentString
-               value = "getName(nd)">
-            </PersistentString>
-         </PersistentStrings>
-      </ContextState>
-      <ContextState
          contextName = "YuxinMap::BG_Generator::init():bg_generator.cpp">
          <PersistentStrings>
             <PersistentString
@@ -25,7 +14,32 @@
          </PersistentStrings>
       </ContextState>
       <ContextState
-         contextName = "YuxinMap::BG_Generator::BG_Generator(pugi::xml_node&amp;, pugi::xml_node&amp;, pugi::xml_node&amp;, std::__1::map&lt;std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt;, pugi::xml_node, std::__1::less&lt;std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt; &gt;, std::__1::allocator&lt;std::__1::pair&lt;std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt; const, pugi::xml_node&gt; &gt; &gt;&amp;, int, int):bg_generator.cpp">
+         contextName = "ScanlineRenderer::plot(std::__1::vector&lt;std::__1::vector&lt;cv::Point_&lt;int&gt;, std::__1::allocator&lt;cv::Point_&lt;int&gt; &gt; &gt;, std::__1::allocator&lt;std::__1::vector&lt;cv::Point_&lt;int&gt;, std::__1::allocator&lt;cv::Point_&lt;int&gt; &gt; &gt; &gt; &gt;&amp;, cv::Scalar_&lt;double&gt;):ScanlineRenderer.cpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "head">
+            </PersistentString>
+            <PersistentString
+               value = "edges">
+            </PersistentString>
+            <PersistentString
+               value = "idx_edge">
+            </PersistentString>
+            <PersistentString
+               value = "missing">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "YuxinMap::BG_Generator::init_ed_level():bg_generator.cpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "bgs">
+            </PersistentString>
+            <PersistentString
+               value = "getName(nd)">
+            </PersistentString>
+         </PersistentStrings>
       </ContextState>
       <ContextState
          contextName = "YuxinMap::Level_Filter::filter(std::__1::vector&lt;pugi::xml_node*, std::__1::allocator&lt;pugi::xml_node*&gt; &gt;&amp;, std::__1::map&lt;pugi::xml_node*, bool, std::__1::less&lt;pugi::xml_node*&gt;, std::__1::allocator&lt;std::__1::pair&lt;pugi::xml_node* const, bool&gt; &gt; &gt;&amp;):level_filter.cpp">
@@ -34,6 +48,17 @@
                value = "osm">
             </PersistentString>
          </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "YuxinMap::BG_Generator::plot(std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt;&amp;, std::__1::set&lt;std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt;, std::__1::less&lt;std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt; &gt;, std::__1::allocator&lt;std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt; &gt; &gt;&amp;, int):bg_generator.cpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "node">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "YuxinMap::BG_Generator::BG_Generator(pugi::xml_node&amp;, pugi::xml_node&amp;, pugi::xml_node&amp;, std::__1::map&lt;std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt;, pugi::xml_node, std::__1::less&lt;std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt; &gt;, std::__1::allocator&lt;std::__1::pair&lt;std::__1::basic_string&lt;char, std::__1::char_traits&lt;char&gt;, std::__1::allocator&lt;char&gt; &gt; const, pugi::xml_node&gt; &gt; &gt;&amp;, int, int):bg_generator.cpp">
       </ContextState>
    </ContextStates>
 </VariablesViewState>

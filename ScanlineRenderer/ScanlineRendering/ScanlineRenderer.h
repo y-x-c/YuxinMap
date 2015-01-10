@@ -36,7 +36,7 @@ using namespace cv;
 class PolyEdge {
 public:
     int ty, by; // top, bottom
-    int x, dx;  // x - coord of top point, delta x
+    int x, dx, x2;  // x - coord of top point, delta x
     bool t2b;   // indicate the line's original direction
     
     PolyEdge *next;

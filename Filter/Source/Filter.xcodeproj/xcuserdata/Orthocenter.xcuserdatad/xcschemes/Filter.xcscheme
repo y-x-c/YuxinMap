@@ -44,7 +44,7 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
-      buildConfiguration = "Debug"
+      buildConfiguration = "Release"
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       allowLocationSimulation = "YES">
@@ -59,7 +59,7 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "/Users/Orthocenter/Developments/YuxinMap/Data/map_xiamen.osm /Users/Orthocenter/Developments/YuxinMap/Filter/level_filter_config.xml /Users/Orthocenter/Developments/YuxinMap/Filter/plot_config.xml /Users/Orthocenter/Developments/YuxinMap/TmpDt/ 15 15"
+            argument = "/Users/Orthocenter/Developments/YuxinMap/Data/map_xiamen.osm /Users/Orthocenter/Developments/YuxinMap/Filter/level_filter_config.xml /Users/Orthocenter/Developments/YuxinMap/Filter/plot_config.xml /Users/Orthocenter/Developments/YuxinMap/TmpDt/ 16 16"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>

@@ -16,6 +16,7 @@
 #include <cmath>
 #include <map>
 #include <iostream>
+#include <opencv2/opencv.hpp>
 
 namespace YuxinMap {
     const int tile_l = 256;
@@ -94,6 +95,20 @@ namespace YuxinMap {
         }
         
         return name;
+    }
+    
+    static int h2d(char ch) {
+        if(isdigit(ch)) return ch - '0';
+        if(ch >= 'A' && ch <= 'Z') return ch - 'A' + 10;
+        return ch - 'a' + 10;
+    }
+    
+    static cv::Scalar getScalar(const std::string &color) {
+        int r, g, b;
+        r = h2d(color[1]) * 16 + h2d(color[2]);
+        g = h2d(color[3]) * 16 + h2d(color[4]);
+        b = h2d(color[5]) * 16 + h2d(color[6]);
+        return cv::Scalar(b, g, r);
     }
     
 } // namespace YuxinMap

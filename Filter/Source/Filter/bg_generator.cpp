@@ -11,13 +11,19 @@
 namespace YuxinMap {
     
     BG_Generator::BG_Generator(pugi::xml_node &osm, pugi::xml_node &conf,
-                               pugi::xml_node &bounds, link_t &link, int st_level, int ed_level):
-        link(link), st_level(st_level), ed_level(ed_level), osm(osm), conf(conf)
+                               pugi::xml_node &bounds, link_t &link, int st_level, int ed_level, std::string path):
+        link(link), st_level(st_level), ed_level(ed_level), osm(osm), conf(conf), path(path)
     {
         auto bg_layer = conf.child("layers").find_child_by_attribute("layer", "layer", "background");
         color_land = bg_layer.attribute("color_land").as_string();
         color_sea = bg_layer.attribute("color_sea").as_string();
-        method = bg_layer.attribute("method").as_string();
+//        color_sea = "#FFFFFF";
+        
+        color_land_s = getScalar(color_land);
+        color_sea_s = getScalar(color_sea);
+        
+        std::cerr << color_sea_s << std::endl;
+        std::cerr << color_land_s << std::endl;
         
         min_lat = bounds.attribute("minlat").as_double();
         max_lat = bounds.attribute("maxlat").as_double();
@@ -114,7 +120,7 @@ namespace YuxinMap {
                             
                             ty2 = lty;
                             txs.push_back(ltx - tl_txs[level]);
-                            btys.push_back(std::max(ty1, ty2) - tl_tys[level] - 1);
+                            btys.push_back(std::max(ty1, ty2) - tl_tys[level]);
                             ttys.push_back(std::min(ty1, ty2) - tl_tys[level]);
                         } else {
                             double k = double(pt.py - lpy) / (pt.px - lpx);
@@ -139,7 +145,7 @@ namespace YuxinMap {
                             
                             ty2 = pt.ty;
                             txs.push_back(pt.tx - tl_txs[level]);
-                            btys.push_back(std::max(ty1, ty2) - tl_tys[level] - 1);
+                            btys.push_back(std::max(ty1, ty2) - tl_tys[level]);
                             ttys.push_back(std::min(ty1, ty2) - tl_tys[level]);
                         }
                         
@@ -205,38 +211,48 @@ namespace YuxinMap {
 //        }
     }
     
-    void BG_Generator::plot(std::string &output_path, std::set<std::string> &ways, int level) {
+    void BG_Generator::plot(std::set<std::string> &ways, LL tx, LL ty, int level) {
         int rtile_l = retina_factor * sampling_factor * tile_l;
-        cv::Mat bg(rtile_l, rtile_l, CV_8UC3, cv::Scalar::all(0));
-        cv::Mat mask(rtile_l + 2, rtile_l + 2, CV_8U, cv::Scalar::all(0));
+        std::vector<std::vector<cv::Point> > contours;
         
         for(auto &way_name : ways) {
             auto way = link[way_name];
             
-            std::vector<std::pair<int, int> > pts;
+            contours.push_back(std::vector<cv::Point>());
+            std::vector<cv::Point> &pts = contours[contours.size() - 1];
             
-            for(auto &node : way.children("nd")) {
+            for(auto &nd : way.children("nd")) {
+                auto &node = link[getName(nd)];
                 Coord pt(node.attribute("lat").as_double(), node.attribute("lon").as_double(), level);
-                int x = (pt.px - pt.tx * tile_l) * retina_factor * sampling_factor;
-                int y = (pt.py - pt.ty * tile_l) * retina_factor * sampling_factor;
-                
-                pts.push_back(std::make_pair(x + 1, y + 1));
+                LL _x, _y;
+                pt.get_x_y(_x, _y, tx, ty);
+                int x = int(_x), y = int(_y);
+
+                pts.push_back(cv::Point(x, y));
             }
-            
-            cv::polylines(mask, pts, false, cv::Scalar(255));
         }
         
+        ScanlineRenderer renderer(rtile_l, rtile_l, color_sea_s);
+        cv::Mat ret = renderer.plot(contours, color_land_s);
         
+        std::stringstream ss;
+        ss << path << tx << "_" << ty << "_" << level << "d.png";
+        
+        cv::imwrite(ss.str(), ret);
     }
     
     void BG_Generator::plot_all() {
+//        int l = 0;
+//        int tx = 27139 - tl_txs[0], ty = 14081 - tl_tys[0];
+//        plot(bg_ways[l][tx][ty], tx + tl_txs[l], ty + tl_tys[l], l + st_level);
+        
         for(int l = 0; l < bg_ways.size(); l++) {
             for(int tx = 0; tx < bg_ways[l].size(); tx++) {
                 for(int ty = 0; ty < bg_ways[l][tx].size(); ty++) {
                     if(bg_ways[l][tx][ty].size()) {
                         std::string output_path;
-                        
-                        plot(output_path, bg_ways[l][tx][ty], l);
+                        std::cerr << "plotting " << tx + tl_txs[l] << " " << ty + tl_tys[l] << std::endl;
+                        plot(bg_ways[l][tx][ty], tx + tl_txs[l], ty + tl_tys[l], l + st_level);
                     }
                 }
             }
@@ -245,24 +261,9 @@ namespace YuxinMap {
     
     std::string BG_Generator::get(int level, LL tx, LL ty) {
         std::stringstream ss;
-        level -= st_level;
-        tx -= tl_txs[level];
-        ty -= tl_tys[level];
-
-        if(level == 0 && tx == 2 && ty == 14)
-            std::cerr << "ok" << std::endl;
         
-        ss << "layer background method background \n1 \nmethod " << method << " ";
-        
-        if(bgs[level][tx][ty] == -1) {
-            ss << "color " << color_sea << " \n0 0 0 1024 1024 1024 1024 0 0 0 ";
-        } else if(bgs[level][tx][ty] == 1) {
-            ss << "color " << "#00ff00" << " \n0 0 0 1024 1024 1024 1024 0 0 0 ";
-        } else {
-            ss << "color " << color_land << " \n0 0 0 1024 1024 1024 1024 0 0 0 ";
-        }
-        
-        ss << std::endl;
+        ss << "layer background method background \n";
+        ss << path << tx << "_" << ty << "_" << level << ".png \n";
         
         return ss.str();
     }

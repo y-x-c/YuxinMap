@@ -14,23 +14,46 @@ ScanlineRenderer::ScanlineRenderer(int width, int height, cv::Scalar bg_color) {
 
 Mat ScanlineRenderer::plot(vector<vector<Point> > &contours, cv::Scalar color) {
     vector<PolyEdge> edges;
+    vector<int> missing(img.rows, 0);
+    
+    for(auto &contour : contours) {
+        for(int i = 1; i < contour.size() - 1; i++) {
+            Point pt0 = contour[i - 1];
+            Point &pt1 = contour[i];
+            if(pt1.y == pt0.y) {
+                pt1.y += 1;
+            }
+        }
+        
+        if(contour[contour.size() - 1].y == contour[contour.size() - 2].y) {
+            contour[contour.size() - 2].y++;
+        }
+    }
+    
+//    for(auto &contour : contours) {
+//        for(auto pt : contour) {
+//            std::cerr << pt << std::endl;
+//        }
+//        std::cerr << std::endl;
+//    }
     
     for(auto &contour : contours) {
         polylines(img, contour, false, color, 1, CV_AA, 0);
     }
     
-    imshow("debug", img);
-    waitKey(0);
+//    imshow("debug", img);
+//    waitKey(0);
     
     for(auto &contour : contours) {
         Point pt0 = contour[0];
         pt0.x <<= XY_SHIFT;
-        
+
         for(int i = 1; i < contour.size(); i++) {
             Point pt1 = contour[i];
             pt1.x <<= XY_SHIFT;
-            
+
             if(pt0.y == pt1.y) {
+                missing[pt0.y] += abs(pt0.x - pt1.x) >> XY_SHIFT;
                 pt0 = pt1;
                 continue;
             }
@@ -41,12 +64,14 @@ Mat ScanlineRenderer::plot(vector<vector<Point> > &contours, cv::Scalar color) {
                 edge.ty = pt0.y;
                 edge.by = pt1.y;
                 edge.x = pt0.x;
+                edge.x2 = pt1.x;
                 edge.dx = (pt1.x - pt0.x) / (pt1.y - pt0.y);
             } else {
                 edge.t2b = false;
                 edge.ty = pt1.y;
                 edge.by = pt0.y;
                 edge.x = pt1.x;
+                edge.x2 = pt0.x;
                 edge.dx = (pt0.x - pt1.x) / (pt0.y - pt1.y);
             }
             edges.push_back(edge);
@@ -65,9 +90,9 @@ Mat ScanlineRenderer::plot(vector<vector<Point> > &contours, cv::Scalar color) {
     PolyEdge head, *cur = 0, *pre = 0, *e;
     head.next = 0;
 
-    for(int i = 0; i < edges.size(); i++) {
-        std::cerr << edges[i].x << " " << edges[i].ty << " " << edges[i].by << " " << edges[i].dx << std::endl;
-    }
+//    for(int i = 0; i < edges.size(); i++) {
+//        std::cerr << edges[i].x << " " << edges[i].ty << " " << edges[i].by << " " << edges[i].dx << std::endl;
+//    }
     
     int idx_edge = 0;
     int yt = edges[0].ty, yb = img.rows;
@@ -80,10 +105,13 @@ Mat ScanlineRenderer::plot(vector<vector<Point> > &contours, cv::Scalar color) {
         PolyEdge *keep_pre = 0;
         uchar *timg = img.ptr(y);
         
+//        if(y == 100)
+//            std::cerr << std::endl;
+        
         pre = &head;
         cur = pre->next;
         while(cur || e->ty == y) {
-            if(cur && cur->by == y) {
+            if(cur && cur->by < y) {
                 pre->next = cur->next;
                 cur = cur->next;
                 continue;
@@ -112,7 +140,7 @@ Mat ScanlineRenderer::plot(vector<vector<Point> > &contours, cv::Scalar color) {
                         ICV_HLINE(timg, lx, rx, _color, 3);
                     }
                 }
-                pre->x += pre->dx;
+                
                 draw = false;
                 continue;
             }
@@ -139,11 +167,11 @@ Mat ScanlineRenderer::plot(vector<vector<Point> > &contours, cv::Scalar color) {
                         ICV_HLINE(timg, lx, rx, _color, 3);
                     }
                 }
-                keep_pre->x += keep_pre->dx;
-                pre->x += pre->dx;
             }
             
-            draw ^= 1;
+            draw ^= (pre->x != keep_pre->x ||
+                     (pre->x == keep_pre->x &&
+                      ((pre->by == y && keep_pre->by == y) || (pre->ty == y && keep_pre->ty == y))));
         }
         
         if(draw) {
@@ -157,10 +185,9 @@ Mat ScanlineRenderer::plot(vector<vector<Point> > &contours, cv::Scalar color) {
                 }
             }
             draw = false;
-            pre->x += pre->dx;
         }
         
-        if(filled_pixs == img.cols) drawHLine = true;
+        if(y >= 0 && filled_pixs + missing[y] >= img.cols) drawHLine = true;
         if(count == 0 && drawHLine && y >= 0) {
             int lx = 0, rx = img.cols - 1;
             ICV_HLINE(timg, lx, rx, _color, 3);
@@ -171,6 +198,22 @@ Mat ScanlineRenderer::plot(vector<vector<Point> > &contours, cv::Scalar color) {
                 ICV_HLINE(img.ptr(yy), lx, rx, _color, 3);
             }
         }
+        
+        int y1 = y + 1;
+        cur = &head;
+        while(cur) {
+            if(y1 == cur->by) {
+                cur->x = cur->x2;
+            } else {
+                cur->x += cur->dx;
+            }
+            cur = cur->next;
+        }
+        
+//        if(y >= 100) {
+//            imshow("debug", img);
+//            waitKey(0);
+//        }
         
         // opencv
         int sort_flag = 0;
@@ -202,9 +245,7 @@ Mat ScanlineRenderer::plot(vector<vector<Point> > &contours, cv::Scalar color) {
         }
         while( sort_flag && keep_pre != head.next && keep_pre != &head );
     }
-    
-    imshow("debug", img);
-    waitKey(0);
-    
+    //imshow("debug", img);
+    //waitKey();
     return img;
 }
