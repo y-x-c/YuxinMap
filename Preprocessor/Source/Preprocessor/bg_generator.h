@@ -25,11 +25,15 @@ namespace YuxinMap {
     private:
         link_t &link;
         
+        bool has_coastline;
         double min_lat, max_lat, min_lon, max_lon;
         std::vector<LL> tl_txs, tl_tys, br_txs, br_tys;
-        std::string color_land, color_sea;
         std::string path;
+        std::string color_land, color_sea;
+        uchar color_land_u[3], color_sea_u[3];
         cv::Scalar color_land_s, color_sea_s;
+
+        std::queue<std::pair<int, int> > Q;
         
         std::vector<std::vector<std::vector<std::set<std::string> > > > bg_ways;
         std::vector<std::vector<std::vector<int> > > bgs;

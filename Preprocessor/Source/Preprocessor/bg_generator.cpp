@@ -17,13 +17,12 @@ namespace YuxinMap {
         auto bg_layer = conf.child("layers").find_child_by_attribute("layer", "layer", "background");
         color_land = bg_layer.attribute("color_land").as_string();
         color_sea = bg_layer.attribute("color_sea").as_string();
-//        color_sea = "#FFFFFF";
         
         color_land_s = getScalar(color_land);
         color_sea_s = getScalar(color_sea);
         
-        std::cerr << color_sea_s << std::endl;
-        std::cerr << color_land_s << std::endl;
+        for(int i = 0; i < 3; i++) color_sea_u[i] = color_sea_s[i];
+        for(int i = 0; i < 3; i++) color_land_u[i] = color_land_s[i];
         
         min_lat = bounds.attribute("minlat").as_double();
         max_lat = bounds.attribute("maxlat").as_double();
@@ -77,8 +76,8 @@ namespace YuxinMap {
     }
     
     void BG_Generator::init_bg_ways() {
-        std::queue<std::pair<int, int> > Q;
         int level = ed_level - st_level;
+        has_coastline = false;
         
         for(auto &way : osm.children("way")) {
             if(!way.find_child_by_attribute("tag", "v", "coastline")) continue;
@@ -89,6 +88,8 @@ namespace YuxinMap {
             double lpx = -1, lpy = -1;
             
             for(auto &nd : coastline.children("nd")) {
+                has_coastline = true;
+                
                 auto &node = link[getName(nd)];
                 Coord pt(node.attribute("lat").as_double(), node.attribute("lon").as_double(), ed_level);
                 
@@ -192,23 +193,6 @@ namespace YuxinMap {
                 }
             }
         }
-        
-//        int dx[4] = {0, 0, 1, -1};
-//        int dy[4] = {1, -1, 0, 0};
-//        
-//        while(!Q.empty()) {
-//            int tx = Q.front().first, ty = Q.front().second;
-//            Q.pop();
-//            
-//            for(int i = 0; i < 4; i++) {
-//                int ntx = tx + dx[i], nty = ty + dy[i];
-//                if(ntx >= 0 && ntx <= br_txs[level] - tl_txs[level] && nty >= 0 &&
-//                   nty <= br_tys[level] - tl_tys[level] && bgs[level][ntx][nty] == 0) {
-//                     bgs[level][ntx][nty] = -1;
-//                     Q.push(std::make_pair(ntx, nty));
-//                }
-//            }
-//        }
     }
     
     void BG_Generator::plot(std::set<std::string> &ways, LL tx, LL ty, int level) {
@@ -234,26 +218,126 @@ namespace YuxinMap {
         
         ScanlineRenderer renderer(rtile_l, rtile_l, color_sea_s);
         cv::Mat ret = renderer.plot(contours, color_land_s);
+        cv::resize(ret, ret, cv::Size(rtile_l, rtile_l));
         
         std::stringstream ss;
-        ss << path << tx << "_" << ty << "_" << level << "d.png";
+        ss << path << tx << "_" << ty << "_" << level << "_bg.png";
         
         cv::imwrite(ss.str(), ret);
+        
+        uchar *st_ptr[4] = {ret.ptr(0), ret.ptr(rtile_l - 1), ret.ptr(0, rtile_l - 1), ret.ptr(0)};
+        int step[4] = {3, 3, 3 * rtile_l, 3 * rtile_l};
+        int dx[4] = {0, 0, 1, -1};
+        int dy[4] = {-1, 1, 0, 0};
+        int l = level - st_level;
+        
+        for(int j = 0; j < 4; j++) {
+            int i = 0;
+            bool flag;
+            uchar *ptr = st_ptr[j];
+            
+            uchar color0[3] = {ptr[0], ptr[1], ptr[2]};
+            ptr += step[j]; i++;
+            
+            for(flag = true; flag && i < rtile_l; i++) {
+                for(int k = 0; k < 3; k++) {
+                    if(color0[k] != ptr[k]) {
+                        flag = false;
+                        break;
+                    }
+                }
+                ptr += step[j];
+            }
+            
+            if(flag) {
+                LL ntx = tx + dx[j] - tl_txs[l], nty = ty + dy[j] - tl_tys[l];
+                
+                if(ntx >= 0 && ntx <= br_txs[l] - tl_txs[l] && nty >= 0 &&
+                   nty <= br_tys[l] - tl_tys[l] && bgs[l][ntx][nty] == 0) {
+                    Q.push(std::make_pair(ntx, nty));
+                    if(color0[0] == color_land_u[0] && color0[1] == color_land_u[1] && color0[2] == color_land_u[2]) {
+                        bgs[l][ntx][nty] = -1; // land
+                    } else {
+                        bgs[l][ntx][nty] = -2; // water
+                    }
+                }
+            }
+        }
     }
     
     void BG_Generator::plot_all() {
-//        int l = 0;
-//        int tx = 27139 - tl_txs[0], ty = 14081 - tl_tys[0];
-//        plot(bg_ways[l][tx][ty], tx + tl_txs[l], ty + tl_tys[l], l + st_level);
+        int l_ed = ed_level - st_level;
+        for(int tx = 0; tx < bg_ways[l_ed].size(); tx++) {
+            for(int ty = 0; ty < bg_ways[l_ed][tx].size(); ty++) {
+                if(bg_ways[l_ed][tx][ty].size()) {
+                    std::string output_path;
+                    plot(bg_ways[l_ed][tx][ty], tx + tl_txs[l_ed], ty + tl_tys[l_ed], ed_level);
+                }
+            }
+        }
         
-        for(int l = 0; l < bg_ways.size(); l++) {
+        int dx[4] = {0, 0, 1, -1};
+        int dy[4] = {1, -1, 0, 0};
+        if(!has_coastline) Q.push(std::make_pair(0, 0));
+        bgs[l_ed][0][0] = -1;
+        while(!Q.empty()) {
+            int tx = Q.front().first, ty = Q.front().second;
+            Q.pop();
+
+            for(int i = 0; i < 4; i++) {
+                int ntx = tx + dx[i], nty = ty + dy[i];
+                if(ntx >= 0 && ntx <= br_txs[l_ed] - tl_txs[l_ed] && nty >= 0 &&
+                   nty <= br_tys[l_ed] - tl_tys[l_ed] && bgs[l_ed][ntx][nty] == 0) {
+                     bgs[l_ed][ntx][nty] = bgs[l_ed][tx][ty];
+                     Q.push(std::make_pair(ntx, nty));
+                }
+            }
+        }
+
+        int rtile_l = retina_factor * sampling_factor * tile_l;
+        cv::Mat sea(rtile_l, rtile_l, CV_8UC3, color_sea_s);
+        cv::Mat land(rtile_l, rtile_l, CV_8UC3, color_land_s);
+        
+        int l = ed_level - st_level;
+        for(int tx = 0; tx < bg_ways[l].size(); tx++) {
+            for(int ty = 0; ty < bg_ways[l][tx].size(); ty++) {
+                std::stringstream ss;
+                ss << path << tx + tl_txs[l] << "_" << ty + tl_tys[l] << "_" << l + st_level << "_bg.png";
+                
+                if(bgs[l][tx][ty] == -1) {
+                    cv::imwrite(ss.str(), land);
+                }
+                if(bgs[l][tx][ty] == -2) {
+                    cv::imwrite(ss.str(), sea);
+                }
+            }
+        }
+
+        for(int l = int(bg_ways.size()) - 2; l >= 0; l--) {
             for(int tx = 0; tx < bg_ways[l].size(); tx++) {
                 for(int ty = 0; ty < bg_ways[l][tx].size(); ty++) {
-                    if(bg_ways[l][tx][ty].size()) {
-                        std::string output_path;
-                        std::cerr << "plotting " << tx + tl_txs[l] << " " << ty + tl_tys[l] << std::endl;
-                        plot(bg_ways[l][tx][ty], tx + tl_txs[l], ty + tl_tys[l], l + st_level);
+                    int tx1 = tx + tl_txs[l];
+                    int ty1 = ty + tl_tys[l];
+                    int txs[4] = {tx1 << 1, tx1 << 1, (tx1 << 1) | 1, (tx1 << 1) | 1};
+                    int tys[4] = {ty1 << 1, (ty1 << 1) | 1, ty1 << 1, (ty1 << 1) | 1};
+                    cv::Mat img[4];
+                    
+                    for(int i = 0; i < 4; i++) {
+                        std::stringstream ss;
+                        ss << path << txs[i] << "_" << tys[i] << "_" << l + 1 + st_level << "_bg.png";
+                        img[i] = imread(ss.str());
+                        cv::resize(img[i], img[i], cv::Size(rtile_l >> 1, rtile_l >> 1));
                     }
+                    
+                    cv::Mat ret(rtile_l, rtile_l, CV_8UC3);
+                    img[0].copyTo(ret.rowRange(0, rtile_l >> 1).colRange(0, rtile_l >> 1));
+                    img[1].copyTo(ret.rowRange(rtile_l >> 1, rtile_l).colRange(0, rtile_l >> 1));
+                    img[2].copyTo(ret.rowRange(0, rtile_l >> 1).colRange(rtile_l >> 1, rtile_l));
+                    img[3].copyTo(ret.rowRange(rtile_l >> 1, rtile_l).colRange(rtile_l >> 1, rtile_l));
+                    
+                    std::stringstream ss;
+                    ss << path << tx + tl_txs[l] << "_" << ty + tl_tys[l] << "_" << l + st_level << "_bg.png";
+                    cv::imwrite(ss.str(), ret);
                 }
             }
         }
@@ -263,7 +347,7 @@ namespace YuxinMap {
         std::stringstream ss;
         
         ss << "layer background method background \n";
-        ss << path << tx << "_" << ty << "_" << level << ".png \n";
+        ss << path << tx << "_" << ty << "_" << level << "_bg.png \n";
         
         return ss.str();
     }

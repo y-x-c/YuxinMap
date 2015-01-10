@@ -26,7 +26,11 @@ class Plot():
         bg_conf = dict([(bg_conf[i], bg_conf[i + 1]) for i in xrange(0, len(bg_conf), 2)])
 
         bg_plotter = methods.get_layer_plot_class(self.level, bg_conf)
-        bottom_layer = bg_plotter.plot(data)
+        bottom_layer_old = bg_plotter.plot(data)
+        bottom_layer = np.empty(constants.u_tile_shape, constants.tile_dtype)
+        l = constants.padding
+        r = constants.tile_l * constants.sampling_factor * constants.retina_factor + constants.padding
+        bottom_layer[l : r, l : r, : ] = bottom_layer_old
 
         line = data.readline()
         while line:
@@ -40,8 +44,6 @@ class Plot():
 
             line = data.readline()
 
-        l = constants.padding
-        r = constants.tile_l * constants.sampling_factor * constants.retina_factor + constants.padding
         bottom_layer = bottom_layer[l : r, l : r, : ]
 
         ret = cv2.resize(bottom_layer, constants.tile_size, interpolation=cv2.INTER_AREA)

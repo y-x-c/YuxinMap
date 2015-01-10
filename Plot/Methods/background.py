@@ -9,17 +9,22 @@ from opaque import Opaque
 
 class Background(Opaque):
     def __init__(self, level, config):
-        Opaque.__init__(self, level, config)
+        #Opaque.__init__(self, level, config)
+        self.level = level
+        self.config = config
 
     def plot(self, data):
-        color = Color()
-        color.setRGB(0, 0, 0)
-        color = color.getBGR()
+        bg_path = data.readline().rstrip(" \n")
+        canvas = cv2.imread(bg_path)
 
-        canvas = np.empty(constants.u_tile_shape, constants.tile_dtype)
+        #color = Color()
+        #color.setRGB(0, 0, 0)
+        #color = color.getBGR()
 
-        canvas[:, :, :] = color
+        #canvas = np.empty(constants.u_tile_shape, constants.tile_dtype)
 
-        Opaque.plot(self, data, canvas)
+        #canvas[:, :, :] = color
+
+        #Opaque.plot(self, data, canvas)
 
         return canvas
