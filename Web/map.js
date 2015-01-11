@@ -221,14 +221,9 @@ function updateTLPixel(dpx, dpy) {
 
     setTLPixel(tl_px + dpx, tl_py + dpy);
 
-    console.log(dpx, dpy);
-    console.log(loading.length)
-    count++;
-
     var imgData = bottomLayerContext.getImageData(0, 0, bottomLayer.width, bottomLayer.height);
     bottomLayerContext.putImageData(imgData, - dpx * retina_ratio, - dpy * retina_ratio);
 
-    console.log(bottomLayer.width)
     var _tlx = 0, _tly = 0;
     var _brx = bottomLayer.width, _bry = bottomLayer.height;
     var tx_begin = tl_tx;
@@ -294,9 +289,7 @@ function updateTLPixel(dpx, dpy) {
             tile.src = tile_filename;
             tile.tx = tx;
             tile.ty = ty;
-            tile.count = count;
             loading.push(tile.src);
-            console.log(tx, ty);
             tile.onload = function () {
                 drawTile(this);
             }
@@ -304,8 +297,6 @@ function updateTLPixel(dpx, dpy) {
     }
 
     function drawTile(tile) {
-        //if (count != tile.count)
-            console.log(tile.src)
         loading.splice(loading.indexOf(tile.src), 1);
         bottomLayerContext.drawImage(tile, real_tiles_l * (tile.tx - tl_tx) + tl_ox, real_tiles_l * (tile.ty - tl_ty) + tl_oy);
     }
@@ -376,7 +367,7 @@ function getURLParameter(name) {
 
 function onWindowLoad() {
     loading = [];
-    count = 0;
+    pts = [];
 
     bottomLayer = document.getElementById("bottomLayer");
     bottomLayerContext = bottomLayer.getContext("2d");
@@ -455,6 +446,8 @@ function queryShortPath(url) {
 }
 
 function drawShortPath() {
+    if(pts.length == 0) return;
+
     var ctx = shortPathLayerContext;
 
     var coord = WGS84_to_px_py(pts[0].lat, pts[0].lon, level);
