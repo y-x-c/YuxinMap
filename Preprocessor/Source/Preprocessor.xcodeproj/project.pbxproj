@@ -15,8 +15,8 @@
 		B96705521A60E0040056A642 /* level_filter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B967054C1A60E0040056A642 /* level_filter.cpp */; };
 		B96705531A60E0040056A642 /* data_converter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B967054E1A60E0040056A642 /* data_converter.cpp */; };
 		B96705541A60E0040056A642 /* bg_generator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B96705501A60E0040056A642 /* bg_generator.cpp */; };
-		B96705591A60E0100056A642 /* pugixml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B96705571A60E0100056A642 /* pugixml.cpp */; };
-		B967055F1A60E04D0056A642 /* ScanlineRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B967055E1A60E04D0056A642 /* ScanlineRenderer.cpp */; };
+		B96E645C1A62B3C200817B40 /* ScanlineRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B96E64571A62B3C200817B40 /* ScanlineRenderer.cpp */; };
+		B96E645D1A62B3C200817B40 /* pugixml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B96E645A1A62B3C200817B40 /* pugixml.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -44,12 +44,12 @@
 		B967054E1A60E0040056A642 /* data_converter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = data_converter.cpp; path = Preprocessor/data_converter.cpp; sourceTree = SOURCE_ROOT; };
 		B967054F1A60E0040056A642 /* bg_generator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = bg_generator.h; path = Preprocessor/bg_generator.h; sourceTree = SOURCE_ROOT; };
 		B96705501A60E0040056A642 /* bg_generator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = bg_generator.cpp; path = Preprocessor/bg_generator.cpp; sourceTree = SOURCE_ROOT; };
-		B96705561A60E0100056A642 /* pugiconfig.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = pugiconfig.hpp; sourceTree = "<group>"; };
-		B96705571A60E0100056A642 /* pugixml.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = pugixml.cpp; sourceTree = "<group>"; };
-		B96705581A60E0100056A642 /* pugixml.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = pugixml.hpp; sourceTree = "<group>"; };
-		B967055D1A60E04D0056A642 /* ScanlineRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScanlineRenderer.h; path = ../../../ScanlineRenderer/ScanlineRendering/ScanlineRenderer.h; sourceTree = "<group>"; };
-		B967055E1A60E04D0056A642 /* ScanlineRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ScanlineRenderer.cpp; path = ../../../ScanlineRenderer/ScanlineRendering/ScanlineRenderer.cpp; sourceTree = "<group>"; };
-		B9FE24211A541F1D00AD8A67 /* Filter */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; name = Filter; path = Preprocessor; sourceTree = BUILT_PRODUCTS_DIR; };
+		B96E64561A62B3C200817B40 /* ScanlineRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScanlineRenderer.h; path = Preprocessor/ScanlineRenderer.h; sourceTree = SOURCE_ROOT; };
+		B96E64571A62B3C200817B40 /* ScanlineRenderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ScanlineRenderer.cpp; path = Preprocessor/ScanlineRenderer.cpp; sourceTree = SOURCE_ROOT; };
+		B96E64591A62B3C200817B40 /* pugiconfig.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = pugiconfig.hpp; sourceTree = "<group>"; };
+		B96E645A1A62B3C200817B40 /* pugixml.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = pugixml.cpp; sourceTree = "<group>"; };
+		B96E645B1A62B3C200817B40 /* pugixml.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = pugixml.hpp; sourceTree = "<group>"; };
+		B9FE24211A541F1D00AD8A67 /* Preprocessor */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; name = Preprocessor; path = Preprocessor; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,25 +67,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		B96705551A60E0100056A642 /* pugixml */ = {
+		B96E64581A62B3C200817B40 /* pugixml */ = {
 			isa = PBXGroup;
 			children = (
-				B96705561A60E0100056A642 /* pugiconfig.hpp */,
-				B96705571A60E0100056A642 /* pugixml.cpp */,
-				B96705581A60E0100056A642 /* pugixml.hpp */,
+				B96E64591A62B3C200817B40 /* pugiconfig.hpp */,
+				B96E645A1A62B3C200817B40 /* pugixml.cpp */,
+				B96E645B1A62B3C200817B40 /* pugixml.hpp */,
 			);
 			name = pugixml;
-			path = Preprocessor/pugixml;
+			path = ../../Libs/pugixml;
 			sourceTree = "<group>";
 		};
 		B9FE24181A541F1D00AD8A67 = {
 			isa = PBXGroup;
 			children = (
-				B96705551A60E0100056A642 /* pugixml */,
 				B92A281A1A55242D0050836D /* libopencv_imgproc.2.4.9.dylib */,
 				B92A281B1A55242D0050836D /* libopencv_highgui.2.4.9.dylib */,
 				B92A281C1A55242D0050836D /* libopencv_features2d.2.4.9.dylib */,
 				B92A281D1A55242D0050836D /* libopencv_core.2.4.9.dylib */,
+				B96E64581A62B3C200817B40 /* pugixml */,
 				B9FE24231A541F1D00AD8A67 /* Preprocessor */,
 				B9FE24221A541F1D00AD8A67 /* Products */,
 			);
@@ -94,7 +94,7 @@
 		B9FE24221A541F1D00AD8A67 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				B9FE24211A541F1D00AD8A67 /* Filter */,
+				B9FE24211A541F1D00AD8A67 /* Preprocessor */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -102,8 +102,8 @@
 		B9FE24231A541F1D00AD8A67 /* Preprocessor */ = {
 			isa = PBXGroup;
 			children = (
-				B967055D1A60E04D0056A642 /* ScanlineRenderer.h */,
-				B967055E1A60E04D0056A642 /* ScanlineRenderer.cpp */,
+				B96E64561A62B3C200817B40 /* ScanlineRenderer.h */,
+				B96E64571A62B3C200817B40 /* ScanlineRenderer.cpp */,
 				B96705491A60E0040056A642 /* utility.h */,
 				B967054A1A60E0040056A642 /* main.cpp */,
 				B967054B1A60E0040056A642 /* level_filter.h */,
@@ -114,7 +114,7 @@
 				B96705501A60E0040056A642 /* bg_generator.cpp */,
 			);
 			name = Preprocessor;
-			path = Filter;
+			path = Preprocessor;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -133,8 +133,8 @@
 			dependencies = (
 			);
 			name = Preprocessor;
-			productName = Filter;
-			productReference = B9FE24211A541F1D00AD8A67 /* Filter */;
+			productName = Preprocessor;
+			productReference = B9FE24211A541F1D00AD8A67 /* Preprocessor */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -173,12 +173,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B96705591A60E0100056A642 /* pugixml.cpp in Sources */,
 				B96705531A60E0040056A642 /* data_converter.cpp in Sources */,
 				B96705511A60E0040056A642 /* main.cpp in Sources */,
 				B96705521A60E0040056A642 /* level_filter.cpp in Sources */,
+				B96E645D1A62B3C200817B40 /* pugixml.cpp in Sources */,
 				B96705541A60E0040056A642 /* bg_generator.cpp in Sources */,
-				B967055F1A60E04D0056A642 /* ScanlineRenderer.cpp in Sources */,
+				B96E645C1A62B3C200817B40 /* ScanlineRenderer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

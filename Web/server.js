@@ -9,6 +9,8 @@ var https = require('https');
 var app = express();
 var et = require('eviltransform');
 
+osmPath = "/Data/map_hubian.osm";
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
@@ -80,9 +82,9 @@ app.get('/shortPath', function (req, res) {
 
     console.log(id1, id2);
 
-    var appPath = __dirname + '/Apps/ShortPath';
-    var confPath = __dirname + '/Apps/ShortPath.conf';
-    var dataPath = __dirname + "/Apps/Data/map_shanghai.osm";
+    var appPath = __dirname + '/Apps/ShortestPath';
+    var confPath = __dirname + '/Apps/ShortestPath.conf';
+    var dataPath = __dirname + osmPath;
     var date = new Date();
     var outputPath = __dirname + "/Apps/SP" + date.toLocaleTimeString() + date.getMilliseconds();
     console.log(confPath);
@@ -91,6 +93,7 @@ app.get('/shortPath', function (req, res) {
     if (exec(cmd).code == 0) {
         var data = fs.readFileSync(outputPath, "utf-8");
         res.send(data);
+        console.log(data);
         exec("rm " + outputPath);
     }
 });
@@ -98,7 +101,7 @@ app.get('/shortPath', function (req, res) {
 function getNearestNode(lat, lon, t) {
     var appPath = __dirname + '/Apps/NearestNode';
     var confPath = __dirname + '/Apps/NearestNode.conf';
-    var dataPath = __dirname + "/Apps/Data/map_shanghai.osm";
+    var dataPath = __dirname + osmPath;
     var date = new Date();
     var outputPath = __dirname + "/Apps/NN" + date.toLocaleTimeString() + date.getMilliseconds() + Math.random();
 
