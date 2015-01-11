@@ -26,13 +26,14 @@ class Line(Plot_Method):
             zoomInRatio = float(self.conf.get("zoomOutRatio", 2))
             thickness = int(self.conf.get("thickness")) * (zoomInRatio ** (self.level - tn_level) * constants.sampling_factor)
 
-        # if thickness <= 5:
-        #     thickness = 1
-        #     color = self.thinLineColor
+        if thickness <= 3:
+            thickness = 1
+            if color == (255, 255, 255):
+                color = self.thinLineColor
 
         if not bool(self.conf.get("hollow", False)):
             cv2.polylines(bottom_layer, np_pts, False, color, int(thickness), cv2.CV_AA)
-        if black_bg != None and thickness > 8:
+        if black_bg != None and thickness > 3:
             cv2.polylines(black_bg, np_pts, False, color, int(thickness), cv2.CV_AA)
 
         return bottom_layer, black_bg

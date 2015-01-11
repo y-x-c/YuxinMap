@@ -26,7 +26,7 @@ print "Start preprocessing."
 st_time = time.time()
 cmd = " ".join([preprocessor_path, osm_path_abs, level_filter_config_path_abs, plot_config_path_abs, dt_files_path_abs,
                 min_level, max_level])
-os.system(cmd)
+#os.system(cmd)
 print "Preprocessing time used: %f s" % (time.time() - st_time)
 
 print "Start plotting."

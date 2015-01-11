@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<YuxinMap>
+    <elements level="-1">
+        <bounds/>
+    </elements>
+
+	<elements level="3">
+
+	</elements>
+
+    <elements level="5">
+        <!--<way>-->
+            <!--<tag k="natural" v="coastline"/>-->
+        <!--</way>-->
+        
+        <way>
+            <tag k="natural" v="water"/>
+        </way>
+        <way>
+            <tag k="natural" v="wood"/>
+        </way>
+        <way>
+            <tag k="natural" v="scrub"/>
+        </way>
+        <way>
+            <tag k="natural" v="heath"/>
+        </way>
+        <way>
+            <tag k="natural" v="grassland"/>
+        </way>
+        <way>
+            <tag k="natural" v="sand"/>
+        </way>
+        <way>
+            <tag k="natural" v="mud"/>
+        </way>
+        <way>
+            <tag k="natural" v="beach"/>
+        </way>
+
+        <way>
+            <tag k="highway" v="trunk"/>
+        </way>
+        <way>
+            <tag k="highway" v="motorway"/>
+        </way>
+
+        <way>
+            <tag k="highway" v="trunk_link"/>
+        </way>
+        <way>
+            <tag k="highway" v="motorway_link"/>
+        </way>
+    </elements>
+
+    <elements level="6">
+        <way>
+            <tag k="highway" v="primary"/>
+        </way>
+        <way>
+            <tag k="highway" v="primary_link"/>
+        </way>
+    </elements>
+
+    <elements level="7">
+        <way>
+            <tag k="highway" v="secondary"/>
+        </way>
+        <way>
+            <tag k="highway" v="secondary_link"/>
+        </way>
+    </elements>
+
+    <elements level="10">
+        <way>
+            <tag k="leisure" v="park" />
+        </way>
+    </elements>
+
+    <elements level="11">
+        <way>
+            <tag k="waterway" v="river" />
+        </way>
+        <way>
+            <tag k="waterway" v="stream" />
+        </way>
+    
+        <way>
+            <tag k="waterway" v="canal" />
+        </way>
+        <way>
+            <tag k="waterway" v="drain" />
+        </way>
+        <way>
+            <tag k="waterway" v="ditch" />
+        </way>
+        <way>
+            <tag k="waterway" v="dock" />
+        </way>
+        <way>
+            <tag k="waterway" v="boatyard" />
+        </way>
+    </elements>
+
+    <elements level="12">
+        <way>
+            <tag k="highway" v="tertiary"/>
+        </way>
+        <way>
+            <tag k="highway" v="tertiary_link"/>
+        </way>
+        
+        <way>
+            <tag k="aeroway" v="runway"/>
+        </way>
+        <way>
+            <tag k="aeroway" v="taxiway"/>
+        </way>
+        
+        <way>
+            <tag k="tourism"/>
+        </way>
+        
+        <way>
+            <tag k="landuse" v="allotments"/>
+        </way>
+        <way>
+            <tag k="landuse" v="cemetery"/>
+        </way>
+        <way>
+            <tag k="landuse" v="farmland"/>
+        </way>
+        <way>
+            <tag k="landuse" v="farmyard"/>
+        </way>
+        <way>
+            <tag k="landuse" v="forest"/>
+        </way>
+        <way>
+            <tag k="landuse" v="grass"/>
+        </way>
+        <way>
+            <tag k="landuse" v="greenfield"/>
+        </way>
+        <way>
+            <tag k="landuse" v="greenhouse_horticulture"/>
+        </way>
+        <way>
+            <tag k="landuse" v="meadow"/>
+        </way>
+        <way>
+            <tag k="landuse" v="orchard"/>
+        </way>
+        <way>
+            <tag k="landuse" v="plant_nursery"/>
+        </way>
+        <way>
+            <tag k="landuse" v="recreation_ground"/>
+        </way>
+        <way>
+            <tag k="landuse" v="village_green"/>
+        </way>
+        <way>
+            <tag k="landuse" v="vineyard"/>
+        </way>
+        <way>
+            <tag k="landuse" v="basin"/>
+        </way>
+        <way>
+            <tag k="landuse" v="reservoir"/>
+        </way>
+        <way>
+            <tag k="landuse" v="residential"/>
+        </way>
+        <way>
+            <tag k="landuse" v="retail"/>
+        </way>
+        <way>
+            <tag k="landuse" v="allotments"/>
+        </way>
+        <way>
+            <tag k="landuse" v="quarry"/>
+        </way>
+        <way>
+            <tag k="landuse" v="industrial"/>
+        </way>
+        <way>
+            <tag k="landuse" v="garages"/>
+        </way>
+        <way>
+            <tag k="landuse" v="construction"/>
+        </way>
+        <way>
+            <tag k="landuse" v="commercial"/>
+        </way>
+        
+        <way>
+            <tag k="amenity"/>
+        </way>
+    </elements>
+
+    <elements level="13">
+    
+        <way>
+            <tag k="leisure" v="stadium"/>
+        </way>
+        <way>
+            <tag k="leisure" v="sports_centre"/>
+        </way>
+        <way>
+            <tag k="leisure" v="pitch"/>
+        </way>
+        <way>
+            <tag k="leisure" v="track"/>
+        </way>
+        <way>
+            <tag k="leisure" v="golf_course"/>
+        </way>
+        <way>
+            <tag k="leisure" v="garden"/>
+        </way>
+        <way>
+            <tag k="leisure" v="playground"/>
+        </way>
+        
+        <way>
+            <tag k="aeroway" v="terminal"/>
+        </way>
+        
+        <way>
+            <tag k="highway" v="service"/>
+        </way>
+        <way>
+            <tag k="highway" v="unclassified"/>
+        </way>
+        <way>
+            <tag k="highway" v="residential"/>
+        </way>
+    </elements>
+
+    <elements level="15">
+        <way>
+            <tag k="building"/>
+        </way>
+
+        <!--path-->
+        <way>
+            <tag k="highway" v="footway"/>
+        </way>
+        <way>
+            <tag k="highway" v="path"/>
+        </way>
+        <way>
+            <tag k="highway" v="steps"/>
+        </way>
+
+    </elements>
+
+	<elements level="16">
+
+	</elements>
+
+	<elements level="19">
+
+	</elements>
+</YuxinMap>

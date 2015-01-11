@@ -33,7 +33,7 @@ function onCanvasMouseEvent(event) {
         if (dragging) {
             updateTLPixel(-(coord.x - lastCoord.x), -(coord.y - lastCoord.y));
             lastCoord = coord;
-            drawTiles();
+            //drawTiles();
             drawShortPath();
         }
     }
@@ -73,6 +73,9 @@ function onCanvasMouseEvent(event) {
         if (!event.altKey) {
             if (level + 1 <= maxLevel) {
                 level++;
+                bottomLayerContext.scale(1.25, 1.25);
+                bottomLayerContext.scale(1.25, 1.25);
+                bottomLayerContext.scale(1.25, 1.25);
                 setTLPixel(tl_px * 2 + coord.x, tl_py * 2 + coord.y);
                 drawTiles();
                 drawShortPath();
@@ -108,7 +111,7 @@ function onCanvasTouchEvent(event) {
         if (dragging) {
             updateTLPixel(-(coord.x - lastCoord.x), -(coord.y - lastCoord.y));
             lastCoord = coord;
-            drawTiles();
+            //drawTiles();
             drawShortPath();
         }
     }
@@ -211,7 +214,101 @@ function setTLPixel(px, py) {
 }
 
 function updateTLPixel(dpx, dpy) {
+    var _tl_px = tl_px;
+    var _tl_py = tl_py;
+    var _tl_tx = tl_tx;
+    var _tl_ty = tl_ty;
+
     setTLPixel(tl_px + dpx, tl_py + dpy);
+
+    console.log(dpx, dpy);
+    console.log(loading.length)
+    count++;
+
+    var imgData = bottomLayerContext.getImageData(0, 0, bottomLayer.width, bottomLayer.height);
+    bottomLayerContext.putImageData(imgData, - dpx * retina_ratio, - dpy * retina_ratio);
+
+    console.log(bottomLayer.width)
+    var _tlx = 0, _tly = 0;
+    var _brx = bottomLayer.width, _bry = bottomLayer.height;
+    var tx_begin = tl_tx;
+    var tx_end = tl_tx + numTilesX;
+    var ty_begin = tl_ty;
+    var ty_end = tl_ty + numTilesY;
+
+    bottomLayerContext.fillStyle = "#f7f5f0canvas";
+    if (dpx < 0) {
+        bottomLayerContext.fillRect(0, 0, -dpx * retina_ratio, bottomLayer.height);
+        _tlx -= dpx * retina_ratio;
+    } else {
+        bottomLayerContext.fillRect(bottomLayer.width - dpx * retina_ratio, 0, dpx * retina_ratio, bottomLayer.height);
+        _brx -= dpx * retina_ratio;
+    }
+
+    if (dpy < 0) {
+        bottomLayerContext.fillRect(0, 0, bottomLayer.width, -dpy * retina_ratio);
+        _tly -= dpy * retina_ratio;
+    } else {
+        bottomLayerContext.fillRect(0, bottomLayer.height - dpy * retina_ratio, bottomLayer.width, dpy * retina_ratio);
+        _bry -= dpy * retina_ratio;
+    }
+
+    for (var tx = tx_begin; tx <= tx_end; tx++) {
+        for (var ty = ty_begin; ty <= ty_end; ty++) {
+            var tlx = real_tiles_l * (tx - tl_tx) + tl_ox;
+            var tly = real_tiles_l * (ty - tl_ty) + tl_oy;
+            var brx = tlx + real_tiles_l;
+            var bry = tly + real_tiles_l;
+            var flagx = false, flagy = false;
+
+            if (dpx < 0 && tlx >= _tlx) {
+                flagx = true;
+            }
+            if (dpx > 0 && brx <= _brx) {
+                flagx = true;
+            }
+            flagx |= (dpx == 0);
+
+            if (dpy < 0 && tly >= _tly) {
+                flagy = true;
+            }
+            if (dpy > 0 && bry <= _bry) {
+                flagy = true;
+            }
+            flagy |= (dpy == 0);
+
+            if (flagx && flagy) {
+                continue;
+            }
+
+
+            if (retina_ratio == 1) {
+                var tile_filename = tiles_filepath + tx + "_" + ty + "_" + level + ".png";
+            } else {
+                var tile_filename = tiles_filepath + tx + "_" + ty + "_" + level + "_r.png";
+            }
+
+            if (loading.indexOf(tile_filename) >= 0) continue;
+
+            var tile = new Image();
+            tile.src = tile_filename;
+            tile.tx = tx;
+            tile.ty = ty;
+            tile.count = count;
+            loading.push(tile.src);
+            console.log(tx, ty);
+            tile.onload = function () {
+                drawTile(this);
+            }
+        }
+    }
+
+    function drawTile(tile) {
+        //if (count != tile.count)
+            console.log(tile.src)
+        loading.splice(loading.indexOf(tile.src), 1);
+        bottomLayerContext.drawImage(tile, real_tiles_l * (tile.tx - tl_tx) + tl_ox, real_tiles_l * (tile.ty - tl_ty) + tl_oy);
+    }
 }
 
 function setCanvasSize() {
@@ -278,6 +375,9 @@ function getURLParameter(name) {
 }
 
 function onWindowLoad() {
+    loading = [];
+    count = 0;
+
     bottomLayer = document.getElementById("bottomLayer");
     bottomLayerContext = bottomLayer.getContext("2d");
 
@@ -388,7 +488,7 @@ function getLocation(name) {
     request.send();
 
     var data = request.responseText;
-    data = JSON.parse(data)
+    data = JSON.parse(data);
 
     return data[0].geometry.location;
 }
