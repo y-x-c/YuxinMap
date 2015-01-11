@@ -12,10 +12,11 @@ var et = require('eviltransform');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-function queryPlace(name, s) {
+function queryPlace(name, lat, lon, s) {
     var prefix = 'https://maps.googleapis.com/maps/api/place/textsearch/json?query=';
     var key = '&key=AIzaSyCVrW2q0C4cdAucpFSRSQ44V0pgYXXVGsI';
-    var url = prefix + name + key;
+    var location = '&location=' + lat + ',' + lon + '&radius=5000';
+    var url = prefix + name + key + location;
 
     console.log(url);
     https.get(url, function(res) {
@@ -48,8 +49,10 @@ function queryPlace(name, s) {
 
 app.get('/place', function (req, res) {
     var name = req.query.name;
+    var lat = req.query.lat;
+    var lon = req.query.lon;
 
-    var place = queryPlace(name, res);
+    var place = queryPlace(name, lat, lon, res);
 
     //res.send(place);
     //console.log(place);

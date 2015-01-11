@@ -37,6 +37,10 @@
         <way>
             <tag k="natural" v="beach"/>
         </way>
+        
+        <way>
+            <tag k="waterway" v="riverbank"/>
+        </way>
 
         <way>
             <tag k="highway" v="trunk"/>

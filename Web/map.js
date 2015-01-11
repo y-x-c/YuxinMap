@@ -5,6 +5,7 @@
 tiles_l = 256;
 real_tiles_l = 0;
 tiles_filepath = "Tiles/";
+names_filepath = "Names/";
 
 function getMouseCoordFromEvent(event) {
     var x = 0;
@@ -34,11 +35,11 @@ function onCanvasMouseEvent(event) {
             updateTLPixel(-(coord.x - lastCoord.x), -(coord.y - lastCoord.y));
             lastCoord = coord;
             //drawTiles();
-            drawShortPath();
+            drawOtherElems();
         }
     }
     else if (event.type == "mouseup") {
-        updataURL();
+        updateURL();
         dragging = false;
     }
     else if (event.type == "mousewheel") {
@@ -47,25 +48,25 @@ function onCanvasMouseEvent(event) {
         else
             wheelDelta += event.wheelDelta;
 
-        if (wheelDelta < -100) {
+        if (wheelDelta < -200) {
             wheelDelta = 0;
             if (level - 1 >= minLevel) {
                 level--;
                 setTLPixel(tl_px / 2 - coord.x / 2, tl_py / 2 - coord.y / 2);
                 drawTiles();
-                drawShortPath();
-                updataURL();
+                drawOtherElems();
+                updateURL();
             }
         }
 
-        if (wheelDelta > 100) {
+        if (wheelDelta > 200) {
             wheelDelta = 0;
             if (level + 1 <= maxLevel) {
                 level++;
                 setTLPixel(tl_px * 2 + coord.x, tl_py * 2 + coord.y);
                 drawTiles();
-                drawShortPath();
-                updataURL();
+                drawOtherElems();
+                updateURL();
             }
         }
     }
@@ -73,13 +74,10 @@ function onCanvasMouseEvent(event) {
         if (!event.altKey) {
             if (level + 1 <= maxLevel) {
                 level++;
-                bottomLayerContext.scale(1.25, 1.25);
-                bottomLayerContext.scale(1.25, 1.25);
-                bottomLayerContext.scale(1.25, 1.25);
                 setTLPixel(tl_px * 2 + coord.x, tl_py * 2 + coord.y);
                 drawTiles();
-                drawShortPath();
-                updataURL();
+                drawOtherElems();
+                updateURL();
             }
         }
         else
@@ -88,8 +86,8 @@ function onCanvasMouseEvent(event) {
                 level--;
                 setTLPixel(tl_px / 2 - coord.x / 2, tl_py / 2 - coord.y / 2);
                 drawTiles();
-                drawShortPath();
-                updataURL();
+                drawOtherElems();
+                updateURL();
             }
         }
     }
@@ -112,7 +110,7 @@ function onCanvasTouchEvent(event) {
             updateTLPixel(-(coord.x - lastCoord.x), -(coord.y - lastCoord.y));
             lastCoord = coord;
             //drawTiles();
-            drawShortPath();
+            drawOtherElems();
         }
     }
     else if (event.type == "touchmove" && event.targetTouches.length == 2) {
@@ -136,8 +134,8 @@ function onCanvasTouchEvent(event) {
                 level--;
                 setTLPixel(tl_px / 2 - centerX / 2, tl_py / 2 - centerY / 2);
                 drawTiles();
-                drawShortPath();
-                updataURL();
+                drawOtherElems();
+                updateURL();
             }
         }
 
@@ -147,14 +145,14 @@ function onCanvasTouchEvent(event) {
                 level++;
                 setTLPixel(tl_px * 2 + centerX, tl_py * 2 + centerY);
                 drawTiles();
-                drawShortPath();
-                updataURL();
+                drawOtherElems();
+                updateURL();
             }
         }
     }
     else if (event.type == "touchend") {
         dragging = false;
-        updataURL();
+        updateURL();
     }
 }
 
@@ -177,7 +175,7 @@ function WGS84_to_tx_ty(lat, lon, level) {
     return {tx: tx, ty: ty};
 }
 
-function updataURL() {
+function updateURL() {
     var n = Math.pow(2, level);
     var center_px = tl_px + window.innerWidth / 2;
     var center_py = tl_py + window.innerHeight / 2;
@@ -188,6 +186,7 @@ function updataURL() {
     new_url += "?lat=" + lat.toFixed(5);
     new_url += "&lon=" + lon.toFixed(5);
     new_url += "&level=" + level;
+    new_url += "&noNames=" + noNames;
     window.history.pushState({}, "", new_url);
 }
 
@@ -312,10 +311,10 @@ function setCanvasSize() {
     bottomLayer.style.height = window.innerHeight + "px";
     bottomLayer.style.width = window.innerWidth + "px";
 
-    shortPathLayer.width = window.innerWidth * retina_ratio;
-    shortPathLayer.height = window.innerHeight * retina_ratio;
-    shortPathLayer.style.height = window.innerHeight + "px";
-    shortPathLayer.style.width = window.innerWidth + "px";
+    otherElemsLayer.width = window.innerWidth * retina_ratio;
+    otherElemsLayer.height = window.innerHeight * retina_ratio;
+    otherElemsLayer.style.height = window.innerHeight + "px";
+    otherElemsLayer.style.width = window.innerWidth + "px";
 }
 
 function setDrawParam() {
@@ -372,19 +371,19 @@ function onWindowLoad() {
     bottomLayer = document.getElementById("bottomLayer");
     bottomLayerContext = bottomLayer.getContext("2d");
 
-    shortPathLayer = document.getElementById("shortPathLayer");
-    shortPathLayerContext = shortPathLayer.getContext("2d");
+    otherElemsLayer = document.getElementById("otherElemsLayer");
+    otherElemsLayerContext = otherElemsLayer.getContext("2d");
 
     dragging = false;
-    shortPathLayer.addEventListener("mousedown", onCanvasMouseEvent);
-    shortPathLayer.addEventListener("mouseup", onCanvasMouseEvent);
-    shortPathLayer.addEventListener("mousemove", onCanvasMouseEvent);
-    shortPathLayer.addEventListener("mousewheel", onCanvasMouseEvent);
-    shortPathLayer.addEventListener("dblclick", onCanvasMouseEvent);
+    otherElemsLayer.addEventListener("mousedown", onCanvasMouseEvent);
+    otherElemsLayer.addEventListener("mouseup", onCanvasMouseEvent);
+    otherElemsLayer.addEventListener("mousemove", onCanvasMouseEvent);
+    otherElemsLayer.addEventListener("mousewheel", onCanvasMouseEvent);
+    otherElemsLayer.addEventListener("dblclick", onCanvasMouseEvent);
 
-    shortPathLayer.addEventListener("touchstart", onCanvasTouchEvent);
-    shortPathLayer.addEventListener("touchmove", onCanvasTouchEvent);
-    shortPathLayer.addEventListener("touchend", onCanvasTouchEvent);
+    otherElemsLayer.addEventListener("touchstart", onCanvasTouchEvent);
+    otherElemsLayer.addEventListener("touchmove", onCanvasTouchEvent);
+    otherElemsLayer.addEventListener("touchend", onCanvasTouchEvent);
 
     setCanvasSize();
     setDrawParam();
@@ -392,6 +391,9 @@ function onWindowLoad() {
     var _lat = getURLParameter("lat");
     var _lon = getURLParameter("lon");
     var _level = getURLParameter("level");
+
+    noNames = getURLParameter("noNames") == "true" ? true : false;
+
     var tl_tx, tl_ty;
 
     if (_lat == null || _lon == null || _level == null) {
@@ -411,17 +413,24 @@ function onWindowLoad() {
         updateTLPixel(-window.innerWidth / 2 , -window.innerHeight / 2);
     }
 
-    drawTiles();
+    nameIcon = new Image();
+    if(retina_ratio != 1)
+        nameIcon.src = "/name_icon_r.png";
+    else
+        nameIcon.src = "/name_icon.png";
+    nameIcon.onload = function(){
+        drawOtherElems();
+    }
 
-    queryShortPath();
-    drawShortPath();
+
+    drawTiles();
 }
 
 function onWindowResize() {
     setCanvasSize();
     setDrawParam();
     drawTiles();
-    drawShortPath();
+    drawOtherElems();
 }
 
 function queryShortPath(url) {
@@ -434,7 +443,7 @@ function queryShortPath(url) {
     request.send();
 
     var data = request.responseText;
-    console.log(data);
+    //console.log(data);
     var idx = data.indexOf("\n");
     var num = +data.substring(0, idx);
     var coords = data.substring(idx + 1, data.length - 1).split(" ");
@@ -445,36 +454,86 @@ function queryShortPath(url) {
     }
 }
 
-function drawShortPath() {
-    if(pts.length == 0) return;
+function drawOtherElems() {
+    var ctx = otherElemsLayerContext;
+    ctx.clearRect(0, 0, otherElemsLayer.width, otherElemsLayer.height)
+    //ctx.shadowColor = "gray";
+    //ctx.shadowBlur = 10;
 
-    var ctx = shortPathLayerContext;
+    if(!noNames) {
+        var fontsize = 10 * retina_ratio;
+        ctx.font = fontsize + "px Arial";
+        console.log(ctx.font);
 
-    var coord = WGS84_to_px_py(pts[0].lat, pts[0].lon, level);
+        var tx_begin = tl_tx;
+        var tx_end = tl_tx + numTilesX;
+        var ty_begin = tl_ty;
+        var ty_end = tl_ty + numTilesY;
 
-    ctx.clearRect(0, 0, shortPathLayer.width, shortPathLayer.height)
-    ctx.strokeStyle = "#00B2FC";
-    ctx.lineWidth = 10;
-    ctx.shadowColor = "gray";
-    ctx.shadowBlur = 10;
-    ctx.lineCap = "round";
-    ctx.beginPath();
-    ctx.moveTo((coord.px - tl_px) * retina_ratio, (coord.py - tl_py) * retina_ratio);
-    for (var i = 1; i < pts.length; i++) {
-        coord = WGS84_to_px_py(pts[i].lat, pts[i].lon, level);
+        for (var tx = tx_begin; tx < tx_end; tx++) {
+            for (var ty = ty_begin; ty < ty_end; ty++) {
+                var url_namedt = names_filepath + tx + '_' + ty + '_' + level + '.namedat';
 
-        var x, y;
-        x = (coord.px - tl_px) * retina_ratio;
-        y = (coord.py - tl_py) * retina_ratio;
-        
-        ctx.lineTo(x, y);
+                var request = new XMLHttpRequest();
+                request.open("GET", url_namedt, false);
+                request.send();
+
+                var data = request.responseText;
+
+                var idx = data.indexOf("\n");
+                var num = +data.substring(0, idx);
+
+                for (var i = 0; i < num; i++) {
+                    var idx_lat_s = data.indexOf("node ", idx + 1) + 5;
+                    var idx_lat_e = data.indexOf(" ", idx_lat_s);
+                    var idx_lon_s = idx_lat_e + 1;
+                    var idx_lon_e = data.indexOf(" ", idx_lon_s);
+                    var idx_name_s = idx_lon_e + 1;
+                    var idx_name_e = data.indexOf(" ", idx_name_s);
+
+                    var coord = WGS84_to_px_py(+data.substring(idx_lat_s, idx_lat_e),
+                        +data.substring(idx_lon_s, idx_lon_e), level);
+
+                    var x, y;
+                    x = (coord.px - tl_px) * retina_ratio;
+                    y = (coord.py - tl_py) * retina_ratio;
+
+                    ctx.drawImage(nameIcon, x, y);
+                    ctx.fillText(data.substring(idx_name_s, idx_name_e), x + nameIcon.width, y + fontsize);
+
+                    idx = idx_name_e + 1;
+                }
+            }
+        }
     }
-    ctx.stroke();
+
+    if(pts.length) {
+        var coord = WGS84_to_px_py(pts[0].lat, pts[0].lon, level);
+
+        ctx.strokeStyle = "#e74c3c";
+        ctx.lineWidth = 5;
+        ctx.lineCap = "round";
+        ctx.lineJoin = "round";
+        ctx.beginPath();
+        ctx.moveTo((coord.px - tl_px) * retina_ratio, (coord.py - tl_py) * retina_ratio);
+        for (var i = 1; i < pts.length; i++) {
+            coord = WGS84_to_px_py(pts[i].lat, pts[i].lon, level);
+
+            var x, y;
+            x = (coord.px - tl_px) * retina_ratio;
+            y = (coord.py - tl_py) * retina_ratio;
+
+            ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+    }
 }
 
 function getLocation(name) {
     var prefix = "/place?name=";
-    var url = prefix + name;
+    var lat = getURLParameter("lat");
+    var lon = getURLParameter("lon");
+    var url = prefix + name + '&lat=' + lat + '&lon=' + lon;
 
     var request = new XMLHttpRequest();
     request.open("GET", url, false);
@@ -488,9 +547,10 @@ function getLocation(name) {
 
 function search() {
     var name = document.getElementById("searchCtx").value;
-    var idx = name.indexOf("-->");
+    var idx_d = name.indexOf("==>");
+    var idx_w = name.indexOf("-->");
 
-    if(idx == -1) {
+    if(idx_d == -1 && idx_w == -1) {
         var location = getLocation(name);
         var lat = location.lat, lon = location.lng;
 
@@ -499,18 +559,30 @@ function search() {
         setTLPixel(coord.px, coord.py);
         updateTLPixel(-window.innerWidth / 2 , -window.innerHeight / 2);
         drawTiles();
-        drawShortPath();
-        updataURL();
+        drawOtherElems();
+        updateURL();
     } else {
-        var name1 = name.substring(0, idx);
-        var name2 = name.substring(idx + 3, name.length);
+        if(idx_d != -1) {
+            var name1 = name.substring(0, idx_d);
+            var name2 = name.substring(idx_d + 3, name.length);
 
-        var l1 = getLocation(name1), l2 = getLocation(name2);
-        var params = ["lat1="+l1.lat, "lon1="+l1.lng, "lat2="+l2.lat, "lon2="+l2.lng, "t="+"driving"].join("&");
-        var url = "/shortpath?" + params;
+            var l1 = getLocation(name1), l2 = getLocation(name2);
+            var params = ["lat1=" + l1.lat, "lon1=" + l1.lng, "lat2=" + l2.lat, "lon2=" + l2.lng, "t=" + "driving"].join("&");
+            var url = "/shortpath?" + params;
 
-        queryShortPath(url);
-        drawShortPath();
+            queryShortPath(url);
+            drawOtherElems();
+        } else {
+            var name1 = name.substring(0, idx_w);
+            var name2 = name.substring(idx_w + 3, name.length);
+
+            var l1 = getLocation(name1), l2 = getLocation(name2);
+            var params = ["lat1=" + l1.lat, "lon1=" + l1.lng, "lat2=" + l2.lat, "lon2=" + l2.lng, "t=" + "walking"].join("&");
+            var url = "/shortpath?" + params;
+
+            queryShortPath(url);
+            drawOtherElems();
+        }
     }
 
 

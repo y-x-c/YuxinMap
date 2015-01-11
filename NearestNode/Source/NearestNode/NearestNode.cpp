@@ -44,12 +44,14 @@ bool NearestNode::check(const pugi::xml_node &elem, const pugi::xml_node &conf)
 {
     // name should be check in advance
     
-    // attributes
-    for(auto &attr_conf : conf.attributes())
-    {
-        if(strcmp(elem.attribute(attr_conf.name()).value(), attr_conf.value()) != 0)
+    if(elem.name() != std::string("way")) {
+        // attributes
+        for(auto &attr_conf : conf.attributes())
         {
-            return false;
+            if(strcmp(elem.attribute(attr_conf.name()).value(), attr_conf.value()) != 0)
+            {
+                return false;
+            }
         }
     }
     
@@ -71,7 +73,7 @@ bool NearestNode::check(const pugi::xml_node &elem, const pugi::xml_node &conf)
     return true;
 }
 
-int NearestNode::getWayClass(const pugi::xml_node &way)
+int NearestNode::getWayClass(const pugi::xml_node &way, int c0)
 {
     int ret = 0;
     pugi::xml_node oneway = way.find_child_by_attribute("tag", "k", "oneway");
@@ -80,6 +82,7 @@ int NearestNode::getWayClass(const pugi::xml_node &way)
     for(auto &c : conf.children())
     {
         int ic = c.attribute("class").as_int();
+        if(ic != c0) continue;
         for(auto &filter : c.children("way"))
         {
             if(check(way, filter))
@@ -106,8 +109,8 @@ std::string NearestNode::find(double lat, double lon, int c0) {
         
         for(auto &way : osm.children("way"))
         {
-            int c = getWayClass(way);
-            if((c >> 1) != (c0 >> 1)) continue;
+            int c = getWayClass(way, c0);
+            if(!((c & c0) >> 1)) continue;
             
             for(auto &nd : way.children("nd"))
             {

@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "B9FE24201A541F1D00AD8A67"
-               BuildableName = "Preprocessor"
-               BlueprintName = "Preprocessor"
-               ReferencedContainer = "container:Preprocessor.xcodeproj">
+               BlueprintIdentifier = "B9D702A81A625422002D8A46"
+               BuildableName = "ShowName"
+               BlueprintName = "ShowName"
+               ReferencedContainer = "container:ShowName.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -32,34 +32,50 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "B9FE24201A541F1D00AD8A67"
-            BuildableName = "Preprocessor"
-            BlueprintName = "Preprocessor"
-            ReferencedContainer = "container:Preprocessor.xcodeproj">
+            BlueprintIdentifier = "B9D702A81A625422002D8A46"
+            BuildableName = "ShowName"
+            BlueprintName = "ShowName"
+            ReferencedContainer = "container:ShowName.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
    <LaunchAction
-      selectedDebuggerIdentifier = ""
-      selectedLauncherIdentifier = "Xcode.IDEFoundation.Launcher.PosixSpawn"
+      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
+      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
-      buildConfiguration = "Release"
+      buildConfiguration = "Debug"
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       allowLocationSimulation = "YES">
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "B9FE24201A541F1D00AD8A67"
-            BuildableName = "Preprocessor"
-            BlueprintName = "Preprocessor"
-            ReferencedContainer = "container:Preprocessor.xcodeproj">
+            BlueprintIdentifier = "B9D702A81A625422002D8A46"
+            BuildableName = "ShowName"
+            BlueprintName = "ShowName"
+            ReferencedContainer = "container:ShowName.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "/Users/Orthocenter/Developments/YuxinMap/Data/map_debug.osm /Users/Orthocenter/Developments/YuxinMap/Preprocessor/level_filter_config.xml /Users/Orthocenter/Developments/YuxinMap/Preprocessor/plot_config.xml /Users/Orthocenter/Developments/YuxinMap/TmpDt/ 5 17"
+            argument = "/Users/Orthocenter/Developments/YuxinMap/Data/map_xiamen.osm"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "/Users/Orthocenter/Developments/YuxinMap/Preprocessor/level_filter_config.xml"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "/Users/Orthocenter/Developments/YuxinMap/Names/"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "5"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "17"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>
@@ -75,10 +91,10 @@
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "B9FE24201A541F1D00AD8A67"
-            BuildableName = "Preprocessor"
-            BlueprintName = "Preprocessor"
-            ReferencedContainer = "container:Preprocessor.xcodeproj">
+            BlueprintIdentifier = "B9D702A81A625422002D8A46"
+            BuildableName = "ShowName"
+            BlueprintName = "ShowName"
+            ReferencedContainer = "container:ShowName.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

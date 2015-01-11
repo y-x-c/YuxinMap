@@ -8,7 +8,7 @@
 
 #include "ShortPath.h"
 
-ShortPath::ShortPath(const std::string &osmPath, const std::string &confPath)
+ShortPath::ShortPath(const std::string &osmPath, const std::string &confPath, int c): C(c)
 {
     pugi::xml_parse_result result_osm = osm_doc.load_file(osmPath.c_str());
     std::cout << "OSM load result: " << result_osm.description() << std::endl;
@@ -29,12 +29,14 @@ bool ShortPath::check(const pugi::xml_node &elem, const pugi::xml_node &conf)
 {
     // name should be check in advance
     
-    // attributes
-    for(auto &attr_conf : conf.attributes())
-    {
-        if(strcmp(elem.attribute(attr_conf.name()).value(), attr_conf.value()) != 0)
+    if(elem.name() != std::string("way")) {
+        // attributes
+        for(auto &attr_conf : conf.attributes())
         {
-            return false;
+            if(strcmp(elem.attribute(attr_conf.name()).value(), attr_conf.value()) != 0)
+            {
+                return false;
+            }
         }
     }
     
@@ -56,7 +58,7 @@ bool ShortPath::check(const pugi::xml_node &elem, const pugi::xml_node &conf)
     return true;
 }
 
-int ShortPath::getWayClass(const pugi::xml_node &way)
+int ShortPath::getWayClass(const pugi::xml_node &way, double &speed)
 {
     int ret = 0;
     pugi::xml_node oneway = way.find_child_by_attribute("tag", "k", "oneway");
@@ -65,11 +67,14 @@ int ShortPath::getWayClass(const pugi::xml_node &way)
     for(auto &c : conf.children())
     {
         int ic = c.attribute("class").as_int();
+        if(ic != C) continue;
+        
         for(auto &filter : c.children("way"))
         {
             if(check(way, filter))
             {
                 ret |= ic;
+                speed = filter.attribute("speed").as_double();
                 break;
             }
         }
@@ -83,16 +88,16 @@ double ShortPath::getDist(int x, int y)
     return sqrt(pow(pts[x].lat - pts[y].lat, 2) + pow(pts[x].lon - pts[y].lon, 2));
 }
 
-void ShortPath::addedges(int x, int y, int c)
+void ShortPath::addedges(int x, int y, int c, double speed)
 {
-    double dist = getDist(x, y);
+    double time = getDist(x, y) * 100 / speed;
     
     // the way is bidirection if c is odd
-    edges[x].push_back(Edge(y, c, dist));
+    edges[x].push_back(Edge(y, c, time));
     
     if((c & 1) == 0)
     {
-        edges[y].push_back(Edge(x, c, dist));
+        edges[y].push_back(Edge(x, c, time));
     }
 }
 
@@ -113,7 +118,8 @@ void ShortPath::init()
     
     for(auto &way : osm.children("way"))
     {
-        int c = getWayClass(way);
+        double speed;
+        int c = getWayClass(way, speed);
         if(c <= 1) continue;
         
         int firstId = -1, lastId = -1;
@@ -122,7 +128,7 @@ void ShortPath::init()
             int id = osmid2id[nd.attribute("ref").as_string()];
             if(firstId < 0) firstId = id;
             
-            if(lastId >= 0) addedges(lastId, id, c);
+            if(lastId >= 0) addedges(lastId, id, c, speed);
             lastId = id;
         }
         
@@ -130,7 +136,7 @@ void ShortPath::init()
     }
 }
 
-void ShortPath::findShortPath(int S, int T, int c, std::vector<int> &path)
+void ShortPath::findShortPath(int S, int T, std::vector<int> &path)
 {
     std::vector<double> dist(pts.size(), INF);
     std::vector<int> pre(pts.size(), -1);
@@ -154,7 +160,7 @@ void ShortPath::findShortPath(int S, int T, int c, std::vector<int> &path)
         
         for(auto &edge : edges[top.x])
         {
-            if(!(edge.c & c)) continue;
+            //if(!(edge.c & C)) continue;
             
             double ndist = dist[top.x] + edge.d;
             if(ndist < dist[edge.y])
@@ -184,7 +190,7 @@ void ShortPath::walking(std::string _S, std::string _T, const std::string &outpu
     std::vector<int> ret;
     int S = osmid2id[_S], T = osmid2id[_T];
     
-    findShortPath(S, T, wa, ret);
+    findShortPath(S, T, ret);
     
     output(ret, outputPath);
 }
@@ -194,7 +200,7 @@ void ShortPath::driving(std::string _S, std::string _T, const std::string &outpu
     std::vector<int> ret;
     int S = osmid2id[_S], T = osmid2id[_T];
     
-    findShortPath(S, T, dr, ret);
+    findShortPath(S, T, ret);
     
     output(ret, outputPath);
 }

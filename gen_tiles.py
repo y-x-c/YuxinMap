@@ -26,7 +26,7 @@ print "Start preprocessing."
 st_time = time.time()
 cmd = " ".join([preprocessor_path, osm_path_abs, level_filter_config_path_abs, plot_config_path_abs, dt_files_path_abs,
                 min_level, max_level])
-#os.system(cmd)
+os.system(cmd)
 print "Preprocessing time used: %f s" % (time.time() - st_time)
 
 print "Start plotting."
@@ -38,7 +38,7 @@ for dt_file in dt_files.readlines():
     plotter = Plot(dt_file_path)
     plotter.plot(tiles_path_abs + tile_coord + ".png", tiles_path_abs + tile_coord + "_r.png")
 
-#    os.system(" ".join(["rm", "-f", dt_file_path]))
+    os.system(" ".join(["rm", "-f", dt_file_path]))
 
 print "Finished plotting."
 print "Plotting time used: %f s" % (time.time() - st_time)

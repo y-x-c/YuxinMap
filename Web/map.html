@@ -11,14 +11,14 @@
     <div id="container">
         <div id="searchBar">
             <div id="searchCtxContainer">
-                <input id="searchCtx" type="text">
+                <input id="searchCtx" type="text" onkeypress="if(event.keyCode==13) {search()}">
             </div>
             <div id="searchButtonContainer" onclick="search()">
                 <img src="search.png" id="searchIcon"/>
                 <div id="searchButton"></div>
             </div>
         </div>
-        <canvas id="shortPathLayer"></canvas>
+        <canvas id="otherElemsLayer"></canvas>
         <canvas id="bottomLayer"></canvas>
     </div>
 </body>

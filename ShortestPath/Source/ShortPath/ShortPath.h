@@ -31,7 +31,7 @@ class Edge
 {
 public:
     int y, c;
-    double d; // dist
+    double d; // time
     
     Edge(){}
     Edge(int y, int c, double d):y(y), c(c), d(d){}
@@ -65,6 +65,7 @@ private:
         wa = 4, // walking
         tr = 8  // transit
     };
+    int C;
     std::map<std::string, int> osmid2id;
     std::vector<Coord> pts;
     std::vector<std::vector<Edge > > edges;
@@ -72,17 +73,17 @@ private:
     
     bool check(const pugi::xml_node &elem, const pugi::xml_node &conf);
     
-    int getWayClass(const pugi::xml_node &way);
+    int getWayClass(const pugi::xml_node &way, double &speed);
     
     double getDist(int x, int y);
-    void addedges(int x, int y, int c);
+    void addedges(int x, int y, int c, double speed);
     void init();
 
-    void findShortPath(int S, int T, int c, std::vector<int> &path);
+    void findShortPath(int S, int T, std::vector<int> &path);
     
     void output(const std::vector<int> &ret, const std::string &outputPath);
 public:
-    ShortPath(const std::string &osmPath, const std::string &confPath);
+    ShortPath(const std::string &osmPath, const std::string &confPath, int c);
     ~ShortPath(){}
     
     void walking(std::string _S, std::string _T, const std::string &outputPath);

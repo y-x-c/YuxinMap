@@ -63,7 +63,7 @@
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "/Users/Orthocenter/Developments/YuxinMap/ShortPath/Source/ShortPath/config.xml"
+            argument = "/Users/Orthocenter/Developments/YuxinMap/ShortPath/Source/ShortPath/ShortPath.conf"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
@@ -75,7 +75,7 @@
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "265969439"
+            argument = "2800478885"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument

@@ -45,7 +45,7 @@ public:
     NearestNode(const std::string &osmPath, const std::string &confPath);
     
     bool check(const pugi::xml_node &elem, const pugi::xml_node &conf);
-    int getWayClass(const pugi::xml_node &way);
+    int getWayClass(const pugi::xml_node &way, int c0);
     std::string find(double lat, double lon, int c0);
 };
 

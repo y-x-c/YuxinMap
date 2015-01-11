@@ -278,8 +278,11 @@ namespace YuxinMap {
         
         int dx[4] = {0, 0, 1, -1};
         int dy[4] = {1, -1, 0, 0};
-        if(!has_coastline) Q.push(std::make_pair(0, 0));
-        bgs[l_ed][0][0] = -1;
+        if(!has_coastline) {
+            Q.push(std::make_pair(0, 0));
+            bgs[l_ed][0][0] = -1;
+        }
+
         while(!Q.empty()) {
             int tx = Q.front().first, ty = Q.front().second;
             Q.pop();
