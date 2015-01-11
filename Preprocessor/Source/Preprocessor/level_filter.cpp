@@ -49,9 +49,9 @@ namespace YuxinMap{
             
             if(ac.count(elem_name)) continue;
             
-            for(auto &conf : conf.children(it_elem->name()))
+            for(auto &_conf : conf.children(it_elem->name()))
             {
-                if(check(*it_elem, conf))
+                if(check(*it_elem, _conf))
                 {
                     ac.insert(elem_name);
                     break;
