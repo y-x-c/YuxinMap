@@ -392,16 +392,16 @@ function onWindowLoad() {
     var _lon = getURLParameter("lon");
     var _level = getURLParameter("level");
 
-    noNames = getURLParameter("noNames") == "true" ? true : false;
+    noNames = getURLParameter("noNames") == "false" ? false : true;
 
     var tl_tx, tl_ty;
 
     if (_lat == null || _lon == null || _level == null) {
         level = 15;
-        tl_tx = 54876 / 2;
-        tl_ty = 26764 / 2;
+        var coord = WGS84_to_px_py(31.23923, 121.49606, level);
 
-        setTLTxTy(tl_tx, tl_ty);
+        setTLPixel(coord.px, coord.py)
+        updateTLPixel(-window.innerWidth / 2 , -window.innerHeight / 2);
     } else {
         level = +_level;
         var lat = +_lat;
