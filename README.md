@@ -1,4 +1,4 @@
-# YuxinMap - Data Structure Project
+# YuxinMap - Data Structure Course Project
 ![img](Screenshots/1.png)
 
 ## Thanks
